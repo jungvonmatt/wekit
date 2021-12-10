@@ -1,0 +1,6 @@
+| Name          | ID        | Type     | Required | Localized | Validations                                                                                                   | Help text |
+| ------------- | --------- | -------- | -------- | --------- | ------------------------------------------------------------------------------------------------------------- | --------- |
+| Internal name | name      | Symbol   | ✓        |           |                                                                                                               |           |
+| Headline      | headline  | Symbol   |          |           |                                                                                                               |           |
+| Rich text     | rich_text | RichText |          |           | **Allowed marks:** `bold`, `italic`. **Allowed node types:** `ordered-list`, `unordered-list`. {"nodes":{}}.  |           |
+| Button        | button    | Link     |          |           | **Allowed content types:** `c-button`.                                                                        |           |
