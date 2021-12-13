@@ -38,7 +38,7 @@ export async function createApp({
     process.exit(1);
   }
 
-  const migrationsAvailable = await globby('**/*.js', {
+  const migrationsAvailable = await globby('**/*.{cjs,js}', {
     cwd: path.join(templateDir, 'migrations'),
   });
 
@@ -90,7 +90,7 @@ export async function createApp({
   const args = await ask(ui);
 
   const patterns = Object.entries(args?.ui ?? {}).flatMap(([type, entries]) =>
-    entries.flatMap((entry) => [`**/${type}/${entry}.html`, `**/${entry}/**`, `**/*${entry}*.js`])
+    entries.flatMap((entry) => [`**/${type}/${entry}.html`, `**/${entry}/**`, `**/*${entry}*.{cjs,js}`])
   );
 
   const uiFiles = micromatch(uiAvailable, patterns);
@@ -315,6 +315,7 @@ export async function createApp({
     const dest = path.join(root, 'contentful/migrations');
     await mkdirp(dest);
     await cpy(migrationFiles, dest, {
+      cwd: path.join(templateDir, 'migrations'),
       parents: false,
     });
   } else {
