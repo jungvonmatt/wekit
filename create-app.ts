@@ -88,10 +88,9 @@ export async function createApp({
 
   // Add .env
   const args = await ask(ui);
-  console.log(args);
 
   const patterns = Object.entries(args?.ui ?? {}).flatMap(([type, entries]) =>
-    entries.flatMap((entry) => [`**/${type}/${entry}.html`,`**/${entry}/**`,`**/*${entry}*.js`])
+    entries.flatMap((entry) => [`**/${type}/${entry}.html`, `**/${entry}/**`, `**/*${entry}*.js`])
   );
 
   const uiFiles = micromatch(uiAvailable, patterns);
@@ -247,25 +246,51 @@ export async function createApp({
   /**
    * Copy the template files to the target directory.
    */
-  await cpy(['**', '!contentful', '!data', '!content', '!layout/partials', '!.env', '!package.json', '!package-lock.json'], root, {
+  await cpy(
+    [
+      '**',
+      '.gitignore',
+      '.env.example',
+      '.eslintrc.json',
+      '.nvmrc',
+      '.prettierignore',
+      '.prettierrc',
+      '.stylelintignore',
+      '.stylelintrc.json',
+      '!contentful',
+      '!data',
+      '!content',
+      '!layout/partials',
+      '!.env',
+      '!package.json',
+      '!package-lock.json',
+    ],
+    root,
+    {
+      parents: true,
+      cwd: path.join(templateDir, template),
+      rename: (name) => {
+        switch (name) {
+          case 'gitignore':
+          case 'eslintrc.json': {
+            return '.'.concat(name);
+          }
+          // README.md is ignored by webpack-asset-relocator-loader used by ncc:
+          // https://github.com/vercel/webpack-asset-relocator-loader/blob/e9308683d47ff507253e37c9bcbb99474603192b/src/asset-relocator.js#L227
+          case 'README-template.md': {
+            return 'README.md';
+          }
+          default: {
+            return name;
+          }
+        }
+      },
+    }
+  );
+
+  await cpy(['static/**','assets/**'], root, {
     parents: true,
-    cwd: path.join(templateDir, template),
-    rename: (name) => {
-      switch (name) {
-        case 'gitignore':
-        case 'eslintrc.json': {
-          return '.'.concat(name);
-        }
-        // README.md is ignored by webpack-asset-relocator-loader used by ncc:
-        // https://github.com/vercel/webpack-asset-relocator-loader/blob/e9308683d47ff507253e37c9bcbb99474603192b/src/asset-relocator.js#L227
-        case 'README-template.md': {
-          return 'README.md';
-        }
-        default: {
-          return name;
-        }
-      }
-    },
+    cwd: path.join(templateDir, 'ui'),
   });
 
   /**
@@ -330,13 +355,18 @@ export async function createApp({
   await outputFile(
     path.join(root, 'config/_default/module.toml'),
     TOML.stringify({
-      imports: {
+      imports: [{
         path: 'github.com/jungvonmatt/contentful-hugo-core',
-        mounts: {
+        mounts: [{
           source: 'layouts',
           target: 'layouts',
         },
-      },
+        {
+          source: 'utils',
+          target: 'layouts/partials/utils',
+        },
+      ],
+      }],
     })
   );
 

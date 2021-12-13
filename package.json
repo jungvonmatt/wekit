@@ -18,7 +18,7 @@
     "dev": "ncc build ./index.ts -w -o dist/",
     "prerelease": "rimraf ./dist/",
     "release": "ncc build ./index.ts -o ./dist/ --minify --no-cache --no-source-map-register",
-    "_prepublish": "npm run release"
+    "prepublish": "npm run release"
   },
   "devDependencies": {
     "@types/async-retry": "1.4.2",
