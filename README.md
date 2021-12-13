@@ -1,5 +1,4 @@
-# create-contentful-hugo-app
-# Create Next App
+# Create Contentful/HUGO app
 
 The easiest way to kickstart a new jamstack project using contentful and hugo is by using `create-contentful-hugo-app`.
 This CLI tool enables you to quickly setup a new contentful-hugo application, with everything set up for you.

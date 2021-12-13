@@ -1,9 +1,0 @@
-/*
-  X-Frame-Options: SAMEORIGIN
-  X-XSS-Protection: 1; mode=block
-  Referrer-Policy: strict-origin
-  X-Content-Type-Options: nosniff
-  Strict-Transport-Security: max-age=2592000; includeSubDomains; preload
-  Feature-Policy: geolocation 'none'; midi 'none'; sync-xhr 'none'; microphone 'none'; camera 'none'; magnetometer 'none'; gyroscope 'none'; fullscreen 'none'; payment 'none'
-  Content-Security-Policy: default-src 'none'; script-src 'self'; style-src 'unsafe-inline'; img-src https: data:; font-src 'self'; manifest-src 'self'; connect-src 'self'
-  Cache-Control: public, max-age=31536000

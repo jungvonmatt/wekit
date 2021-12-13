@@ -44,11 +44,16 @@ type Answers = {
   environmentId: string
   deliveryToken: string;
   previewToken: string;
+  ui: {
+    [x:string]:string[];
+  }
 }
+
+type UI = {[x:string]:string[]};
 
 type Questions = QuestionCollection<Answers>;
 
-const getPromts = (data: ContentfulConfig): Questions => [
+const getPromts = (data: ContentfulConfig, ui:UI): Questions => [
   {
     type: 'list',
     name: 'spaceId',
@@ -101,6 +106,15 @@ const getPromts = (data: ContentfulConfig): Questions => [
       return getPreviewApiKey(answers.spaceId, data.managementToken || '');
     },
   },
+  ...Object.entries(ui).sort(([a],[b]) => a.localeCompare(b)).map(([name,choices]) => ({
+    type: 'checkbox',
+    name: `ui.${name}`,
+    message: `Choose ${name}`,
+    when() {
+      return choices.length;
+    },
+    choices: () => choices
+  }))
 ];
 
 /**
@@ -108,10 +122,10 @@ const getPromts = (data: ContentfulConfig): Questions => [
  * @param {Object} data Data to check
  * @returns {Object} Object with the answers
  */
- export const ask = async (): Promise<Answers> => {
+ export const ask = async (ui:UI): Promise<Answers> => {
   console.log('Please verify the following options');
 
   const config = await getContentfulConfig();
 
-  return inquirer.prompt(getPromts(config));
+  return inquirer.prompt(getPromts(config, ui));
 };

@@ -24,7 +24,11 @@
     "@types/async-retry": "1.4.2",
     "@types/common-tags": "^1.8.1",
     "@types/cross-spawn": "^6.0.2",
-    "@types/node": "^12.6.8",
+    "@types/find-cache-dir": "^3.2.1",
+    "@types/inquirer": "^8.1.3",
+    "@types/micromatch": "^4.0.2",
+    "@types/mkdirp": "^1.0.2",
+    "@types/node": "^14.18.0",
     "@types/prompts": "2.0.1",
     "@types/rimraf": "3.0.0",
     "@types/tar": "4.0.3",
@@ -37,6 +41,7 @@
     "cpy": "7.3.0",
     "cross-spawn": "6.0.5",
     "got": "10.7.0",
+    "prettier": "^2.5.1",
     "prompts": "2.1.0",
     "rimraf": "3.0.0",
     "tar": "4.4.10",
@@ -45,7 +50,7 @@
     "validate-npm-package-name": "3.0.0"
   },
   "engines": {
-    "node": ">=12.22.0"
+    "node": ">=14"
   },
   "license": "ISC",
   "bugs": {
@@ -53,13 +58,22 @@
   },
   "homepage": "https://github.com/jungvonmatt/karate-kit#readme",
   "dependencies": {
-    "@types/inquirer": "^8.1.3",
+    "@iarna/toml": "^2.2.5",
+    "@types/fs-extra": "^9.0.13",
     "common-tags": "^1.8.2",
     "contentful-cli": "^1.9.36",
     "contentful-management": "^7.45.7",
     "cosmiconfig": "^7.0.1",
+    "find-cache-dir": "^3.3.2",
+    "fs-extra": "^10.0.0",
+    "globby": "^11.0.4",
     "inquirer": "^8.2.0",
-    "tempy": "^2.0.0",
-    "tmp": "^0.2.1"
+    "micromatch": "^4.0.4",
+    "mkdirp": "^1.0.4",
+    "tempy": "^2.0.0"
+  },
+  "prettier": {
+    "singleQuote": true,
+    "printWidth": 100
   }
 }

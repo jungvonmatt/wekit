@@ -1,9 +1,8 @@
 /* eslint-disable import/no-extraneous-dependencies */
-import { execSync } from 'child_process'
-import tmp  from 'tmp';
+import { execSync } from 'child_process';
 //  import tempy from 'tempy';
-import path from 'path'
-import rimraf from 'rimraf'
+import path from 'path';
+import rimraf from 'rimraf';
 
 
 function isInGitRepository(): boolean {
@@ -50,10 +49,3 @@ export function tryGitInit(root: string): boolean {
   }
 }
 
-
-export async function pull(repo:string): Promise<string> {
-  const tmpobj = tmp.dirSync();
-
-  await execSync(`git clone ${repo} ${tmpobj.name}`, { stdio: 'ignore' });
-  return tmpobj.name;
-}
