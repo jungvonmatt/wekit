@@ -1,6 +1,6 @@
 {
   "name": "@jungvonmatt/create-contentful-hugo-app",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Create contentful-hugo app",
   "main": "index.js",
   "repository": {
