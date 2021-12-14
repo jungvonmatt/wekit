@@ -1,6 +1,7 @@
 import { execSync } from 'child_process';
 import findCacheDir from 'find-cache-dir';
 import { readdir } from 'fs/promises';
+import tempy from 'tempy';
 import { remove } from 'fs-extra';
 
 const ensureCacheDir = async () => {
@@ -9,7 +10,7 @@ const ensureCacheDir = async () => {
     return dir;
   }
 
-  throw new Error('Error creating cache dir');
+  return tempy.directory();
 };
 
 async function pull(repo: string, target: string): Promise<string> {

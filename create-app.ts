@@ -36,6 +36,7 @@ export async function createApp({
   try {
     templateDir = await loadTemplate(cache);
   } catch (error) {
+    console.log(error);
     console.log(chalk.red('Sorry, you need read permissions to private jvm repositories'));
     process.exit(1);
   }
