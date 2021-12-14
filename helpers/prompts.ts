@@ -47,6 +47,7 @@ type Answers = {
   ui: {
     [x:string]:string[];
   }
+  storybook: boolean;
 }
 
 type UI = {[x:string]:string[]};
@@ -128,4 +129,24 @@ const getPromts = (data: ContentfulConfig, ui:UI): Questions => [
   const config = await getContentfulConfig();
 
   return inquirer.prompt(getPromts(config, ui));
+};
+
+/**
+ * Render confirm message to the console
+ * @param {String} message Error object
+ * @param {Boolean} defaultValue Error object
+ * @returns {Boolean} Confirm value
+ */
+ export const confirm = async (message: string, defaultValue?: boolean) => {
+  const question: QuestionCollection<{ value: boolean }> = [
+    {
+      type: 'confirm',
+      name: 'value',
+      message,
+      default: Boolean(defaultValue),
+    },
+  ];
+  const answers = await inquirer.prompt(question);
+
+  return Boolean(answers.value);
 };

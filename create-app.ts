@@ -3,6 +3,7 @@
 import retry from 'async-retry';
 import chalk from 'chalk';
 import { stripIndents } from 'common-tags';
+import { execSync } from 'child_process';
 import TOML from '@iarna/toml';
 import micromatch from 'micromatch';
 import cpy from 'cpy';
@@ -15,10 +16,11 @@ import { tryGitInit } from './helpers/git';
 import { install } from './helpers/install';
 import { isFolderEmpty } from './helpers/is-folder-empty';
 import { isWriteable } from './helpers/is-writeable';
-import { ask } from './helpers/prompts';
+import { ask, confirm } from './helpers/prompts';
 import { loadTemplate } from './helpers/template';
 import mkdirp from 'mkdirp';
 import { outputFile, readFile } from 'fs-extra';
+import { runMigrations } from './helpers/migrate';
 
 export class DownloadError extends Error {}
 
@@ -34,7 +36,7 @@ export async function createApp({
   try {
     templateDir = await loadTemplate(cache);
   } catch (error) {
-    console.log('Sorry, you need read permissions to private jvm repositories');
+    console.log(chalk.red('Sorry, you need read permissions to private jvm repositories'));
     process.exit(1);
   }
 
@@ -249,6 +251,7 @@ export async function createApp({
   await cpy(
     [
       '**',
+      '.storybook',
       '.gitignore',
       '.env.example',
       '.eslintrc.json',
@@ -379,6 +382,11 @@ export async function createApp({
     go 1.17`
   );
 
+  if (await confirm('Run migrations?',true)) {
+    await runMigrations();
+    console.log();
+  }
+
   if (tryGitInit(root)) {
     console.log('Initialized a git repository.');
     console.log();
@@ -392,6 +400,7 @@ export async function createApp({
   }
 
   console.log(`${chalk.green('Success!')} Created ${appName} at ${appPath}`);
+  console.log();
   console.log('Inside that directory, you can run several commands:');
   console.log();
   console.log(chalk.cyan(`  ${displayedCommand} start`));
