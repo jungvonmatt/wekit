@@ -126,11 +126,11 @@ async function notifyUpdate(): Promise<void> {
     if (res?.latest) {
       console.log()
       console.log(
-        chalk.yellow.bold('A new version of `create-contentful-hugo-app` is available!')
+        chalk.yellow.bold('A new version of `@jungvonmatt/create-contentful-hugo-app` is available!')
       )
       console.log(
         'You can update by running: ' +
-          chalk.cyan('npm i -g create-contentful-hugo-app')
+          chalk.cyan('npm i -g @jungvonmatt/create-contentful-hugo-app')
       )
       console.log()
     }
