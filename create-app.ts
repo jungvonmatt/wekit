@@ -264,7 +264,6 @@ export async function createApp({
       '!contentful',
       '!data',
       '!content',
-      '!layout/partials',
       '!.env',
       '!package.json',
       '!package-lock.json',

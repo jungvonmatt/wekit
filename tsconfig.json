@@ -4,6 +4,7 @@
     "moduleResolution": "node",
     "strict": true,
     "resolveJsonModule": true,
+    "importHelpers": true,
     "esModuleInterop": true,
     "skipLibCheck": false
   },
