@@ -41,20 +41,24 @@ export async function createApp({
     process.exit(1);
   }
 
-  const migrationsAvailable = await globby('**/*.{cjs,js}', {
-    cwd: path.join(templateDir, 'migrations'),
-  });
+  const cwdMigrations = path.join(templateDir, 'migrations');
+  const cwdContent = path.join(templateDir, 'ui/conten');
+  const cwdData = path.join(templateDir, 'ui/data');
+  const cwdUi = path.join(templateDir, 'ui/layouts/partials');
 
+  const migrationsAvailable = await globby('**/*.{cjs,js}', {
+    cwd: cwdMigrations,
+  });
   const contentAvailable = await globby('**/*.md', {
-    cwd: path.join(templateDir, 'ui/content/stories'),
+    cwd: cwdContent,
   });
   const dataAvailable = await globby('**/*', {
-    cwd: path.join(templateDir, 'ui/data'),
+    cwd: cwdData,
+  });
+  const uiAvailable = await globby(['{components,modules,templates}/*'], {
+    cwd: cwdUi,
   });
 
-  const uiAvailable = await globby(['{components,modules,templates}/*'], {
-    cwd: path.join(templateDir, 'ui/layouts/partials'),
-  });
   const ui = uiAvailable.reduce<{ [x: string]: string[] }>((result, file) => {
     const type = path.dirname(file);
     const name = path.basename(file, '.html');
@@ -93,7 +97,11 @@ export async function createApp({
   const args = await ask(ui);
 
   const patterns = Object.entries(args?.ui ?? {}).flatMap(([type, entries]) =>
-    entries.flatMap((entry) => [`**/${type}/${entry}.html`, `**/${entry}/**`, `**/*${entry}*.{cjs,js}`])
+    entries.flatMap((entry) => [
+      `**/${type}/${entry}.html`,
+      `**/${entry}/**`,
+      `**/*${entry}*.{cjs,js}`,
+    ])
   );
 
   const uiFiles = micromatch(uiAvailable, patterns);
@@ -291,7 +299,7 @@ export async function createApp({
     }
   );
 
-  await cpy(['static/**','assets/**'], root, {
+  await cpy(['static/**', 'assets/**'], root, {
     parents: true,
     cwd: path.join(templateDir, 'ui'),
   });
@@ -304,7 +312,7 @@ export async function createApp({
     await mkdirp(dest);
     await cpy(uiFiles, dest, {
       parents: true,
-      cwd: path.join(templateDir, 'ui/layouts/partials'),
+      cwd: cwdUi,
     });
   }
 
@@ -318,7 +326,7 @@ export async function createApp({
     const dest = path.join(root, 'contentful/migrations');
     await mkdirp(dest);
     await cpy(migrationFiles, dest, {
-      cwd: path.join(templateDir, 'migrations'),
+      cwd: cwdMigrations,
       parents: false,
     });
   } else {
@@ -333,7 +341,7 @@ export async function createApp({
     await mkdirp(dest);
     await cpy(contentFiles, dest, {
       parents: true,
-      cwd: path.join(templateDir, 'ui/content/stories'),
+      cwd: cwdContent,
     });
   }
   if (dataFiles.length) {
@@ -341,7 +349,7 @@ export async function createApp({
     await mkdirp(dest);
     await cpy(dataFiles, dest, {
       parents: true,
-      cwd: path.join(templateDir, 'ui/data'),
+      cwd: cwdData,
     });
   }
 
@@ -359,18 +367,21 @@ export async function createApp({
   await outputFile(
     path.join(root, 'config/_default/module.toml'),
     TOML.stringify({
-      imports: [{
-        path: 'github.com/jungvonmatt/contentful-hugo-core',
-        mounts: [{
-          source: 'layouts',
-          target: 'layouts',
-        },
+      imports: [
         {
-          source: 'utils',
-          target: 'layouts/partials/utils',
+          path: 'github.com/jungvonmatt/contentful-hugo-core',
+          mounts: [
+            {
+              source: 'layouts',
+              target: 'layouts',
+            },
+            {
+              source: 'utils',
+              target: 'layouts/partials/utils',
+            },
+          ],
         },
       ],
-      }],
     })
   );
 
@@ -382,7 +393,7 @@ export async function createApp({
     go 1.17`
   );
 
-  if (await confirm('Run migrations?',true)) {
+  if (await confirm('Run migrations?', true)) {
     await runMigrations();
     console.log();
   }
