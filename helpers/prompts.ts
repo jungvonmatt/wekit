@@ -1,10 +1,12 @@
-import chalk from 'chalk';
-import { resolve } from 'dns';
-import inquirer, { QuestionCollection } from 'inquirer';
-import { cosmiconfig, Loader } from 'cosmiconfig';
+import { cosmiconfig } from 'cosmiconfig';
 import type { CosmiconfigResult } from 'cosmiconfig/dist/types';
-import { ClientOptions, getApiKey, getEnvironments, getPreviewApiKey, getSpaces } from './contentful';
-
+import inquirer, { QuestionCollection } from 'inquirer';
+import {
+  getApiKey,
+  getEnvironments,
+  getPreviewApiKey,
+  getSpaces
+} from './contentful';
 
 const loadConfig = async (moduleName: string): Promise<CosmiconfigResult> => {
   const explorer = cosmiconfig(moduleName, {
@@ -16,7 +18,7 @@ const loadConfig = async (moduleName: string): Promise<CosmiconfigResult> => {
       `.${moduleName}rc.yml`,
       `.${moduleName}rc.js`,
       `${moduleName}.config.js`,
-    ]
+    ],
   });
 
   return explorer.search();
@@ -27,34 +29,34 @@ type ContentfulConfig = {
   activeSpaceId?: string;
   activeEnvironmentId?: string;
   host?: string;
-}
+};
 
-const getContentfulConfig = async ():Promise<ContentfulConfig> => {
+const getContentfulConfig = async (): Promise<ContentfulConfig> => {
   const contentfulConfig = await loadConfig('contentful');
   if (contentfulConfig && !contentfulConfig.isEmpty) {
     return contentfulConfig.config;
   }
 
   throw new Error('You need to login first. Run npx contentful login');
-}
+};
 
 type Answers = {
   accessToken: string;
   spaceId: string;
-  environmentId: string
+  environmentId: string;
   deliveryToken: string;
   previewToken: string;
   ui: {
-    [x:string]:string[];
-  }
+    [x: string]: string[];
+  };
   storybook: boolean;
-}
+};
 
-type UI = {[x:string]:string[]};
+type UI = { [x: string]: string[] };
 
 type Questions = QuestionCollection<Answers>;
 
-const getPromts = (data: ContentfulConfig, ui:UI): Questions => [
+const getPromts = (data: ContentfulConfig, ui: UI): Questions => [
   {
     type: 'list',
     name: 'spaceId',
@@ -67,8 +69,8 @@ const getPromts = (data: ContentfulConfig, ui:UI): Questions => [
       }));
     },
     default() {
-      return data.activeSpaceId
-    }
+      return data.activeSpaceId;
+    },
   },
   {
     type: 'list',
@@ -82,8 +84,8 @@ const getPromts = (data: ContentfulConfig, ui:UI): Questions => [
       return environments.map((environment) => environment.sys.id);
     },
     default() {
-      return data.activeEnvironmentId
-    }
+      return data.activeEnvironmentId;
+    },
   },
   {
     type: 'input',
@@ -92,7 +94,7 @@ const getPromts = (data: ContentfulConfig, ui:UI): Questions => [
     when(answers) {
       return Boolean(answers.spaceId);
     },
-    async default(answers:Answers) {
+    async default(answers: Answers) {
       return getApiKey(answers.spaceId, data.managementToken || '');
     },
   },
@@ -103,19 +105,21 @@ const getPromts = (data: ContentfulConfig, ui:UI): Questions => [
     when(answers) {
       return Boolean(answers.spaceId);
     },
-    async default(answers:Answers) {
+    async default(answers: Answers) {
       return getPreviewApiKey(answers.spaceId, data.managementToken || '');
     },
   },
-  ...Object.entries(ui).sort(([a],[b]) => a.localeCompare(b)).map(([name,choices]) => ({
-    type: 'checkbox',
-    name: `ui.${name}`,
-    message: `Choose ${name}`,
-    when() {
-      return choices.length;
-    },
-    choices: () => choices
-  }))
+  ...Object.entries(ui)
+    .sort(([a], [b]) => a.localeCompare(b))
+    .map(([name, choices]) => ({
+      type: 'checkbox',
+      name: `ui.${name}`,
+      message: `Choose ${name}`,
+      when() {
+        return choices.length;
+      },
+      choices: () => choices,
+    })),
 ];
 
 /**
@@ -123,7 +127,7 @@ const getPromts = (data: ContentfulConfig, ui:UI): Questions => [
  * @param {Object} data Data to check
  * @returns {Object} Object with the answers
  */
- export const ask = async (ui:UI): Promise<Answers> => {
+export const ask = async (ui: UI): Promise<Answers> => {
   console.log('Please verify the following options');
 
   const config = await getContentfulConfig();
@@ -137,7 +141,7 @@ const getPromts = (data: ContentfulConfig, ui:UI): Questions => [
  * @param {Boolean} defaultValue Error object
  * @returns {Boolean} Confirm value
  */
- export const confirm = async (message: string, defaultValue?: boolean) => {
+export const confirm = async (message: string, defaultValue?: boolean) => {
   const question: QuestionCollection<{ value: boolean }> = [
     {
       type: 'confirm',

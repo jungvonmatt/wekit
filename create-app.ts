@@ -1,26 +1,24 @@
 /* eslint-env node */
 /* eslint-disable import/no-extraneous-dependencies */
-import retry from 'async-retry';
+import TOML from '@iarna/toml';
 import chalk from 'chalk';
 import { stripIndents } from 'common-tags';
-import { execSync } from 'child_process';
-import TOML from '@iarna/toml';
-import micromatch from 'micromatch';
 import cpy from 'cpy';
 import fs from 'fs';
+import { outputFile, readFile } from 'fs-extra';
+import globby from 'globby';
+import micromatch from 'micromatch';
+import mkdirp from 'mkdirp';
 import os from 'os';
 import path from 'path';
-import globby from 'globby';
-import { makeDir } from './helpers/make-dir';
 import { tryGitInit } from './helpers/git';
 import { install } from './helpers/install';
 import { isFolderEmpty } from './helpers/is-folder-empty';
 import { isWriteable } from './helpers/is-writeable';
+import { makeDir } from './helpers/make-dir';
+import { runMigrations } from './helpers/migrate';
 import { ask, confirm } from './helpers/prompts';
 import { loadTemplate } from './helpers/template';
-import mkdirp from 'mkdirp';
-import { outputFile, readFile } from 'fs-extra';
-import { runMigrations } from './helpers/migrate';
 
 export class DownloadError extends Error {}
 
@@ -179,6 +177,7 @@ export async function createApp({
   const dependencies = [
     '@fullhuman/postcss-purgecss',
     'autoprefixer',
+    'container-query-polyfill',
     'generate-template-files',
     'postcss',
     'postcss-cli',

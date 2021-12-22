@@ -1,4 +1,4 @@
-import { execSync } from 'child_process';
+import { spawnSync } from 'child_process';
 import findCacheDir from 'find-cache-dir';
 import { readdir } from 'fs/promises';
 import tempy from 'tempy';
@@ -14,7 +14,7 @@ const ensureCacheDir = async () => {
 };
 
 async function pull(repo: string, target: string): Promise<string> {
-  execSync(`git clone ${repo} ${target}`, { stdio: 'ignore' });
+  spawnSync('git', ['clone', repo, target], {shell: false, stdio: 'ignore'});
   return target;
 }
 
