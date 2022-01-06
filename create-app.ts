@@ -40,7 +40,7 @@ export async function createApp({
   }
 
   const cwdMigrations = path.join(templateDir, 'migrations');
-  const cwdContent = path.join(templateDir, 'ui/conten');
+  const cwdContent = path.join(templateDir, 'ui/content');
   const cwdData = path.join(templateDir, 'ui/data');
   const cwdUi = path.join(templateDir, 'ui/layouts/partials');
 
@@ -104,7 +104,7 @@ export async function createApp({
 
   const uiFiles = micromatch(uiAvailable, patterns);
   const migrationFiles = micromatch(migrationsAvailable, ['core/*', ...patterns]);
-  const contentFiles = micromatch(contentAvailable, patterns);
+  const contentFiles = micromatch(contentAvailable, ['docs/**/*', ...patterns]);
   const dataFiles = micromatch(dataAvailable, patterns);
 
   const envContent = stripIndents`
@@ -279,7 +279,7 @@ export async function createApp({
     {
       parents: true,
       cwd: path.join(templateDir, template),
-      rename: (name) => {
+      rename: (name: string) => {
         switch (name) {
           case 'gitignore':
           case 'eslintrc.json': {
@@ -335,8 +335,9 @@ export async function createApp({
   /**
    * Copy storybook content + data
    */
+
   if (contentFiles.length) {
-    const dest = path.join(root, 'content/storybook/stories');
+    const dest = path.join(root, 'content/storybook');
     await mkdirp(dest);
     await cpy(contentFiles, dest, {
       parents: true,
