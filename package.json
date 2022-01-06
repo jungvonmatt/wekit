@@ -1,15 +1,15 @@
 {
-  "name": "@jungvonmatt/create-contentful-hugo-app",
+  "name": "@jungvonmatt/create-wekit-app",
   "version": "0.1.6",
-  "description": "Create contentful-hugo app",
+  "description": "Create WEKit app",
   "main": "index.js",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/jungvonmatt/create-contentful-hugo-app.git"
+    "url": "git+https://github.com/jungvonmatt/create-wekit-app.git"
   },
   "author": "Jung von Matt TECH",
   "bin": {
-    "create-contentful-hugo-app": "./dist/index.js"
+    "create-wekit-app": "./dist/index.js"
   },
   "files": [
     "dist"
@@ -69,7 +69,7 @@
     "node": ">=14"
   },
   "license": "MIT",
-  "homepage": "https://github.com/jungvonmatt/create-contentful-hugo-app#readme",
+  "homepage": "https://github.com/jungvonmatt/create-wekit-app#readme",
   "prettier": {
     "singleQuote": true,
     "printWidth": 100

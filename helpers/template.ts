@@ -5,7 +5,7 @@ import tempy from 'tempy';
 import { remove } from 'fs-extra';
 
 const ensureCacheDir = async () => {
-  const dir = findCacheDir({ name: 'contentful-hugo' });
+  const dir = findCacheDir({ name: 'wekit' });
   if (dir) {
     return dir;
   }
@@ -14,7 +14,7 @@ const ensureCacheDir = async () => {
 };
 
 async function pull(repo: string, target: string): Promise<string> {
-  spawnSync('git', ['clone', repo, target], {shell: false, stdio: 'ignore'});
+  spawnSync('git', ['clone', repo, target], { shell: false, stdio: 'ignore' });
   return target;
 }
 
@@ -25,7 +25,7 @@ export const loadTemplate = async (cache?: boolean) => {
     if (files.length > 0) {
       await remove(dir);
     }
-    pull('git@github.com:jungvonmatt/contentful-hugo.git', dir);
+    pull('git@github.com:jungvonmatt/wekit.git', dir);
   }
 
   return dir;

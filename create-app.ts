@@ -17,6 +17,7 @@ import { isFolderEmpty } from './helpers/is-folder-empty';
 import { isWriteable } from './helpers/is-writeable';
 import { makeDir } from './helpers/make-dir';
 import { runMigrations } from './helpers/migrate';
+import { getDependencies } from './helpers/partial';
 import { ask, confirm } from './helpers/prompts';
 import { loadTemplate } from './helpers/template';
 
@@ -94,12 +95,22 @@ export async function createApp({
   // Add .env
   const args = await ask(ui);
 
+  const uiDependencies = await getDependencies(uiAvailable.map((file) => path.join(cwdUi, file)));
+
   const patterns = Object.entries(args?.ui ?? {}).flatMap(([type, entries]) =>
-    entries.flatMap((entry) => [
-      `**/${type}/${entry}.html`,
-      `**/${entry}/**`,
-      `**/*${entry}*.{cjs,js}`,
-    ])
+    entries.flatMap((entry) => {
+      const { [`${type}/${entry}`]: dependencies = [] } = uiDependencies;
+      return [
+        `**/${type}/${entry}.html`,
+        `**/${entry}/**`,
+        `**/*${entry}*.{cjs,js}`,
+        ...dependencies.flatMap((dependency) => [
+          `**/${dependency.type}/${dependency.entry}.html`,
+          `**/${dependency.entry}/**`,
+          `**/*${dependency.entry}*.{cjs,js}`,
+        ]),
+      ];
+    })
   );
 
   const uiFiles = micromatch(uiAvailable, patterns);
@@ -369,7 +380,7 @@ export async function createApp({
     TOML.stringify({
       imports: [
         {
-          path: 'github.com/jungvonmatt/contentful-hugo-core',
+          path: 'github.com/jungvonmatt/wekit-core',
           mounts: [
             {
               source: 'layouts',

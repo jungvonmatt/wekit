@@ -1,12 +1,7 @@
 import { cosmiconfig } from 'cosmiconfig';
 import type { CosmiconfigResult } from 'cosmiconfig/dist/types';
 import inquirer, { QuestionCollection } from 'inquirer';
-import {
-  getApiKey,
-  getEnvironments,
-  getPreviewApiKey,
-  getSpaces
-} from './contentful';
+import { getApiKey, getEnvironments, getPreviewApiKey, getSpaces } from './contentful';
 
 const loadConfig = async (moduleName: string): Promise<CosmiconfigResult> => {
   const explorer = cosmiconfig(moduleName, {
@@ -55,6 +50,11 @@ type Answers = {
 type UI = { [x: string]: string[] };
 
 type Questions = QuestionCollection<Answers>;
+
+const partialMessage = `Which partials do you want to include in your project?
+Internally used partial dependencies are added automatically.
+
+`;
 
 const getPromts = (data: ContentfulConfig, ui: UI): Questions => [
   {
@@ -111,10 +111,10 @@ const getPromts = (data: ContentfulConfig, ui: UI): Questions => [
   },
   ...Object.entries(ui)
     .sort(([a], [b]) => a.localeCompare(b))
-    .map(([name, choices]) => ({
+    .map(([name, choices], index) => ({
       type: 'checkbox',
       name: `ui.${name}`,
-      message: `Choose ${name}`,
+      message: `${index === 0 ? partialMessage : ''}Choose ${name}`,
       when() {
         return choices.length;
       },
