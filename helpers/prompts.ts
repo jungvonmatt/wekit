@@ -52,9 +52,9 @@ type UI = { [x: string]: string[] };
 type Questions = QuestionCollection<Answers>;
 
 const partialMessage = `Which partials do you want to include in your project?
-Internally used partial dependencies are added automatically.
-
-`;
+  Internally used partial dependencies are added automatically.
+  
+  `;
 
 const getPromts = (data: ContentfulConfig, ui: UI): Questions => [
   {
