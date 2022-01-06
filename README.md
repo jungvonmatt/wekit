@@ -18,5 +18,5 @@ npx @jungvonmatt/create-wekit-app blog-app
 
 [npm-url]: https://www.npmjs.com/package/@jungvonmatt/create-wekit-app
 [npm-image]: https://img.shields.io/npm/v/@jungvonmatt/create-wekit-app.svg
-[sonarcloud-url]: https://sonarcloud.io/dashboard?id=jungvonmatt_create-wekit-app
-[sonarcloud-image]: https://sonarcloud.io/api/project_badges/measure?project=jungvonmatt_create-wekit-app&metric=alert_status
+[sonarcloud-url]: https://sonarcloud.io/dashboard?id=jungvonmatt_create-contentful-hugo-app
+[sonarcloud-image]: https://sonarcloud.io/api/project_badges/measure?project=jungvonmatt_create-contentful-hugo-app&metric=alert_status
