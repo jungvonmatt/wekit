@@ -265,6 +265,14 @@ export async function createApp({
   console.log();
 
   /**
+   * Copy github actions to target directory.
+   */
+  await cpy(['.github/workflows/**/*'], root, {
+    parents: true,
+    cwd: templateDir,
+  });
+
+  /**
    * Copy the template files to the target directory.
    */
   await cpy(
