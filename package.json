@@ -1,6 +1,6 @@
 {
   "name": "@jungvonmatt/create-wekit-app",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "Create WEKit app",
   "main": "index.js",
   "repository": {
