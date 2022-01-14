@@ -1,6 +1,6 @@
 /* eslint-env node */
 /* eslint-disable import/no-extraneous-dependencies */
-import TOML from '@iarna/toml';
+import yaml from 'js-yaml';
 import chalk from 'chalk';
 import { stripIndents } from 'common-tags';
 import cpy from 'cpy';
@@ -377,20 +377,24 @@ export async function createApp({
     });
   }
 
+  type KeyValueMap<T = unknown> = Record<string, T>;
+
   /**
    * Generate hugo config files
    */
-  const configFile = path.join(root, 'config/_default/config.toml');
-  const hugoConfigBase = TOML.parse(await readFile(configFile, 'utf8'));
-  const hugoConfig = TOML.stringify({ ...hugoConfigBase, title: appName });
+  const configFile = path.join(root, 'config/_default/config.yaml');
+  // const hugoConfigBase = TOML.parse(await readFile(configFile, 'utf8'));
+  // const hugoConfig = TOML.stringify({ ...hugoConfigBase, title: appName });
+  const hugoConfigBase = yaml.load(await readFile(configFile, 'utf8')) as KeyValueMap;
+  const hugoConfig = yaml.dump({ ...hugoConfigBase, title: appName });
   await outputFile(configFile, hugoConfig);
 
   /**
    * Generate hugo module config
    */
   await outputFile(
-    path.join(root, 'config/_default/module.toml'),
-    TOML.stringify({
+    path.join(root, 'config/_default/module.yaml'),
+    yaml.dump({
       imports: [
         {
           path: 'github.com/jungvonmatt/wekit-core',
