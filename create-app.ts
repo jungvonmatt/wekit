@@ -40,7 +40,7 @@ export async function createApp({
     process.exit(1);
   }
 
-  const cwdMigrations = path.join(templateDir, 'migrations');
+  const cwdMigrations = path.join(templateDir, 'contentful/migrations');
   const cwdContent = path.join(templateDir, 'ui/content');
   const cwdData = path.join(templateDir, 'ui/data');
   const cwdUi = path.join(templateDir, 'ui/layouts/partials');
@@ -282,11 +282,13 @@ export async function createApp({
       '.gitignore',
       '.env.example',
       '.eslintrc.json',
+      '.editorconfig',
       '.nvmrc',
       '.prettierignore',
       '.prettierrc',
       '.stylelintignore',
       '.stylelintrc.json',
+      '!netlify.toml',
       '!contentful',
       '!data',
       '!content',
@@ -304,11 +306,7 @@ export async function createApp({
           case 'eslintrc.json': {
             return '.'.concat(name);
           }
-          // README.md is ignored by webpack-asset-relocator-loader used by ncc:
-          // https://github.com/vercel/webpack-asset-relocator-loader/blob/e9308683d47ff507253e37c9bcbb99474603192b/src/asset-relocator.js#L227
-          case 'README-template.md': {
-            return 'README.md';
-          }
+      
           default: {
             return name;
           }
@@ -350,11 +348,18 @@ export async function createApp({
   } else {
     await outputFile(path.join(root, 'contentful/migrations/.gitkeep'), '');
   }
+  
+  /**
+   * Copy contentful ui-extensions to the target directory
+   */
+  await cpy(['ui-extensions/**'], path.join(root,'contentful'), {
+    parents: true,
+    cwd: path.join(templateDir, 'contentful'),
+  });
 
   /**
    * Copy storybook content + data
    */
-
   if (contentFiles.length) {
     const dest = path.join(root, 'content/storybook');
     await mkdirp(dest);
