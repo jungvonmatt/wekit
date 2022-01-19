@@ -199,6 +199,7 @@ export async function createApp({
    */
   const devDependencies = [
     '@babel/core',
+    '@jungvonmatt/contentful-fakes',
     '@jungvonmatt/contentful-migrations',
     '@jungvonmatt/contentful-ssg',
     '@jungvonmatt/cssg-plugin-assets',
