@@ -224,6 +224,7 @@ export async function createApp({
     'eslint-config-xo-space',
     'eslint-config-xo-typescript',
     'eslint-plugin-prettier',
+    'fs-extra',
     'husky',
     'hygen',
     'markdown-table',
