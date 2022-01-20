@@ -21,7 +21,7 @@
     "dev": "ncc build ./index.ts -w -o dist/",
     "prerelease": "rimraf ./dist/",
     "release": "ncc build ./index.ts -o ./dist/ --minify --no-cache --no-source-map-register",
-    "prepublish": "npm run release"
+    "prepublishOnly": "npm run release"
   },
   "devDependencies": {
     "@iarna/toml": "^2.2.5",
