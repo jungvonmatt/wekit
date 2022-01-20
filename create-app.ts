@@ -150,7 +150,7 @@ export async function createApp({
       start: 'hugo server --disableFastRender',
       prebuild: 'npm run content',
       build: 'hugo --gc --minify --environment production',
-      'create-story': 'node ./generate-template-files/story.js',
+      scaffold: 'node tools/hygen scaffold new',
       'storybook:build': 'hugo --gc --environment storybook --watch',
       'storybook:run': 'start-storybook -p 6006',
       prestorybook: 'run-s clean cf:docs',
@@ -217,16 +217,18 @@ export async function createApp({
     'contentful-cli',
     'copy-webpack-plugin',
     'del-cli',
+    'enquirer',
     'eslint',
     'eslint-config-prettier',
     'eslint-config-xo',
     'eslint-config-xo-space',
     'eslint-config-xo-typescript',
     'eslint-plugin-prettier',
-    'html-webpack-plugin',
     'husky',
+    'hygen',
     'markdown-table',
     'npm-run-all',
+    'picocolors',
     'prettier',
     'prettier-plugin-go-template',
     'pretty-quick',
@@ -307,7 +309,7 @@ export async function createApp({
           case 'eslintrc.json': {
             return '.'.concat(name);
           }
-      
+
           default: {
             return name;
           }
@@ -349,11 +351,11 @@ export async function createApp({
   } else {
     await outputFile(path.join(root, 'contentful/migrations/.gitkeep'), '');
   }
-  
+
   /**
    * Copy contentful ui-extensions to the target directory
    */
-  await cpy(['ui-extensions/**'], path.join(root,'contentful'), {
+  await cpy(['ui-extensions/**'], path.join(root, 'contentful'), {
     parents: true,
     cwd: path.join(templateDir, 'contentful'),
   });
