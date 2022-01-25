@@ -111,15 +111,17 @@ const getPromts = (data: ContentfulConfig, ui: UI): Questions => [
   },
   ...Object.entries(ui)
     .sort(([a], [b]) => a.localeCompare(b))
-    .map(([name, choices], index) => ({
-      type: 'checkbox',
-      name: `ui.${name}`,
-      message: `${index === 0 ? partialMessage : ''}Choose ${name}`,
-      when() {
-        return choices.length;
-      },
-      choices: () => choices,
-    })),
+    .map(([name, choices], index) => {
+      return {
+        type: 'checkbox',
+        name: `ui.${name}`,
+        message: `${index === 0 ? partialMessage : ''}Choose ${name}`,
+        when() {
+          return choices.length;
+        },
+        choices: () => choices.map(value => ({name:value, value, checked: true})),
+      };
+    }),
 ];
 
 /**

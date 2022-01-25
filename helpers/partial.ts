@@ -13,26 +13,21 @@ type PartialDeps = { [x: string]: Partial[] };
  */
 export async function getDependencies(files: string[]): Promise<PartialDeps> {
   const promises = files.map<Promise<[string, string[]]>>(async (file) => {
-    const type = path.basename(path.dirname(file));
-    const name = path.basename(file, '.html');
+    const [, relfile] = file.split('partials/');
 
-    const key = `${type}/${name}`;
+    const key = relfile.replace(/\.html$/,'');
     const content = await readFile(file, 'utf8');
     const matches = content.matchAll(/{{.*\s+partial(?:Cached)?\s+"([^\"]+)"/gim);
-    const dependencies = Array.from(matches).map((match) => `*${match[1]}*`) as string[];
+    const dependencies = Array.from(matches).map((match) => match[1].replace(/\.html$/,'')) as string[];
 
     return [key, dependencies];
   });
 
   const dependencyEntries = await Promise.all(promises);
   const dependencyMap = Object.fromEntries(dependencyEntries);
-  const dependencyKeys = Object.keys(dependencyMap);
-
-  const getKey = (identifier: string): string =>
-    dependencyKeys.find((key) => micromatch.contains(identifier, [key])) || '';
 
   const getPartialDependencies = (identifier: string): string[] => {
-    const componentKey = getKey(identifier);
+    const componentKey = identifier;
     const { [componentKey]: result = [] } = dependencyMap;
     return result;
   };
@@ -45,7 +40,7 @@ export async function getDependencies(files: string[]): Promise<PartialDeps> {
         // prevent recursion
         .filter((dep) => !deps.includes(dep))
         .flatMap((dep) => {
-          return getInternalDeps(dep, [...deps, getKey(key)]);
+          return getInternalDeps(dep, [...deps, key]);
         }),
     ];
   };

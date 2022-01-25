@@ -18,7 +18,6 @@ const program = new Commander.Command(packageJson.name)
   .action((name) => {
     projectPath = name;
   })
-  .option('--no-cache')
   .allowUnknownOption()
   .parse(process.argv);
 
@@ -83,7 +82,6 @@ async function run(): Promise<void> {
   try {
     await createApp({
       appPath: resolvedProjectPath,
-      cache: Boolean(program.cache),
     });
   } catch (reason) {
     if (!(reason instanceof DownloadError)) {
@@ -104,7 +102,6 @@ async function run(): Promise<void> {
 
     await createApp({
       appPath: resolvedProjectPath,
-      cache: Boolean(program.cache),
     });
   }
 }

@@ -25,15 +25,14 @@ export class DownloadError extends Error {}
 
 export async function createApp({
   appPath,
-  cache,
 }: {
   appPath: string;
-  cache: boolean;
 }): Promise<void> {
   const template = 'site';
   let templateDir = '';
+  console.log('Fetching latest boilerplate ...')
   try {
-    templateDir = await loadTemplate(cache);
+    templateDir = await loadTemplate();
   } catch (error) {
     console.log(error);
     console.log(chalk.red('Sorry, you need read permissions to private jvm repositories'));
@@ -54,13 +53,16 @@ export async function createApp({
   const dataAvailable = await globby('**/*', {
     cwd: cwdData,
   });
-  const uiAvailable = await globby(['{components,modules,templates}/*'], {
+  const uiAvailable = await globby(['{components,modules,templates}/**/*'], {
     cwd: cwdUi,
   });
 
   const ui = uiAvailable.reduce<{ [x: string]: string[] }>((result, file) => {
     const type = path.dirname(file);
     const name = path.basename(file, '.html');
+    if (type.includes('/')) {
+      return result;
+    }
 
     const group: string[] = result?.[type] ?? [];
     return { ...result, [type]: [...group, name] };
@@ -94,9 +96,7 @@ export async function createApp({
 
   // Add .env
   const args = await ask(ui);
-
   const uiDependencies = await getDependencies(uiAvailable.map((file) => path.join(cwdUi, file)));
-
   const patterns = Object.entries(args?.ui ?? {}).flatMap(([type, entries]) =>
     entries.flatMap((entry) => {
       const { [`${type}/${entry}`]: dependencies = [] } = uiDependencies;
