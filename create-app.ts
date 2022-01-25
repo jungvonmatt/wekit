@@ -209,6 +209,7 @@ export async function createApp({
     '@storybook/addon-essentials',
     '@storybook/addon-links',
     '@storybook/builder-webpack5',
+    '@storybook/addon-docs',
     '@storybook/html',
     '@storybook/manager-webpack5',
     '@typescript-eslint/eslint-plugin',
