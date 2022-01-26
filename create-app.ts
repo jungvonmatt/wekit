@@ -465,6 +465,18 @@ export async function createApp({ appPath }: { appPath: string }): Promise<void>
     })
   );
 
+  // Populate variables to docs
+  const docs = await globby(['*.md', 'docs/**/*.md'], {
+    cwd: root,
+  });
+  await Promise.all(
+    docs.map(async (file) => {
+      const content = await readFile(file, 'utf-8');
+      const replaced = content.replaceAll('CONTENTFUL-SPACE-ID', args.spaceId);
+      return outputFile(file, replaced);
+    })
+  );
+
   if (await confirm('Run migrations?', true)) {
     await runMigrations();
     console.log();
