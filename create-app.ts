@@ -1,6 +1,7 @@
 /* eslint-env node */
 /* eslint-disable import/no-extraneous-dependencies */
 import yaml from 'js-yaml';
+import TOML, { JsonMap } from '@iarna/toml';
 import chalk from 'chalk';
 import { stripIndents } from 'common-tags';
 import cpy from 'cpy';
@@ -23,14 +24,11 @@ import { loadTemplate } from './helpers/template';
 
 export class DownloadError extends Error {}
 
-export async function createApp({
-  appPath,
-}: {
-  appPath: string;
-}): Promise<void> {
+export async function createApp({ appPath }: { appPath: string }): Promise<void> {
   const template = 'site';
   let templateDir = '';
-  console.log('Fetching latest boilerplate ...')
+
+  console.log('Fetching latest boilerplate ...');
   try {
     templateDir = await loadTemplate();
   } catch (error) {
@@ -174,10 +172,12 @@ export async function createApp({
       directory: 'contentful/migrations',
     },
   };
+
   /**
    * Write it to disk.
    */
   fs.writeFileSync(path.join(root, 'package.json'), JSON.stringify(packageJson, null, 2) + os.EOL);
+
   /**
    * These flags will be passed to `install()`.
    */
@@ -194,6 +194,7 @@ export async function createApp({
     'postcss-cli',
     'purgecss-whitelister',
   ];
+
   /**
    * Default devDependencies.
    */
@@ -424,6 +425,43 @@ export async function createApp({
     module github.com/jungvonmatt/${appName}
 
     go 1.17`
+  );
+
+  await outputFile(
+    path.join(root, 'netlify.toml'),
+    TOML.stringify({
+      plugins: [
+        {
+          package: './tools/netlify-plugin-env-build-overwrites',
+          inputs: {
+            variable: 'STORYBOOK',
+            overwrites: {
+              publish: 'storybook-static',
+              command: 'npm run build-storybook',
+            },
+          },
+        },
+      ],
+      build: {
+        base: '',
+        publish: 'public',
+        environment: {
+          HUGO_VERSION: '0.91.0',
+          GO_VERSION: '1.17',
+        },
+      },
+      context: {
+        production: {
+          command: 'npm run build -- -b $URL',
+        },
+        'deploy-preview': {
+          command: 'npm run build -- -b $DEPLOY_PRIME_URL',
+        },
+        'branch-deploy': {
+          command: 'npm run build -- -b $DEPLOY_PRIME_URL',
+        },
+      },
+    })
   );
 
   if (await confirm('Run migrations?', true)) {
