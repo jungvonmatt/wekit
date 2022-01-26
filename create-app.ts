@@ -279,6 +279,14 @@ export async function createApp({ appPath }: { appPath: string }): Promise<void>
   });
 
   /**
+   * Copy tool configurations
+   */
+  await cpy(['.nvmrc', '.editorconfig', '.eslintrc', '.prettierrc', '.prettierignore'], root, {
+    parents: true,
+    cwd: templateDir,
+  });
+
+  /**
    * Copy the template files to the target directory.
    */
   await cpy(
@@ -287,13 +295,6 @@ export async function createApp({ appPath }: { appPath: string }): Promise<void>
       '.storybook',
       '.gitignore',
       '.env.example',
-      '.eslintrc.json',
-      '.editorconfig',
-      '.nvmrc',
-      '.prettierignore',
-      '.prettierrc',
-      '.stylelintignore',
-      '.stylelintrc.json',
       '!netlify.toml',
       '!contentful',
       '!data',
@@ -321,7 +322,7 @@ export async function createApp({ appPath }: { appPath: string }): Promise<void>
     }
   );
 
-  await cpy(['static/**', 'assets/**'], root, {
+  await cpy(['static/**', 'assets/**', '.stylelintignore', '.stylelintrc'], root, {
     parents: true,
     cwd: path.join(templateDir, 'ui'),
   });
