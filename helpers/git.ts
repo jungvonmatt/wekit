@@ -35,7 +35,7 @@ export function tryGitInit(root: string): boolean {
     execSync('git checkout -b main', { stdio: 'ignore' })
 
     execSync('git add -A', { stdio: 'ignore' })
-    execSync('git commit -m "Initial commit from Create Next App"', {
+    execSync('git commit -m "Initial commit from Create WEKit App"', {
       stdio: 'ignore',
     })
     return true
