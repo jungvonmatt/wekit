@@ -1,24 +1,14 @@
 import { spawnSync, SpawnSyncReturns } from 'child_process';
-import findCacheDir from 'find-cache-dir';
 import { readdir } from 'fs/promises';
 import tempy from 'tempy';
 import { remove } from 'fs-extra';
-
-const ensureCacheDir = async () => {
-  const dir = findCacheDir({ name: 'wekit' });
-  if (dir) {
-    return dir;
-  }
-
-  return tempy.directory();
-};
 
 function pull(repo: string, target: string): SpawnSyncReturns<Buffer> {
   return spawnSync('git', ['clone', repo, target], { shell: false, stdio: 'ignore' });
 }
 
 export const loadTemplate = async () => {
-  const dir = await ensureCacheDir();
+  const dir = tempy.directory();
   const files = await readdir(dir);
  
   if (files.length > 0) {

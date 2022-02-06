@@ -3,6 +3,7 @@
 import yaml from 'js-yaml';
 import TOML, { JsonMap } from '@iarna/toml';
 import chalk from 'chalk';
+import ora from 'ora';
 import { stripIndents } from 'common-tags';
 import cpy from 'cpy';
 import fs from 'fs';
@@ -19,8 +20,10 @@ import { isWriteable } from './helpers/is-writeable';
 import { makeDir } from './helpers/make-dir';
 import { runMigrations } from './helpers/migrate';
 import { getDependencies } from './helpers/partial';
-import { ask, confirm } from './helpers/prompts';
+import { ask, confirm, Answers } from './helpers/prompts';
 import { loadTemplate } from './helpers/template';
+import { binCheck } from './helpers/bin-check';
+import compareVersions from 'compare-versions';
 
 export class DownloadError extends Error {}
 
@@ -28,14 +31,36 @@ export async function createApp({ appPath }: { appPath: string }): Promise<void>
   const template = 'site';
   let templateDir = '';
 
-  console.log('Fetching latest boilerplate ...');
+  console.log();
+  const templateSpinner = ora({prefixText:`Fetching latest boilerplate:`}).start();
   try {
     templateDir = await loadTemplate();
+    templateSpinner.succeed();
   } catch (error) {
+    templateSpinner.fail();
     console.log(error);
     console.log(chalk.red('Sorry, you need read permissions to private jvm repositories'));
     process.exit(1);
   }
+  
+  const requirementsSpinner = ora({prefixText:`Checking system requirements:`}).start();
+  const hugo = await binCheck('hugo', ['version']);
+  if (!hugo) {
+    requirementsSpinner.fail();
+    console.error(chalk.red('Hugo not found. You need to install Hugo in order to use WEKit.'));
+    console.error('See https://gohugo.io/getting-started/installing/');
+    process.exit(1);
+  } else {
+    const [hugoVersion] = /v[\d.]+/.exec(hugo) || [];
+    if (compareVersions(hugoVersion, '0.91.0') < 0 || !/\+extended/.test(hugo)) {
+      requirementsSpinner.fail();
+      console.error(stripIndents`${chalk.red('The installed hugo version does not meet the minimum requirements for WEKit.')}
+                               You need ${chalk.cyan('Hugo >= v0.91.0+extended')} to use WEKit. See https://gohugo.io/getting-started/installing/`);
+      process.exit(1);
+    }
+  }
+
+  requirementsSpinner.succeed();
 
   const cwdMigrations = path.join(templateDir, 'contentful/migrations');
   const cwdContent = path.join(templateDir, 'ui/content');
@@ -93,7 +118,18 @@ export async function createApp({ appPath }: { appPath: string }): Promise<void>
   process.chdir(root);
 
   // Add .env
-  const args = await ask(ui);
+  let args:Answers;
+  try {
+    args = await ask(ui);
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      console.error(chalk.red(error.message));
+    } else if (typeof error === 'string') {
+      console.error(chalk.red(error));
+    }
+    process.exit(1);
+  }
+  
   const uiDependencies = await getDependencies(uiAvailable.map((file) => path.join(cwdUi, file)));
   const patterns = Object.entries(args?.ui ?? {}).flatMap(([type, entries]) =>
     entries.flatMap((entry) => {

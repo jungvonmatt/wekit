@@ -30,7 +30,7 @@ const getManagementClient = (config:ClientOptions): ContentfulManagementApi => {
     });
   }
 
-  throw new Error('You need to login first. Run npx contentful login');
+  throw new Error('You need to login first. Run npx contentful-cli login');
 };
 
 

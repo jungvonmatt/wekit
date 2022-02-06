@@ -9,6 +9,7 @@ import { createApp, DownloadError } from './create-app';
 import { validateNpmName } from './helpers/validate-pkg';
 import packageJson from './package.json';
 
+
 let projectPath: string = '';
 
 const program = new Commander.Command(packageJson.name)

@@ -32,10 +32,10 @@ const getContentfulConfig = async (): Promise<ContentfulConfig> => {
     return contentfulConfig.config;
   }
 
-  throw new Error('You need to login first. Run npx contentful login');
+  throw new Error('You need to login first. Run npx contentful-cli login');
 };
 
-type Answers = {
+export type Answers = {
   accessToken: string;
   spaceId: string;
   environmentId: string;
