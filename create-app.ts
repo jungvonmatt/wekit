@@ -263,6 +263,7 @@ export async function createApp({ appPath }: { appPath: string }): Promise<void>
     'eslint-config-xo-typescript',
     'eslint-plugin-prettier',
     'fs-extra',
+    'dotenv',
     'husky',
     'hygen',
     'markdown-table',
