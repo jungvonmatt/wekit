@@ -1,4 +1,5 @@
 import { cosmiconfig } from 'cosmiconfig';
+import chalk from 'chalk';
 import type { CosmiconfigResult } from 'cosmiconfig/dist/types';
 import inquirer, { QuestionCollection } from 'inquirer';
 import { getApiKey, getEnvironments, getPreviewApiKey, getSpaces } from './contentful';
@@ -52,8 +53,8 @@ type UI = { [x: string]: string[] };
 type Questions = QuestionCollection<Answers>;
 
 const partialMessage = `Which partials do you want to include in your project?
-  Internally used partial dependencies are added automatically.
-  
+
+  ${chalk.reset('Basic components & module dependencies are added automatically.')}
   `;
 
 const getPromts = (data: ContentfulConfig, ui: UI): Questions => [
@@ -119,7 +120,12 @@ const getPromts = (data: ContentfulConfig, ui: UI): Questions => [
         when() {
           return choices.length;
         },
-        choices: () => choices.map(value => ({name:value, value, checked: true})),
+        choices: () =>
+          choices.map((value) => {
+            const [first, ...rest] = value.replace(/^\w-/, '');
+            const name = `${first.toUpperCase()}${rest.join('').replace('-', ' ')}`;
+            return { name, value, checked: true };
+          }),
       };
     }),
 ];

@@ -32,7 +32,7 @@ export async function createApp({ appPath }: { appPath: string }): Promise<void>
   let templateDir = '';
 
   console.log();
-  const templateSpinner = ora({prefixText:`Fetching latest boilerplate:`}).start();
+  const templateSpinner = ora({ prefixText: `Fetching latest boilerplate:` }).start();
   try {
     templateDir = await loadTemplate();
     templateSpinner.succeed();
@@ -42,8 +42,8 @@ export async function createApp({ appPath }: { appPath: string }): Promise<void>
     console.log(chalk.red('Sorry, you need read permissions to private jvm repositories'));
     process.exit(1);
   }
-  
-  const requirementsSpinner = ora({prefixText:`Checking system requirements:`}).start();
+
+  const requirementsSpinner = ora({ prefixText: `Checking system requirements:` }).start();
   const hugo = await binCheck('hugo', ['version']);
   if (!hugo) {
     requirementsSpinner.fail();
@@ -54,8 +54,12 @@ export async function createApp({ appPath }: { appPath: string }): Promise<void>
     const [hugoVersion] = /v[\d.]+/.exec(hugo) || [];
     if (compareVersions(hugoVersion, '0.91.0') < 0 || !/\+extended/.test(hugo)) {
       requirementsSpinner.fail();
-      console.error(stripIndents`${chalk.red('The installed hugo version does not meet the minimum requirements for WEKit.')}
-                               You need ${chalk.cyan('Hugo >= v0.91.0+extended')} to use WEKit. See https://gohugo.io/getting-started/installing/`);
+      console.error(stripIndents`${chalk.red(
+        'The installed hugo version does not meet the minimum requirements for WEKit.'
+      )}
+                               You need ${chalk.cyan(
+                                 'Hugo >= v0.91.0+extended'
+                               )} to use WEKit. See https://gohugo.io/getting-started/installing/`);
       process.exit(1);
     }
   }
@@ -76,7 +80,7 @@ export async function createApp({ appPath }: { appPath: string }): Promise<void>
   const dataAvailable = await globby('**/*', {
     cwd: cwdData,
   });
-  const uiAvailable = await globby(['{components,modules,templates}/**/*'], {
+  const uiAvailable = await globby(['**/*'], {
     cwd: cwdUi,
   });
 
@@ -118,9 +122,21 @@ export async function createApp({ appPath }: { appPath: string }): Promise<void>
   process.chdir(root);
 
   // Add .env
-  let args:Answers;
+  let args: Answers;
   try {
-    args = await ask(ui);
+    args = await ask({ modules: ui.modules });
+
+    // Get all required components which involves 
+    // - components whose names match selected modules
+    // - components that doesn't have a corresponding module
+    const components = ui?.components?.filter((component) => {  
+      const optional = ui?.modules?.some((mod) => component.startsWith(mod.replace(/^m-/, 'c-')));
+      const required = args?.ui?.modules?.some((mod) => component.startsWith(mod.replace(/^m-/, 'c-')));
+      return !optional || required;
+    }) ?? [];
+
+    // Keep all available ui partials (utils, templates) and add selected modules & components
+    args.ui = { ...ui, modules: (args?.ui?.modules ?? []), components};
   } catch (error: unknown) {
     if (error instanceof Error) {
       console.error(chalk.red(error.message));
@@ -129,7 +145,7 @@ export async function createApp({ appPath }: { appPath: string }): Promise<void>
     }
     process.exit(1);
   }
-  
+
   const uiDependencies = await getDependencies(uiAvailable.map((file) => path.join(cwdUi, file)));
   const patterns = Object.entries(args?.ui ?? {}).flatMap(([type, entries]) =>
     entries.flatMap((entry) => {
@@ -138,10 +154,10 @@ export async function createApp({ appPath }: { appPath: string }): Promise<void>
         `**/${type}/${entry}.html`,
         `**/${entry}/**`,
         `**/*${entry}*.{cjs,js}`,
+        // Include partial dependencies
         ...dependencies.flatMap((dependency) => [
           `**/${dependency.type}/${dependency.entry}.html`,
           `**/${dependency.entry}/**`,
-          `**/*${dependency.entry}*.{cjs,js}`,
         ]),
       ];
     })
@@ -288,7 +304,6 @@ export async function createApp({ appPath }: { appPath: string }): Promise<void>
       console.log(`- ${chalk.cyan(dependency)}`);
     }
     console.log();
-
     await install(root, dependencies, installFlags);
   }
   /**
@@ -322,6 +337,18 @@ export async function createApp({ appPath }: { appPath: string }): Promise<void>
     parents: true,
     cwd: templateDir,
   });
+
+  /**
+   * Copy partials to the target directory
+   */
+  if (uiFiles.length) {
+    const dest = path.join(root, 'layouts/partials');
+    await mkdirp(dest);
+    await cpy(uiFiles, dest, {
+      parents: true,
+      cwd: cwdUi,
+    });
+  }
 
   /**
    * Copy the template files to the target directory.
@@ -363,18 +390,6 @@ export async function createApp({ appPath }: { appPath: string }): Promise<void>
     parents: true,
     cwd: path.join(templateDir, 'ui'),
   });
-
-  /**
-   * Copy partials to the target directory
-   */
-  if (uiFiles.length) {
-    const dest = path.join(root, 'layouts/partials');
-    await mkdirp(dest);
-    await cpy(uiFiles, dest, {
-      parents: true,
-      cwd: cwdUi,
-    });
-  }
 
   await outputFile(path.join(root, 'data/.gitkeep'), '');
   await outputFile(path.join(root, 'content/.gitkeep'), '');
