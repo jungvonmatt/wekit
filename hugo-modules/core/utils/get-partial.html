@@ -1,0 +1,48 @@
+{{/*
+  utils/get-page
+  Calls partial connected with linked content type with .Params from from linked page.
+
+  @uses
+    - utils/get-params
+    - utils/get-category-name
+    - utils/not-found
+    - layouts/partials/...
+
+  @example - Go Template
+    {{ partial "utils/get-partial" (dict
+      "globals" $globals
+      "context" (dict "id" "ENTRY_ID" "content_type" "CONTENT_TYPE_ID")
+      "options" (dict "key" "param overwrite")
+    ) }}
+*/}}
+{{- $globals := .globals -}}
+{{- $context := .context -}}
+{{- $entry_id := $context.id -}}
+{{- $content_type := $context.content_type -}}
+{{- $mime_type := $context.mime_type -}}
+{{- $options := .options | default dict -}}
+
+{{- if $content_type -}}
+  {{- $category := partial "utils/get-category-name" (dict "content_type" $content_type) -}}
+  {{- $file_path := print $category "/" $content_type ".html" -}}
+
+  {{- if templates.Exists (printf "partials/%s" $file_path) -}}
+    {{- with partial "utils/get-params.html" $context -}}
+      {{- partial $file_path (dict
+        "globals" $globals
+        "context" .
+        "options" $options
+      ) -}}
+    {{- else -}}
+     {{- partial "utils/not-found" (dict "name" (print "Entry \"" $entry_id "\" for content-type \"" $content_type "\"")) -}}
+    {{- end -}}
+  {{- else -}}
+    {{- partial "utils/not-found" (dict "name" $file_path) -}}
+  {{- end -}}
+{{- else if ($mime_type) -}}
+  {{- partial "utils/asset" (dict
+      "globals" $globals
+      "context" $context
+      "options" $options
+    ) -}}
+{{- end -}}

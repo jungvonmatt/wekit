@@ -1,0 +1,86 @@
+/**
+ * Create scroll-snap based slider
+ */
+.o-slider {
+  position: relative;
+
+  &__outer-wrapper {
+    overflow: hidden;
+    width: 100%;
+    flex: 1 0 100%;
+  }
+
+  /**
+   * 1. make sure the scrollbar appears below the content
+   */
+  &__scroll-wrapper {
+    scroll-snap-type: x mandatory;
+    display: flex;
+    -webkit-overflow-scrolling: touch;
+    overflow-x: scroll;
+    padding-bottom: 20px; /* [1] */
+    margin: 0 calc(-1 * var(--#{$spacing}-xs)) -20px;  /* [1] */
+  }
+
+  &__slide {
+    flex: 0 0 calc(100% / var(--columns, 1));
+    padding: 0 var(--#{$spacing}-xs);
+    scroll-snap-align: start;
+    position: relative;
+  }
+
+  &__dots {
+    margin-top: var(--#{$spacing}-md);
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+
+  &__dot {
+    display: block;
+    text-indent: -99999rem;
+    border: none;
+    padding: 0;
+    margin: 0 0.375rem;
+    width: var(--#{$spacing}-xs);
+    height: var(--#{$spacing}-xs);
+    border-radius: 50%;
+    background-color: var(--#{$color}-text-silent);
+    opacity: 0.5;
+    transition: background-color 200ms ease-out, opacity 200ms ease-out;
+
+    &.is-active {
+      background-color: var(--#{$color}-text);
+      opacity: 1;
+    }
+  }
+
+  &__buttons {
+    width: 100%;
+    height: 100%;
+  }
+
+  &__button--previous,
+  &__button--next {
+    color: var(--#{$color}-white);
+    width: 1.5rem;
+    height: 2.5rem;
+    background-size: cover;
+    position: absolute;
+    top: calc(50% - 2rem);
+    background-color: transparent;
+    border: none;
+
+    &:disabled {
+      opacity: 0.25;
+    }
+  }
+
+  &__button--previous {
+    left: -2rem;
+  }
+
+  &__button--next {
+    right: -2rem;
+  }
+}

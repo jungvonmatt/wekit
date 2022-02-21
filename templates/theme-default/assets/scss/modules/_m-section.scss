@@ -1,0 +1,4 @@
+.m-section {
+  margin-top: var(--#{$spacing}, var(--#{$spacing}--md));
+  margin-bottom: var(--#{$spacing}, var(--#{$spacing}--md));
+}

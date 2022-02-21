@@ -1,0 +1,15 @@
+{{/*
+  utils/console/dump
+  Emits a warning message with information on variables.
+
+  @example - Go Template
+    {{ partial "utils/console/dump" $message }}
+*/}}
+{{ if or (reflect.IsSlice .) (reflect.IsMap .)}}
+  {{ $yaml := .| jsonify | transform.Remarshal "yaml" }}
+  {{ warnf "\n%s"  $yaml }}
+{{ else }}
+  {{ warnf "\n%s" . }}
+{{ end }}
+
+{{ return true }}

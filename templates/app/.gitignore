@@ -1,0 +1,38 @@
+*.DS_Store*
+resources
+public
+node_modules
+.env
+.hugo_build.lock
+
+# Ignore cssg cache
+.cache
+
+# Ignore all files fetched from Contentful
+data/*
+content/*
+static/assets/cf
+i18n/*.*
+# ...except Storybook
+!content/storybook
+!data/storybook
+
+# Generated contentful docs
+docs/contentful
+
+# Generated config
+config/_default/languages.*
+config/_default/menus*
+
+# Local Netlify folder
+.netlify
+
+# Lighthouse
+tools/lighthouse/cert/*
+!tools/lighthouse/cert/.gitkeep
+tools/lighthouse/reports/*
+!tools/lighthouse/reports/.gitkeep
+
+# Storybook
+storybook-static
+build-storybook.log

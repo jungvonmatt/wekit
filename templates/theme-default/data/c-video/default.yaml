@@ -1,0 +1,26 @@
+name: Laboriosam et architecto eos in necessitatibus aliquam.
+asset:
+  mime_type: video/mp4
+  url: https://iandevlin.github.io/mdn/video-player-with-captions/video/sintel-short.mp4
+poster:
+  mime_type: image/jpeg
+  url: http://placeimg.com/720/306/nightlife
+  title: voluptas minus neque
+  description: >-
+    Animi dolore dolor tempora consequatur doloremque molestiae nihil.
+
+    Dolore ullam nihil quasi deleniti quaerat voluptas sed molestiae
+    praesentium.
+
+    Doloremque sit perferendis.
+  width: 480
+  height: 480
+  file_size: 72417
+track:
+  mime_type: text/vtt
+  url: https://iandevlin.github.io/mdn/video-player-with-captions/subtitles/vtt/sintel-en.vtt
+  file_size: 966
+autoplay: false
+muted: true
+loop: false
+controls: true

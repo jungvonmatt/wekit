@@ -1,0 +1,39 @@
+{
+  "name": "wekit-core",
+  "version": "1.0.0",
+  "private": "true",
+  "description": "[Hugo](https://gohugo.io/) templates and utilities that support [Contentful](https://www.contentful.com/) and/or [Storybook](https://storybook.js.org/) projects.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jungvonmatt/wekit-core.git"
+  },
+  "author": "Ben Zörb",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jungvonmatt/wekit-core/issues"
+  },
+  "homepage": "https://github.com/jungvonmatt/wekit-core#readme",
+  "devDependencies": {
+    "prettier": "^2.5.1",
+    "prettier-plugin-go-template": "^0.0.11"
+  },
+  "prettier": {
+    "printWidth": 120,
+    "singleQuote": true,
+    "overrides": [
+      {
+        "files": [
+          "*.html"
+        ],
+        "options": {
+          "parser": "go-template"
+        }
+      }
+    ],
+    "goTemplateBracketSpacing": true
+  }
+}

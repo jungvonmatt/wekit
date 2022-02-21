@@ -1,0 +1,41 @@
+{{/*
+  utils/asset/video
+  Render Contentful asset (video/...). Uses data from cssg-plugin-assets if available.
+
+  @example - Go Template
+    {{ partial "utils/asset/svg" (dict
+      "context" $video
+      "options" (dict
+        "loop" "false"
+        "muted" "false"
+        "autoplay" "false"
+        "class_name" "c-video"
+      )
+    ) }}
+*/}}
+{{- $context := .context | default dict -}}
+{{- $options := .options | default dict -}}
+{{- $params := (merge $context $options) -}}
+{{- $mime_type := $params.mime_type -}}
+{{- $class_name := $params.class_name -}}
+{{- $url := $params.src | default $params.url -}}
+{{- $loop := $params.loop | default true -}}
+{{- $autoplay := $params.autoplay | default true -}}
+{{- $controls := $params.controls | default false -}}
+{{- $poster := $params.poster | default false -}}
+{{- $muted := (or $autoplay $params.muted) -}}
+
+{{ $attributes := partialCached "utils/html/attribute" (dict
+  "loop" $loop
+  "autoplay" $autoplay
+  "muted" $muted
+  "controls" $controls
+  "class" $class_name
+  "poster" $poster
+) $params }}
+
+{{- if in $mime_type "video" -}}
+  <video {{$attributes}}>
+    <source src="{{ $url }}" type="{{ $mime_type }}">
+  </video>
+{{- end -}}

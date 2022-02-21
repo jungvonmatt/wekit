@@ -1,0 +1,98 @@
+
+{{/*
+  components/c-video/embed-srcdoc
+
+  Generates custom placeholder for iframe embeds using the iframe srcdoc attribute
+  https://chrispennington.blog/blog/lazy-load-youtube-embed-with-custom-poster/
+
+
+
+  @example - Go Template (use contentful asset as poster with youtube poster fallback and a custom playicon)
+
+    {{ partial "components/c-video/embed-srcdoc" (dict
+      "globals" $globals
+      "context" (dict
+        "src" "https://www.youtube-nocookie.com/embed/VIDEO_ID"
+        "poster_src" "https://img.youtube.com/vi/VIDEO_ID/hqdefault.jpg"
+        "poster" (dict
+          "mime_type" "image/jpeg"
+          "url" "http://placeimg.com/480/480/nightlife"
+          ...
+        )
+        "playicon" (dict "path" "icons/play.svg")
+      )
+    ) }}
+
+
+  @example - Go Template (use poster url and a custom playicon)
+
+    {{ partial "components/c-video/embed-srcdoc" (dict
+      "globals" $globals
+      "context" (dict
+        "src" "https://www.youtube-nocookie.com/embed/VIDEO_ID"
+        "poster_src" "https://img.youtube.com/vi/VIDEO_ID/hqdefault.jpg"
+        "playicon" (dict "path" "icons/play.svg")
+      )
+    ) }}
+
+*/}}
+{{- $globals := .globals -}}
+{{- $context := .context | default dict -}}
+
+{{ $poster_asset := $context.poster_asset }}
+{{ $poster_src := $context.poster_src }}
+{{ $src := $context.src }}
+{{ $playicon := $context.icon }}
+
+{{ $sourcedoc := `<style>
+  * {
+  padding: 0;
+  margin: 0;
+  overflow: hidden;
+  }
+  body, html {
+  height: 100%;
+  }
+  img, svg {
+  position: absolute;
+  width: 100%;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+  }
+  svg {
+  filter: drop-shadow(1px 1px 10px hsl(206.5, 70.7%, 8%));
+  transition: all 250ms ease-in-out;
+  }
+  body:hover svg {
+  filter: drop-shadow(1px 1px 10px hsl(206.5, 0%, 10%));
+  transform: scale(1.05);
+  }
+  </style>
+  `
+}}
+
+{{ $sourcedoc = print $sourcedoc `<a href="` $src `&autoplay=1">` }}
+{{ with $poster_asset }}
+  {{ $sourcedoc = print $sourcedoc (partial "utils/asset" (dict "context" . "globals" $globals)) }}
+{{ else }}
+  {{ with $poster_src }}
+    {{ $sourcedoc = print $sourcedoc (printf `<img src="%s" alt="">` .) }}
+  {{ end }}
+{{ end }}
+{{ with $playicon }}
+  {{ $sourcedoc = print $sourcedoc (partial "utils/svg/icon" (dict
+    "globals" $globals
+    "context" .
+    "options" (dict
+    "inline" true
+    "sprite" false
+    "width" 64
+    "height" 64
+    )
+    ))
+  }}
+{{ end }}
+{{ $sourcedoc = print $sourcedoc "</a>" }}
+
+{{ return $sourcedoc }}

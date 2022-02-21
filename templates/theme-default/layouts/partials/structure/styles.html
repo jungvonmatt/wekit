@@ -1,0 +1,16 @@
+{{/*  TODO  */}}
+
+{{ $globals := .globals }}
+{{ $css_params := $globals.Site.Params }}
+
+{{ if eq (hugo.Environment) "development" -}}
+  {{ $options := (dict "targetPath" "main.css" "enableSourceMap" true) -}}
+  {{ $css := resources.Get "scss/main.scss" | resources.ExecuteAsTemplate "style.main.scss" $css_params | toCSS (dict "targetPath" "css/main.css") }}
+  {{/* $css := resources.Get "scss/main.scss" | toCSS $options -*/}}
+  {{ with $css }}<style>{{ .Content | safeCSS }}</style>{{ end }}
+{{ else -}}
+  {{ $options := (dict "targetPath" "main.css" "outputStyle" "compressed") -}}
+  {{ $css := resources.Get "scss/main.scss" | resources.ExecuteAsTemplate "style.main.scss" $css_params | toCSS (dict "targetPath" "css/main.css") }}
+  {{/* $css := resources.Get "scss/main.scss" | toCSS $options | postCSS (dict "config" "postcss.config.js") -*/}}
+  {{ with $css }}<style>{{ .Content | safeCSS }}</style>{{ end }}
+{{ end -}}

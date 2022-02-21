@@ -1,0 +1,10 @@
+{{/*
+  utils/console/error
+  Emits an error message.
+
+  @example - Go Template
+    {{ partial "utils/console/error" $message }}
+*/}}
+{{ errorf "\n%s" . }}
+
+{{ return true }}

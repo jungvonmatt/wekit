@@ -1,0 +1,118 @@
+{{- $globals := .globals -}}
+{{- $context := .context | default dict -}}
+{{- $options := .options | default dict -}}
+{{- $params := (merge $context $options) -}}
+{{- $modifier := cond (reflect.IsSlice $params.modifier) $params.modifier (cond (ne $params.modifier nil) (slice $params.modifier) dict ) -}}
+{{- $class_name := $params.class_name -}}
+
+{{- $asset := $params.asset -}}
+{{- $src := $params.src -}}
+{{- $loop := $params.loop -}}
+{{- $poster_asset := $params.poster -}}
+{{- $controls := $params.controls -}}
+{{- $muted := $params.muted -}}
+{{- $autoplay := $params.autoplay -}}
+{{- $ratio := $params.ratio | default "16:9" -}}
+{{- $nocookie := $params.nocookie | default true -}}
+{{- $playicon := $params.playicon | default (dict "id" "play") -}}
+
+{{- $poster_src := false -}}
+{{- with $poster_asset -}}
+  {{- with .src }}
+      {{- $posposter_srcter = . -}}
+  {{- end -}}
+{{- end -}}
+
+<div class="c-video{{ range $modifier }} c-video--{{ . }}{{ end }}{{ with $class_name }} {{ . }}{{end}}{{ with $ratio }} o-ratio o-ratio--{{ . }}{{ end }} js-video">
+    <!-- Put your partial code here -->
+    {{- with $asset -}}
+      {{- partial "utils/asset" (dict
+        "context" .
+        "globals" $globals
+        "options" (dict
+          "loop" $loop
+          "controls" $controls
+          "muted" $muted
+          "autoplay" $autoplay
+          "poster" $poster_src
+          "class_name" (print "c-video__asset" (cond (partial "utils/reflect/is-string" $ratio) " o-ratio__content" ""))
+        )
+      ) -}}
+      {{- with $poster_asset -}}
+        <div class="c-video__poster{{ with $ratio }} o-ratio__content{{ end}}">
+          {{- partial "utils/asset" (dict
+            "context" .
+            "globals" $globals
+          ) -}}
+          {{ with $playicon }}
+            {{- partial "utils/svg/icon" (dict
+              "globals" $globals
+              "context" .
+              "options" (dict
+                "class_name" "c-video__play-icon"
+                "inline" true
+                "sprite" false
+                "width" 64
+                "height" 64
+              )
+            ) }}
+          {{ end }}
+        </div>
+      {{- end -}}
+    {{- else -}}
+      {{- with $src -}}
+        {{/* Render youtube iframe player */}}
+        {{- if or (in . "youtube") (in . "youtu.be") -}}
+          {{- partial "components/c-video/embed-youtube" (dict
+            "context" $params
+            "globals" $globals
+          ) -}}
+
+
+        {{/* Render vimeo iframe player */}}
+        {{- else if in . "vimeo" -}}
+          {{- partial "components/c-video/embed-vimeo" (dict
+            "context" $params
+            "globals" $globals
+          ) -}}
+
+        {{/* Render video tag */}}
+        {{- else -}}
+          {{- with partial "utils/html/tag" (dict "name" "video" "attr" (dict
+            "src" .
+            "class" (print "c-video__asset" (cond (partial "utils/reflect/is-string" $ratio) " o-ratio__content" ""))
+            "loop" $loop
+            "controls" $controls
+            "muted" $muted
+            "autoplay" $autoplay
+            "poster" $poster_src
+          )) -}}
+            {{- . | safeHTML -}}
+          {{- end -}}
+
+          {{- with $poster_asset -}}
+            <div class="c-video__poster{{ with $ratio }} o-ratio__content{{ end}}">
+              {{- partial "utils/asset" (dict
+                "context" .
+                "globals" $globals
+              ) -}}
+              {{ with $playicon }}
+                {{- partial "utils/svg/icon" (dict
+                  "globals" $globals
+                  "context" .
+                  "options" (dict
+                    "class_name" "c-video__play-icon"
+                    "inline" true
+                    "sprite" false
+                    "width" 64
+                    "height" 64
+                  )
+                ) }}
+              {{ end }}
+            </div>
+          {{- end -}}
+        {{- end -}}
+      {{- end -}}
+    {{- end -}}
+</div>
+

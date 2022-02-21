@@ -1,0 +1,12 @@
+{{ $context := .context | default dict }}
+{{ $sys := $context.sys | default .sys | default dict }}
+
+{{/* Build base class from content_type */}}
+{{ $content_type := "unknown" }}
+{{ with $sys.content_type }}
+  {{ $content_type = . }}
+{{ end }}
+
+{{- $result := .content_type | default $context.content_type | default $content_type -}}
+
+{{ return $content_type }}

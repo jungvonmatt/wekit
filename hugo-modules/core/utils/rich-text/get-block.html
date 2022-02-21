@@ -1,0 +1,13 @@
+{{ $globals := .globals }}
+
+{{- range .context.content -}}
+  {{- $file_path := print "utils/rich-text/blocks/" .node_type ".html" -}}
+  {{- if templates.Exists (printf "partials/%s" $file_path) -}}
+    {{- partial $file_path (dict
+      "context" .
+      "globals" $globals
+    ) | safeHTML -}}
+  {{- else -}}
+    {{- partial "utils/not-found.html" (dict "name" $file_path) -}}
+  {{- end -}}
+{{- end -}}

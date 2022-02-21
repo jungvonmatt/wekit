@@ -1,0 +1,5 @@
+name: media module
+layout: default
+body:
+  id: vimeo
+  content_type: c-video

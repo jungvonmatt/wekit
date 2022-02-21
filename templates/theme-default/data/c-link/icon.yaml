@@ -1,0 +1,40 @@
+sys:
+  id: 5VI6LR44KUk7NgFtUKRkHZ
+  content_type: c-link
+  created_at: '2021-12-15T22:43:19.185Z'
+  updated_at: '2021-12-15T22:43:19.185Z'
+name: 'Test Link: Entry'
+text: Link to entry
+icon:
+  mime_type: image/svg+xml
+  url: >-
+    //images.ctfassets.net/jnaeogay42m9/2CRG2n8CVmH4JsVyuf66r/3fa2197a618f677d6f7b1b94ac285f09/arrow-right.svg
+  title: arrow-right
+  description: Arrow right
+  width: 36
+  height: 36
+  file_size: 1098
+  source: >-
+    <svg viewBox="0 0 36 36" xmlns="http://www.w3.org/2000/svg"><path d="M24.533
+    15.476c-5.019-.472-10.063-.35-15.084-.663-3.905-.242-.31-.239-4.215-.353-.86-.026-1.725.029-2.58.115-.878.088-1.429.643-1.62
+    1.501-.18.798.387 1.638 1.21 1.742.393.049.795.012 1.193.015
+    3.645.033-.209-.008 3.433.117 4.896.167 9.789.462 14.683.698.396.02.795-.002
+    1.193.022 1.644.104 3.288.218 5.159.34-.26.44-.364.74-.566.935-1.533
+    1.464-3.101 2.893-4.623 4.37a8.38 8.38 0 0 0-1.356 1.679c-.352.59-.183
+    1.248.241 1.642.487.45 1.196.49 1.833.077.22-.143.41-.334.603-.516
+    1.105-1.044 2.24-2.061 3.302-3.149a128.253 128.253 0 0 0
+    4.193-4.498c.526-.594.915-1.285
+    1.761-1.52.295-.082.576-.324.793-.558.546-.586.578-1.156.073-1.773-.576-.706-1.07-1.503-2.168-1.573-.418-.027-.819-.4-1.219-.627-2.88-1.638-5.757-3.279-8.634-4.917-.23-.132-.46-.268-.7-.38-.797-.37-1.412-.233-1.931.416-.958
+    1.19-.72 2.078.719 2.841 2.333 1.237 4.654 2.497 6.98
+    3.747l-.137.413c-.845-.046-1.694-.064-2.536-.143z"
+    fill-rule="evenodd"/></svg>
+  srcsets: []
+  src: >-
+    https://images.ctfassets.net/jnaeogay42m9/2CRG2n8CVmH4JsVyuf66r/3fa2197a618f677d6f7b1b94ac285f09/arrow-right.svg
+link_to_entry:
+  id: 7KMapzjySxrA15rqSCZt8N
+  content_type: page
+  path: de/impressum.md
+target_blank: true
+open_as_download: false
+appearance: link

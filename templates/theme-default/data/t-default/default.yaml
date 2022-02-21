@@ -1,0 +1,6 @@
+stage:
+  id: default
+  content_type: m-stage
+sections:
+  - id: default
+    content_type: m-text

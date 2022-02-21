@@ -1,0 +1,7 @@
+{{ $tags := slice }}
+{{ range slice "og" "twitter" }}
+  {{ $data := partial (printf "utils/seo/tag/%s" .) (dict "key" $.key "value" $.value) }}
+  {{ $tags = $tags | append $data }}
+{{ end }}
+
+{{ return $tags }}

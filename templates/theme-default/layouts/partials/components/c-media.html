@@ -1,0 +1,42 @@
+{{- $globals := .globals -}}
+{{- $context := .context | default dict -}}
+{{- $options := .options | default dict -}}
+{{- $params := (merge $context $options) -}}
+{{- $modifier := cond (reflect.IsSlice $params.modifier) $params.modifier (cond (ne $params.modifier nil) (slice $params.modifier) dict ) -}}
+{{- $class_name := $params.class_name -}}
+{{- $mobile_ratio := $params.mobile_ratio -}}
+{{- $desktop_ratio := $params.desktop_ratio -}}
+{{- $focus_area := $params.focus_area -}}
+{{- $media := $params.media -}}
+{{- $caption := $params.caption -}}
+
+{{- $media_mobile := or (index $params  (print "media_" $mobile_ratio)) $media -}}
+{{- $media_desktop := or (index $params  (print "media_" $desktop_ratio)) $media -}}
+
+{{- $different_ratios := (ne $mobile_ratio $desktop_ratio) -}}
+
+{{- with $media -}}
+  <figure class="c-media{{ with $focus_area }} c-media-{{ . }}{{ end }}{{ range $modifier }} c-media--{{ . }}{{ end }}{{ with $class_name }} {{ . }}{{end}}">
+    {{- partial "utils/asset" (dict
+      "globals" $globals
+      "context" $media_mobile
+      "options" (merge $params (dict
+        "class_name" (print "c-media__asset" (cond $different_ratios " u-hidden@desktop" "") )
+        "ratio" $mobile_ratio
+      ))
+    ) -}}
+    {{- if $different_ratios -}}
+      {{- partial "utils/asset" (dict
+        "globals" $globals
+        "context" $media_desktop
+        "options" (merge $params (dict
+          "class_name" (print "c-media__asset" (cond $different_ratios " u-hidden@mobile" "") )
+          "ratio" $desktop_ratio
+        ))
+      ) -}}
+    {{- end -}}
+    {{- with $caption -}}
+      <figcaption>{{ . }}</figcaption>
+    {{- end -}}
+  </figure>
+{{- end -}}

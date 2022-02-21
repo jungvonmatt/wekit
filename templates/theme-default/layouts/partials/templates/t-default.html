@@ -1,0 +1,20 @@
+{{- $globals := .globals -}}
+{{- $context := .context | default dict -}}
+{{- $theme := $context.theme -}}
+{{- $stage := $context.stage -}}
+{{- $modules := $context.modules -}}
+
+<main class="t-default{{ with $theme }} u-theme--{{ . }}{{ end }}">
+  {{- with $stage -}}
+    {{- partial "utils/get-partial.html" (dict
+      "context" .
+      "globals" $globals
+    ) -}}
+  {{- end -}}
+  {{- range $modules -}}
+    {{- partial "utils/get-partial.html" (dict
+      "context" .
+      "globals" $globals
+    ) -}}
+  {{- end -}}
+</main>

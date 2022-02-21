@@ -1,0 +1,81 @@
+// 0. Hugo params
+$globalPrefix: "jvm";
+
+// Breakpoints
+$breakpoints: (
+  "sm": 640px,
+  "md": 768px,
+  "lg": 1024px,
+  "xl": 1280px,
+  "max": 1920px,
+);
+
+// Grid column sizes
+$grid-columns: (
+  1: #{1 / 12 * 100 + "%"},
+  2: #{2 / 12 * 100 + "%"},
+  3: #{3 / 12 * 100 + "%"},
+  4: #{4 / 12 * 100 + "%"},
+  5: #{5 / 12 * 100 + "%"},
+  6: #{6 / 12 * 100 + "%"},
+  7: #{7 / 12 * 100 + "%"},
+  8: #{8 / 12 * 100 + "%"},
+  9: #{9 / 12 * 100 + "%"},
+  10: #{10 / 12 * 100 + "%"},
+  11: #{11 / 12 * 100 + "%"},
+  12: #{12 / 12 * 100 + "%"},
+) !default;
+
+// This core file sets up inuitcss’ most important setup variables. They
+// underpin a lot of how the framework functions and should be modified and
+// preconfigured with caution.
+// https://github.com/inuitcss/inuitcss/blob/develop/settings/_settings.core.scss
+
+// Baseline grid lines height.
+// Every spacing metric should be based on this.
+$spacing-base: 8px !default;
+
+// How many grid lines should our spacing unit variants span?
+// Each value should be an unitless integer.
+$spacing-factor-xs: 1 !default; // 8px
+$spacing-factor-sm: 2 !default; // 16px
+$spacing-factor-md: 4 !default; // 32px
+$spacing-factor-lg: 8 !default; // 64px
+$spacing-factor-xl: 16 !default; // 128px
+
+// Spacing values are determined based on your project’s global baseline grid.
+// It is not recommended that you modify these following variables
+// (it can break your vertical rhythm), but if you need to, you can.
+
+$spacing-xs: $spacing-base * $spacing-factor-xs !default;
+$spacing-sm: $spacing-base * $spacing-factor-sm !default;
+$spacing-md: $spacing-base * $spacing-factor-md !default;
+$spacing-lg: $spacing-base * $spacing-factor-lg !default;
+$spacing-xl: $spacing-base * $spacing-factor-xl !default;
+
+// Base typographical styles.
+
+// $font-size-root affects the value of `rem`, which is used for as well font sizes, paddings, and margins
+// $font-size-md affects the font size of the body text
+$small-font-size: 0.875em !default;
+$font-size-root: 16px !default;
+$font-size-md: 1rem !default; // Assumes the browser default, typically `16px`
+$font-size-sm: $font-size-md * 0.875 !default;
+$font-size-lg: $font-size-md * 1.25 !default;
+$font-weight-lighter: lighter !default;
+$font-weight-light: 300 !default;
+$font-weight-normal: 400 !default;
+$font-weight-bold: 700 !default;
+$font-weight-bolder: bolder !default;
+$font-weight: $font-weight-normal !default;
+$line-height-xs: 1 !default;
+$line-height-sm: 1.25 !default;
+$line-height-md: 1.5 !default;
+$line-height-lg: 2 !default;
+$line-height-heading: 1 !default;
+$h1-font-size: $font-size-md * 2.5 !default;
+$h2-font-size: $font-size-md * 2 !default;
+$h3-font-size: $font-size-md * 1.5 !default;
+$h4-font-size: $font-size-md * 1.25 !default;
+$h5-font-size: $font-size-md * 1.125 !default;
+$h6-font-size: $font-size-md !default;

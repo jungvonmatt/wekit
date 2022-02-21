@@ -1,0 +1,20 @@
+{
+  "name": "lighthouse",
+  "version": "0.2.0",
+  "main": "main.js",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "prestart": "cd ../.. && npm run build -- -b https://localhost:3000/",
+    "start": "node main.js",
+    "report": "cd reports/ && lighthouse https://localhost:3000/ --chrome-flags=\"--headless --ignore-certificate-errors\" --view",
+    "report:mobile": "npm run report -- --config-path=\"../node_modules/lighthouse/lighthouse-core/config/lr-mobile-config.js\"",
+    "report:desktop": "npm run report -- --config-path=\"../node_modules/lighthouse/lighthouse-core/config/lr-desktop-config.js\""
+  },
+  "devDependencies": {
+    "compression": "^1.7.4",
+    "express": "^4.17.1",
+    "lighthouse": "^8.3.0",
+    "spdy": "^4.0.2"
+  }
+}

@@ -1,0 +1,12 @@
+{{- if eq . "bold" -}}
+  </strong>
+{{- else if eq . "italic" -}}
+  </em>
+{{- else if eq . "underline" -}}
+  </u>
+{{- else -}}
+  {{- partial "utils/not-found.html" (dict
+    "name" .
+    "inline" true
+  ) -}}
+{{- end -}}

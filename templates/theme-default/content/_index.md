@@ -1,0 +1,4 @@
+---
+type: storybook
+layout: blank
+---

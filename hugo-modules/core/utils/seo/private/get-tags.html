@@ -1,0 +1,124 @@
+{{/*
+	Print SEO meta tags
+
+	@author The New Dynamic
+
+	@access private
+
+	@context map [page (Page), seo (Map)] */}}
+
+{{/*------------------------------
+	WRITING TAGS
+  ------------------------------ */}}
+
+{{ $config := partialCached "utils/seo/private/get-config" "utils/seo/get-config" }}
+
+{{ $seo := partial "utils/seo/private/get-data" $ }}
+
+
+
+{{ $tags := slice }}
+{{ with $seo.title }}
+  {{ if not $config.disable_title_tag }}
+    {{ $tags = $tags | append (dict "name" "title" "inner" .) }}
+  {{ end }}
+  {{ $tags = $tags | append (partial "utils/seo/tag/all" (dict "key" "title" "value" .)) }}
+{{ end }}
+
+{{ with $seo.description }}
+  {{ $tags = $tags | append (partial "utils/seo/tag/default" (dict "key" "description" "value" .)) }}
+  {{ $tags = $tags | append (partial "utils/seo/tag/all" (dict "key" "description" "value" .)) }}
+{{ end }}
+
+{{ with $.Permalink }}
+{{ $tags = $tags | append (partial "utils/seo/tag/all" (dict "key" "url" "value" .)) }}
+{{ end }}
+
+{{ with $seo.site_name }}
+  {{ $c := dict "key" "site_name" "value" . }}
+  {{ $tags = $tags | append (partialCached "utils/seo/tag/og" $c $c) }}
+{{ end }}
+
+{{ with $seo.locale }}
+  {{ $c := dict "key" "locale" "value" .}}
+  {{ $tags = $tags | append (partialCached "utils/seo/tag/og" $c $c) }}
+{{ end }}
+
+{{ with $seo.translations }}
+  {{ range . }}
+  {{ $attr := dict "rel" "alternate" "href" .permalink "hreflang" .code }}
+  {{ $c := dict "name" "link" "attr" $attr }}
+  {{ $tags = $tags | append $c }}
+
+  {{ $c2 := dict "key" "locale:alternate" "value" .code}}
+  {{ $tags = $tags | append (partialCached "utils/seo/tag/og" $c2 $c2) }}
+  {{ end }}
+{{ end }}
+
+{{ with "website" }}
+{{ $c := dict "key" "type" "value" "website" }}
+{{ $tags = $tags | append (partialCached "utils/seo/tag/og" $c $c) }}
+{{ end }}
+
+
+{{ range $key := slice "published_time" "updated_time" }}
+  {{ with index $seo . }}
+  {{ $tags = $tags | append (partial "utils/seo/tag/og" (dict "key" $key "value" .)) }}
+  {{ end }}
+{{ end }}
+
+{{ with $seo.image }}
+  {{ $c := dict "key" "image" "value" . }}
+  {{ $tags = $tags | append (partialCached "utils/seo/tag/all" $c $c) }}
+  {{ with $seo.image_width }}
+    {{ $tags = $tags | append (partial "utils/seo/tag/og" (dict "key" "image:width" "value" .)) }}
+  {{ end }}
+  {{ with $seo.image_height }}
+    {{ $tags = $tags | append (partial "utils/seo/tag/og" (dict "key" "image:height" "value" .)) }}
+  {{ end }}
+{{ end }}
+
+{{ with $seo.twitter_card }}
+{{ $c := dict "key" "card" "value" . }}
+{{ $tags = $tags | append (partialCached "utils/seo/tag/twitter" $c $c) }}
+{{ end }}
+
+{{ with $seo.canonical }}
+  {{ $tags = $tags | append (partial "utils/seo/tag/default" (dict "key" "canonical" "value" .)) }}
+{{ end }}
+
+{{ with $seo.twitter_handle }}
+  {{ $c := dict "key" "site" "value" . }}
+  {{ $tags = $tags | append (partialCached "utils/seo/tag/twitter" $c $c) }}
+  {{ $c2 := dict "key" "creator" "value" . }}
+  {{ $tags = $tags | append (partialCached "utils/seo/tag/twitter" $c2 $c2) }}
+{{ end }}
+
+{{/* Dealing with private setting */}}
+{{ with $seo }}
+  {{ $value := "noindex, nofollow" }}
+  {{ $production := eq (getenv "HUGO_ENV") "production" }}
+  {{ $index := cond (eq .no_index true) "noindex" "index" }}
+  {{ $follow := cond (eq .no_follow true) "nofollow" "follow" }}
+
+  {{ if and $production }}
+    {{ $value = (print $index ", " $follow) }}
+  {{ end }}
+  {{ $c := dict "name" "meta" "attr" (dict "name" "robots" "content" $value) }}
+  {{ $tags = $tags | append $c }}
+
+  {{/* TBD: https://developers.google.com/search/docs/advanced/robots/robots_meta_tag */}}
+  {{ if (and $production (eq $index "index") (eq $follow "follow")) }}
+    {{ $c1 := dict "name" "meta" "attr" (dict "name" "googlebot" "content" "index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1") }}
+    {{ $tags = $tags | append $c1 }}
+    {{ $c2 := dict "name" "meta" "attr" (dict "name" "bingbot" "content" "index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1") }}
+    {{ $tags = $tags | append $c2 }}
+  {{ end }}
+{{ end }}
+
+{{ with $seo.jsonld }}
+  {{ $c := dict "name" "script" "inner" (. | jsonify | safeJS ) "attr" (dict "type" "application/ld+json") }}
+  {{ $tags = $tags | append $c }}
+{{ end }}
+
+{{ return $tags }}

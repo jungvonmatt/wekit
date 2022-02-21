@@ -1,0 +1,48 @@
+title: Storybook
+titleCaseStyle: Go
+ignoreFiles: []
+disableKinds:
+  - taxonomy
+  - term
+  - RSS
+  - sitemap
+  - robotsTXT
+  - "404"
+defaultContentLanguageInSubdir: false
+minify:
+  tdewolff:
+    html:
+      keepQuotes: true
+      keepWhitespace: true
+markup:
+  goldmark:
+    renderer:
+      unsafe: true
+mediaTypes:
+  text/x-markdown:
+    suffixes:
+      - stories.mdx
+  application/javascript:
+    suffixes:
+      - stories.js
+outputFormats:
+  MDX:
+    mediaType: text/x-markdown
+    baseName: docs
+  JS:
+    mediaType: application/javascript
+    baseName: canvas
+outputs:
+  page:
+    - JS
+  section:
+    - MDX
+module:
+  imports:
+    - path: github.com/jungvonmatt/wekit/hugo-modules/core
+imports:
+  mounts:
+    - source: layouts
+      target: layouts
+    - source: utils
+      target: layouts/partials/utils

@@ -1,0 +1,16 @@
+title: WEKit
+disableKinds:
+  - taxonomy
+  - term
+ignoreFiles:
+  - storybook
+disableHugoGeneratorInject: true
+enableRobotsTXT: true
+buildDrafts: true
+languageCode: en
+defaultContentLanguage: en
+defaultContentLanguageInSubdir: true
+sitemap:
+  changefreq: daily
+  filename: sitemap.xml
+  priority: 0.7

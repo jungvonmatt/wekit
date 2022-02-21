@@ -1,0 +1,19 @@
+sys:
+  id: 4wdah3xcrWxYoAiftmTUVm
+  content_type: c-link
+  created_at: '2021-12-15T22:44:01.819Z'
+  updated_at: '2021-12-15T22:44:01.819Z'
+name: 'Test Link: Asset'
+text: Link to asset
+
+link_to_asset:
+  mime_type: image/jpeg
+  url: >-
+    //images.ctfassets.net/jnaeogay42m9/1G5AwbuUgFleaN8ixcI9RM/28e3546e247daa7b413533e0eb80d195/aj-McsNra2VRQQ-unsplash.jpg
+  title: image-1-3x4
+  description: ''
+  width: 1836
+  height: 2448
+  file_size: 444731
+open_as_download: true
+appearance: link

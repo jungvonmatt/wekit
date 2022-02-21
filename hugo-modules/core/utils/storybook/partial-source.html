@@ -1,0 +1,25 @@
+{{/*
+  utils/storybook/partial-source
+  Render call to partial with given params.
+*/}}
+{{ $globals := .globals }}
+{{ $context := .context | default dict }}
+{{ $options := .options | default dict }}
+{{ $params := (merge $context $options) }}
+{{ $content_type := $params.content_type }}
+
+{{ $result := "" }}
+
+{{ if and $content_type }}
+  {{ $category := partial "utils/get-category-name" (dict "content_type" $content_type) }}
+  {{ $file_path := print $category "/" $content_type }}
+  {{- if templates.Exists (printf "partials/%s.html" $file_path) -}}
+    {{ with partial "utils/get-params" $context }}
+      {{ $params := partial "utils/storybook/dump" (dict "context" .) }}
+      {{ $options :=  partial "utils/storybook/dump" (dict "context" $options) }}
+      {{ $result = printf "{{ partial \"%s\" (dict \n  \"context\"  %s \n  \"options\" %s \n  \"globals\" $globals \n) }}" $file_path $params $options }}
+    {{ end }}
+  {{ end }}
+{{ end }}
+
+{{ return $result }}

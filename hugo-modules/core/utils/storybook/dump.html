@@ -1,0 +1,17 @@
+{{/*
+  utils/storybook/dump
+  Dump dict/slice with hugo template syntax.
+*/}}
+{{ $context := .context }}
+{{ $params := dict }}
+{{ $predefined := slice "iscjklanguage" "headless" "draft" }}
+
+{{ range $key, $val := $context }}
+  {{ if not (in $predefined $key)}}
+    {{ $params = merge $params (dict $key $val) -}}
+  {{ end }}
+{{ end }}
+
+{{ $result := $params | jsonify (dict "prefix" "  " "indent" "  ") | replaceRE ":" "" | replaceRE "{" "(dict" | replaceRE "}" ")" | replaceRE "\\[" "(slice" | replaceRE "\\]" ")" | replaceRE "," "" | safeHTMLAttr }}
+
+{{ return $result }}

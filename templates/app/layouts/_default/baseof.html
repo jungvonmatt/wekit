@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="{{ .Site.LanguageCode | default "en" }}">
+  <head>
+    {{ partial "structure/head.html" . }}
+  </head>
+  <body>
+    {{ block "header" . }}
+      {{ if templates.Exists "partials/modules/m-header.html" }}
+        {{ partial "modules/m-header.html" (dict
+          "context" .Params
+          "globals" $
+        ) }}
+      {{ end }}
+    {{ end }}
+    {{ block "main" . }}{{ end }}
+    {{ block "footer" . }}
+      {{ if templates.Exists "partials/modules/m-footer.html" }}
+        {{ partial "modules/m-footer.html" (dict
+            "context" .Params
+            "globals" $
+          ) }}
+      {{ end }}
+    {{ end }}
+    {{ partial "utils/svg/sprite" $ }}
+  </body>
+</html>

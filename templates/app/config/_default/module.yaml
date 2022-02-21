@@ -1,0 +1,18 @@
+imports:
+  - path: github.com/jungvonmatt/wekit/templates/theme-default
+    mounts:
+      - source: data
+        target: data/storybook
+      - source: assets
+        target: assets
+      - source: layouts
+        target: layouts
+      - source: content
+        target: content/storybook
+
+  - path: github.com/jungvonmatt/wekit/hugo-modules/core
+    mounts:
+      - source: layouts
+        target: layouts
+      - source: utils
+        target: layouts/partials/utils

@@ -1,0 +1,32 @@
+.u-theme--light {
+  --#{$color}-text: var(--#{$color}-gray-900);
+  --#{$color}-text-silent: var(--#{$color}-gray-700);
+  --#{$color}-highlight: var(--#{$color}-primary-500);
+  --#{$color}-background: var(--#{$color}-white);
+  --#{$color}-text-overlay: rgba(255, 255, 255, 0.4);
+
+  background-color: var(--#{$color}-background);
+  color: var(--#{$color}-text);
+}
+
+.u-theme--dark {
+  --#{$color}-text: var(--#{$color}-white);
+  --#{$color}-text-silent: var(--#{$color}-gray-200);
+  --#{$color}-highlight: var(--#{$color}-primary-500);
+  --#{$color}-background: var(--#{$color}-gray-900);
+  --#{$color}-text-overlay: rgba(0, 0, 0, 0.3);
+
+  background-color: var(--#{$color}-background);
+  color: var(--#{$color}-text);
+}
+
+.u-theme--dark > .u-theme--light,
+.u-theme--light > .u-theme--dark {
+  padding-top: var(--#{$spacing}, 0);
+  padding-bottom: var(--#{$spacing}, 0);
+}
+
+.u-theme--dark > .u-theme--light + .u-theme--light,
+.u-theme--light > .u-theme--dark + .u-theme--dark {
+  margin-top: calc(-1 * var(--#{$spacing}, 0));
+}

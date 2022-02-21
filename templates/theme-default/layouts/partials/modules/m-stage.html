@@ -1,0 +1,72 @@
+{{- $globals := .globals -}}
+{{- $context := .context | default dict -}}
+{{- $options := .options | default dict -}}
+{{- $params := (merge $context $options) -}}
+{{- $modifier := cond (reflect.IsSlice $params.modifier) $params.modifier (cond (ne $params.modifier nil) (slice $params.modifier) dict ) -}}
+{{- $class_name := $params.class_name -}}
+
+{{- $title := $params.title -}}
+{{- $subtitle := $params.subtitle -}}
+{{- $text := $params.text -}}
+{{- $media := $params.media -}}
+{{- $layout := $params.layout | default "split" -}}
+{{- $links := $params.links | default dict -}}
+{{- $content := $params.content -}}
+{{- $layout := $params.layout | default "default" -}}
+
+{{- $partialPath := printf "modules/m-stage/%s.html" $layout -}}
+{{- if and (ne $layout "default") (templates.Exists ( printf "partials/%s" $partialPath )) -}}
+  {{- partial $partialPath . -}}
+{{- else -}}
+  <section class="m-stage m-stage--{{ $layout }}{{ range $modifier }} m-stage--{{ . }}{{ end }}{{ with $layout }} m-stage--{{ . }}{{end}}{{ with $class_name }} {{ . }}{{end}}">
+    <div class="m-stage__body">
+      {{- with $media -}}
+        {{- partial "utils/get-partial" (dict
+          "context" .
+          "globals" $globals
+          "options" (dict  "class_name" "m-stage__media" "lazy" false "decoding" "auto" "sizes" "50vw")
+        ) -}}
+      {{- end -}}
+      <div class="m-stage__content">
+        {{- with $title -}}
+          {{- partial "components/c-headline" (dict
+            "globals" $globals
+            "context" (dict "tag" "h1" "class_name" "m-stage__title" "text" . )
+          ) -}}
+        {{- end -}}
+        {{- with $subtitle -}}
+          {{- partial "components/c-headline" (dict
+            "globals" $globals
+            "context" (dict "tag" "h2" "class_name" "m-stage__subtitle" "text" . )
+          ) -}}
+        {{- end -}}
+        {{- with $text -}}
+          {{- partial "components/c-text" (dict
+            "globals" $globals
+            "context" (dict "class_name" "m-stage__text" "text" . )
+          ) -}}
+        {{- end -}}
+        <div class="m-stage__links">
+        {{- range $links -}}
+          {{- with partialCached "utils/get-params" . . -}}
+            {{- partial "components/c-link" (dict
+              "context" .
+              "globals" $globals
+              "options" (dict "class_name" "m-stage__link" "appearance" "button" "modifier" "solid")
+            ) -}}
+          {{- end -}}
+        {{- end -}}
+        </div>
+        {{ range $content }}
+          {{ partialCached "utils/get-partial.html" (dict
+            "context" .
+            "globals" $globals
+            "options" (dict
+              "class_name" "u-mb-24"
+            )
+          ) . }}
+        {{ end }}
+      </div>
+    </div>
+  </section>
+{{- end -}}

@@ -1,0 +1,170 @@
+text:
+  node_type: document
+  data: {}
+  content:
+    - node_type: heading-1
+      content:
+        - node_type: text
+          value: Headline 1
+          marks: []
+          data: {}
+      data: {}
+    - node_type: heading-2
+      content:
+        - node_type: text
+          value: Headline 2
+          marks: []
+          data: {}
+      data: {}
+    - node_type: heading-3
+      content:
+        - node_type: text
+          value: Headline 3
+          marks: []
+          data: {}
+      data: {}
+    - node_type: heading-4
+      content:
+        - node_type: text
+          value: Headline 4
+          marks: []
+          data: {}
+      data: {}
+    - node_type: heading-5
+      content:
+        - node_type: text
+          value: Headline 5
+          marks: []
+          data: {}
+      data: {}
+    - node_type: heading-6
+      content:
+        - node_type: text
+          value: Headline 5
+          marks: []
+          data: {}
+      data: {}
+    - node_type: hr
+      content: []
+      data: {}
+    - node_type: paragraph
+      content:
+        - node_type: text
+          value: |
+            Paragraph
+          marks: []
+          data: {}
+        - node_type: text
+          value: |
+            Bold
+          marks:
+            - bold
+          data: {}
+        - node_type: text
+          value: |
+            Italic
+          marks:
+            - italic
+          data: {}
+        - node_type: text
+          value: |
+            Underline
+          marks:
+            - underline
+          data: {}
+      data: {}
+    - node_type: hr
+      content: []
+      data: {}
+    - node_type: blockquote
+      content:
+      - node_type: paragraph
+        content:
+          - node_type: text
+            value: >-
+              Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam
+              nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam
+              erat, sed diam voluptua.
+            marks: []
+            data: {}
+      data: {}
+
+    - node_type: hr
+      content: []
+      data: {}
+    - node_type: unordered-list
+      content:
+        - node_type: list-item
+          content:
+            - node_type: paragraph
+              content:
+                - node_type: text
+                  value: List item
+                  marks: []
+                  data: {}
+              data: {}
+          data: {}
+        - node_type: list-item
+          content:
+            - node_type: paragraph
+              content:
+                - node_type: text
+                  value: List item
+                  marks: []
+                  data: {}
+              data: {}
+          data: {}
+        - node_type: list-item
+          content:
+            - node_type: paragraph
+              content:
+                - node_type: text
+                  value: List item
+                  marks: []
+                  data: {}
+              data: {}
+          data: {}
+      data: {}
+    - node_type: hr
+      content: []
+      data: {}
+    - node_type: ordered-list
+      content:
+        - node_type: list-item
+          content:
+            - node_type: paragraph
+              content:
+                - node_type: text
+                  value: List item
+                  marks: []
+                  data: {}
+              data: {}
+          data: {}
+        - node_type: list-item
+          content:
+            - node_type: paragraph
+              content:
+                - node_type: text
+                  value: List item
+                  marks: []
+                  data: {}
+              data: {}
+          data: {}
+        - node_type: list-item
+          content:
+            - node_type: paragraph
+              content:
+                - node_type: text
+                  value: List item
+                  marks: []
+                  data: {}
+              data: {}
+          data: {}
+      data: {}
+    - node_type: paragraph
+      content:
+        - node_type: text
+          value: ''
+          marks: []
+          data: {}
+      data: {}

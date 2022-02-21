@@ -1,0 +1,20 @@
+{{/*
+  utils/get-category-name
+  Get category name by prefix of content_type.
+
+  @example - Go Template
+    {{ partial "utils/get-category-name" (dict "content_type" $content_type) }}
+*/}}
+{{- $content_type := .content_type -}}
+
+{{- $result := "" -}}
+
+{{- if hasPrefix $content_type "t-" -}}
+  {{- $result = "templates" -}}
+{{- else if hasPrefix $content_type "m-" -}}
+  {{- $result = "modules" -}}
+{{- else if hasPrefix $content_type "c-" -}}
+  {{- $result = "components" -}}
+{{- end -}}
+
+{{- return $result -}}

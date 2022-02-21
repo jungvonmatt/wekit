@@ -1,0 +1,127 @@
+
+{{/*
+  utils/svg/parse
+  Parse svg icon from contentful or file. Returns dict with:
+   - id
+   - size
+   - width
+   - height
+   - src
+   - svg
+   - symbol
+
+  Can be either called with contentful svg asset or with a filename from /assets/icons/
+
+  @example - Go Template (/assets/icons/arrow.svg  or /themes/.../assets/icons/arrow.svg)
+
+    {{ partial "utils/svg/parse" (dict
+      "id" "arrow"
+    ) }}
+
+
+  @example - Go Template (/assets/icons/arrow.svg  or /themes/.../assets/icons/arrow.svg)
+
+    {{ partial "utils/svg/parse" (dict
+      "path" "icons/arrow.svg"
+    ) }}
+
+  @example - Go Template (contentful)
+
+    {{ partial "utils/svg/parse" (dict
+      mime_type: image/svg+xml
+      url: //images.ctfassets.net/jnaeogay42m9/2CRG2n8CVmH4JsVyuf66r/3fa2197a618f677d6f7b1b94ac285f09/arrow-right.svg
+      source: ...
+    ) }}
+*/}}
+
+{{- $id := .id -}}
+{{- $path := .path | default (printf "icons/%s.svg" $id) -}}
+{{- $class := .class_name | default "" -}}
+{{- $dest_width := .width }}
+{{- $dest_height := .height }}
+
+{{/* find source file */}}
+{{ $source := "" }}
+{{ $src := "" }}
+{{ $size := 0 }}
+{{ $width := 0 }}
+{{ $height := 0 }}
+{{ with .source }}
+  {{ $source = . }}
+{{ end }}
+{{ with .url }}
+  {{ $src = cond (hasPrefix . "//") (print "https:" .) . }}
+  {{ with resources.GetRemote $src }}
+    {{ $src = .RelPermalink }}
+    {{ $source = .Content }}
+    {{ $size = len .Content }}
+    {{ if not $id }}
+      {{ $id = replace .Name ".svg" "" }}
+    {{ end }}
+  {{ end }}
+{{ end }}
+{{ if eq $source "" }}
+  {{ with resources.Get $path }}
+    {{ $source = .Content  }}
+    {{ $src = .RelPermalink }}
+    {{ $size = len .Content }}
+    {{ if not $id }}
+      {{ $id = replace .Name ".svg" "" }}
+    {{ end }}
+  {{ end }}
+{{ end }}
+
+{{ $symbol := "" }}
+{{ $svg := "" }}`.*width=\"(\d+)[^\"]*\".*$`gmi
+
+{{ with $source }}
+  {{ $tag_markup := index (findRE "<\\s*\\/?\\s*(svg|symbol)\\s*" . 1) 0 }}
+  {{ $tag := replaceRE "^\\s*<((?:svg)|(?:symbol)).*" "${1}" $tag_markup }}
+  {{ $width_markup := index (findRE "<\\s*\\/?\\s*svg\\s*[^>]*width=\"([^\"]+)\"" . 1) 0 }}
+  {{ $height_markup := index (findRE "<\\s*\\/?\\s*svg\\s*[^>]*height=\"([^\"]+)\"" . 1) 0 }}
+  {{ $viewbox_markup := index (findRE "<\\s*\\/?\\s*svg\\s*[^>]*view[bB]ox=\"([^\"]+)\"" . 1) 0 }}
+
+  {{/* {{ $height_markup }}
+  {{ $viewbox_markup }} */}}
+  {{ with $width_markup }}
+    {{ $width = replaceRE "<\\s*\\/?\\s*svg\\s*[^>]*width=\"(\\d+)[^\"]*\".*$" "${1}" . }}
+  {{ else }}
+    {{ with $viewbox_markup }}
+      {{ $w1 := replaceRE "<\\s*\\/?\\s*svg\\s*[^>]*view[bB]ox=\"\\s*(\\d+)\\s+\\d+\\s+\\d+\\s+\\d+\\s*\".*" "${1}" . }}
+      {{ $w2 := replaceRE "<\\s*\\/?\\s*svg\\s*[^>]*view[bB]ox=\"\\s*\\d+\\s+\\d+\\s+(\\d+)\\s+\\d+\\s*\".*" "${1}" . }}
+      {{ $width = sub (float $w2) (float $w1) }}
+    {{ end }}
+  {{ end }}
+
+  {{ with $height_markup }}
+    {{ $height = replaceRE "<\\s*\\/?\\s*svg\\s*[^>]*height=\"(\\d+)[^\"]*\".*" "${1}" . }}
+  {{ else }}
+    {{ with $viewbox_markup }}
+      {{ $h1 := replaceRE "<\\s*\\/?\\s*svg\\s*[^>]*view[bB]ox=\"\\s*\\d+\\s+(\\d+)\\s+\\d+\\s+\\d+\\s*\".*" "${1}" . }}
+      {{ $h2 := replaceRE "<\\s*\\/?\\s*svg\\s*[^>]*view[bB]ox=\"\\s*\\d+\\s+\\d+\\s+\\d+\\s+(\\d+)\\s*\".*" "${1}" . }}
+      {{ $height = sub (float $h2) (float $h1) }}
+    {{ end }}
+  {{ end }}
+
+  {{ $viewbox := or (replaceRE "<\\s*\\/?\\s*svg\\s*[^>]*view[bB]ox=\"([^\"]+)\".*" "${1}" ($viewbox_markup))  (printf "0 0 %s %s" $width $height) }}
+
+  {{ $symbol = replaceRE (print "<" $tag ".*?>") (printf "<symbol id=\"%s\" viewBox=\"%s\">" $id $viewbox) . }}
+  {{ $symbol = replaceRE (print "</" $tag ".*?>") "</symbol>" $symbol }}
+  {{ $symbol = replaceRE "(\\n(\\p{Z}+)?)+" "" $symbol }}
+  {{ $svg = replaceRE (print "<" $tag ".*?>") (printf "<svg class=\"%s\" width=\"%.f\" height=\"%.f\" viewBox=\"%s\"  xmlns=\"http://www.w3.org/2000/svg\">" $class (float (or $dest_width $width)) (float (or  $dest_height $height)) $viewbox) . }}
+  {{ $svg = replaceRE (print "</" $tag ".*?>") "</svg>" $svg }}
+  {{ $svg = replaceRE "(\\n(\\p{Z}+)?)+" "" $svg }}
+{{ end }}
+
+{{ $result := (dict
+  "id" $id
+  "source" $source
+  "size" $size
+  "width" (float $width)
+  "height" (float $height)
+  "src" $src
+  "svg" $svg
+  "symbol" $symbol
+)}}
+
+{{ return $result }}

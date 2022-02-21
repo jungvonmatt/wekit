@@ -1,0 +1,10 @@
+sys:
+  id: 5AJOw6gZOU06OYIWbzS7Qx
+  content_type: c-link
+  created_at: '2021-12-15T22:44:39.370Z'
+  updated_at: '2021-12-17T14:26:37.293Z'
+name: 'Test Link: URL'
+text: Link to url
+link_to_url: https://www.google.de
+query: '?a=b#c=d'
+appearance: button

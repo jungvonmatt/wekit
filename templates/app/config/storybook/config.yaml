@@ -1,0 +1,47 @@
+contentDir: content/storybook
+ignoreFiles: []
+disableKinds:
+  - taxonomy
+  - term
+  - RSS
+  - sitemap
+  - robotsTXT
+  - "404"
+titleCaseStyle: Go
+disableLanguages:
+  - de
+  - en
+languageCode: sk
+defaultContentLanguage: sk
+defaultContentLanguageInSubdir: false
+languages:
+  sk:
+    contentDir: content/storybook
+minify:
+  tdewolff:
+    html:
+      keepQuotes: true
+      keepWhitespace: true
+markup:
+  goldmark:
+    renderer:
+      unsafe: true
+mediaTypes:
+  text/x-markdown:
+    suffixes:
+      - stories.mdx
+  application/javascript:
+    suffixes:
+      - stories.js
+outputFormats:
+  MDX:
+    mediaType: text/x-markdown
+    baseName: docs
+  JS:
+    mediaType: application/javascript
+    baseName: canvas
+outputs:
+  page:
+    - JS
+  section:
+    - MDX

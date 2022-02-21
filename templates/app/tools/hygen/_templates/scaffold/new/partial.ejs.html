@@ -1,0 +1,18 @@
+---
+to: layouts/partials/<%= category %>/<%= contentType %>.html
+unless_exists: true
+---
+{{- $globals := .globals -}}
+{{- $context := .context | default dict -}}
+{{- $options := .options | default dict -}}
+{{- $params := (merge $context $options) -}}
+
+{{- $class_name := partialCached "utils/get-class-names" (dict
+  "class" "<%= contentType %>"
+  "context" $params
+) . -}}
+
+<div class="{{- $class_name -}}">
+    <!-- Put your partial code here -->
+</div>
+

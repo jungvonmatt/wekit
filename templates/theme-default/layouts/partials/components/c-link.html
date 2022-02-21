@@ -1,0 +1,68 @@
+{{- $globals := .globals -}}
+{{- $context := .context | default dict -}}
+
+{{- if strings.HasSuffix (printf "%#T" $context) "navigation.MenuEntry" -}}
+  {{- with partial "utils/get-params" $context.Params -}}
+    {{- $context = . -}}
+  {{- else -}}
+    {{- $context = dict -}}
+  {{- end -}}
+{{- end -}}
+
+{{- $options := .options | default dict -}}
+{{- $params := (merge $context $options) -}}
+{{- $modifier := cond (reflect.IsSlice $params.modifier) $params.modifier (cond (ne $params.modifier nil) (slice $params.modifier) dict ) -}}
+{{- $class_name := $params.class_name -}}
+{{- $appearance := $params.appearance -}}
+{{- $text := $params.text -}}
+{{- $icon := $params.icon -}}
+{{- $query := $params.query -}}
+{{- $target_blank := $params.target_blank -}}
+{{- $open_as_download := $params.open_as_download | default false -}}
+
+{{/* Build class */}}
+{{- $class := "c-link" -}}
+{{- range $modifier -}}
+  {{- $class = (print $class " c-link--" . ) -}}
+{{- end -}}
+{{- with $appearance -}}
+  {{- $class = (print $class " c-link--" . ) -}}
+{{- end -}}
+{{- with $class_name -}}
+  {{- $class = (print $class " " . ) -}}
+{{- end -}}
+
+{{ $attributes := partial "components/c-link/attributes" $params }}
+
+{{/* Determine tag based on the presence of a href */}}
+{{- $tag := "button" -}}
+{{- with $attributes.href -}}
+  {{- $tag = "a" -}}
+{{- end -}}
+
+{{/* Compute inner */}}
+{{- $inner := "" -}}
+{{- with $icon -}}
+  {{- $img := partial "utils/asset" (dict "context" . "globals" $globals "options" (dict "inline" true)) -}}
+  {{- $inner = print "<span class=\"c-link__icon\">" $img "</span>" }}
+{{- end -}}
+{{- with $text -}}
+  {{- $inner = print $inner "<span class=\"c-link__text\">" . "</span>" }}
+{{- end -}}
+{{- if eq $inner "" -}}
+  {{- with $attributes.text -}}
+    {{- $inner = print "<span class=\"c-link__text\">" . "</span>" }}
+  {{- end -}}
+{{- end -}}
+
+{{/* Render link */}}
+{{- with partialCached "utils/html/tag" (dict
+  "name" $tag
+  "inner" $inner
+  "attr" (merge $attributes (dict
+    "class" $class
+    "role" (cond (and (eq $appearance "button") (ne $tag "button")) "button" "")
+  ))
+  ) . -}}
+  {{ . | safeHTML }}
+{{- end -}}

@@ -1,0 +1,9 @@
+{{/*
+  utils/get-settings
+  Get contentful settings (d-settings).
+
+  @example - Go Template
+    {{ partial "utils/get-settings" }}
+*/}}
+{{ $data := or (index site.Data site.LanguageCode) dict }}
+{{ return or $data.settings dict }}

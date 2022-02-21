@@ -1,0 +1,65 @@
+{{- $globals := .globals -}}
+{{- $context := .context | default dict -}}
+{{- $options := .options | default dict -}}
+{{- $params := (merge $context $options) -}}
+
+{{- with $params.settings -}}
+  {{- with partial "utils/get-data" . -}}
+    {{- $params = (merge . $params) -}}
+  {{- end -}}
+{{- end -}}
+
+{{- $class_name := partialCached "utils/get-class-names" (dict
+  "class" "m-columns"
+  "context" $params
+) . -}}
+
+{{- $header := $params.header -}}
+{{- $body := $params.body -}}
+{{- $layout := $params.layout -}}
+{{- $column_left := $params.column_left | default slice -}}
+{{- $column_right := $params.column_right | default slice -}}
+
+
+<section class="m-section {{ with $class_name }}{{ . }}{{ end }}">
+  <div class="o-wrapper">
+    {{- with $header -}}
+      {{- partial "utils/get-partial" (dict
+        "globals" $globals
+        "context" .
+        )
+      -}}
+    {{- end -}}
+    <div class="m-columns__body">
+      {{- range (slice $column_left $column_right) -}}
+        <div class="m-columns__col">
+          {{- $content := . -}}
+          {{- if not (reflect.IsSlice .) -}}
+            {{- $content = slice . -}}
+          {{- end -}}
+          {{- range $content -}}
+            {{ if eq .node_type "document" }}
+              {{ partial "components/c-text.html" (dict
+                "context" (dict "text" .)
+                "globals" $globals
+                "options" (dict
+                "layout" $layout
+                )
+                )
+              }}
+            {{ else }}
+              {{ partial "utils/get-partial.html" (dict
+                "context" .
+                "globals" $globals
+                "options" (dict
+                "layout" $layout
+                )
+                )
+              }}
+            {{- end -}}
+          {{- end -}}
+        </div>
+      {{- end -}}
+    </div>
+  </div>
+</section>

@@ -1,0 +1,59 @@
+{{- $params := . -}}
+{{- $query := $params.query -}}
+{{- $target_blank := $params.target_blank -}}
+{{- $open_as_download := $params.open_as_download | default false -}}
+
+
+{{/* Get link object */}}
+{{- $link := dict -}}
+{{- with $params.link_to_url -}}
+  {{- $link = partial "utils/link" . -}}
+{{- end -}}
+{{- with $params.link_to_asset -}}
+  {{- $open_as_download =  $params.open_as_download | default true -}}
+  {{- with .url -}}
+    {{- with partial "utils/link" . -}}
+      {{- $link = . -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+{{- with $params.link_to_entry -}}
+  {{- with partial "utils/link" . -}}
+    {{- $link = . -}}
+  {{- end -}}
+{{- end -}}
+
+{{- with $params.content_type -}}
+  {{- if eq . "page" }}
+    {{- $link = partial "utils/link" $params -}}
+  {{- end -}}
+{{- end -}}
+{{- with $params.sys -}}
+  {{- if eq .content_type "page" }}
+    {{- $link = partial "utils/link" . -}}
+  {{- end -}}
+{{- end -}}
+
+{{/* Compute download attribute */}}
+{{- $download := false -}}
+{{- with $open_as_download -}}
+  {{- with $link.href -}}
+    {{ $download = replaceRE ".*//.*/([^/?]+).*$" "$1" $link.href }}
+  {{- end -}}
+{{- end -}}
+
+{{/* Add query */}}
+{{- with $query -}}
+  {{- with $link.href -}}
+    {{- $link = merge $link (dict "href" (print . $query)) -}}
+  {{- end -}}
+{{- end -}}
+
+{{- $tag := "button" -}}
+{{- with $link.href -}}
+  {{- $tag = "a" -}}
+{{- end -}}
+
+{{ return (merge $link (dict
+  "download" $download
+)) }}

@@ -1,0 +1,25 @@
+title: Title
+subtitle: Subtitle
+text:
+  data: {}
+  content:
+    - data: {}
+      content:
+        - data: {}
+          marks:
+            - bold
+          value: Lorem ipsum
+          node_type: text
+        - data: {}
+          marks: []
+          value: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr.'
+          node_type: text
+      node_type: paragraph
+  node_type: document
+media:
+  id: with-mobile-and-desktop-src
+  content_type: c-image
+links:
+  - id: button
+    content_type: c-link
+layout: split

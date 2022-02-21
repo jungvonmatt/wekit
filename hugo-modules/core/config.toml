@@ -1,0 +1,12 @@
+[module]
+[module.hugoVersion]
+extended = true
+min = "0.91.0"
+
+[[module.mounts]]
+source = "layouts"
+target = "layouts"
+
+[[module.mounts]]
+source = "utils"
+target = "layouts/partials/utils"

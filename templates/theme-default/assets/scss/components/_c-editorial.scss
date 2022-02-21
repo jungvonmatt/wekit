@@ -1,0 +1,92 @@
+.c-editorial {
+  $self: &;
+
+  overflow: hidden;
+  border-radius: var(--#{$radii}-normal, 0);
+  contain: layout style inline-size;
+  background-color: rgba(128, 128, 128, 0.1);
+  /* stylelint-disable-next-line property-no-unknown */
+  container: inline-size;
+
+  &__inner {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    height: var(--c-editorial-height, auto);
+    word-wrap: break-word;
+  }
+
+  &__body {
+    // Enable `flex-grow: 1` for decks and groups so that card blocks take up
+    // as much space as possible, ensuring footers are aligned to the bottom.
+    flex: 1 1 auto;
+    padding: var(--#{$spacing}-md) var(--#{$spacing}-md);
+  }
+
+  &__title {
+    margin-top: 0;
+  }
+
+  &__subtitle {
+    margin-top: 0;
+  }
+
+  &__text:last-child {
+    margin-bottom: 0;
+  }
+
+  // Card image
+  &--image-overlay &__inner {
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+  }
+
+  &__media {
+    width: 100%; // Required because we use flexbox and this inherently applies align-self: stretch
+    margin: 0;
+
+    figcaption {
+      display: none;
+    }
+  }
+
+  &--image-overlay &__media {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: -1;
+    overflow: hidden;
+  }
+}
+
+@include respond-above("md", true) {
+  .c-editorial__body {
+    flex: 1 1 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+  }
+
+  .c-editorial__media {
+    flex: 1 1 50%;
+
+    img {
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+
+  .c-editorial__inner {
+    flex-direction: row-reverse;
+    align-items: stretch;
+  }
+
+  .c-editorial--image-left .c-editorial__inner {
+    flex-direction: row;
+  }
+}

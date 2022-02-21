@@ -1,0 +1,38 @@
+{{- $globals := .globals -}}
+{{- $context := .context | default dict -}}
+{{- $options := .options | default dict -}}
+{{- $params := (merge (cond (partial "utils/reflect/is-string" $context) (dict "name" $context) $context) $options) -}}
+{{- $modifier := cond (reflect.IsSlice $params.modifier) $params.modifier (cond (ne $params.modifier nil) (slice $params.modifier) dict ) -}}
+{{- $class_name := $params.class_name -}}
+{{- $name := $params.name -}}
+{{- $entries := $params.entries -}}
+
+
+<nav
+  class="c-menu{{ range $modifier }} c-menu--{{ . }}{{ end }}{{ with $class_name }} {{ . }}{{ end }}"
+  {{ with $name }}aria-label="{{ . }}"{{ end }}
+>
+  <ul>
+    {{- with (index site.Menus $name) -}}
+      {{- range . -}}
+        <li>
+          {{- with .Params -}}
+            {{- if eq .content_type "x-folder" -}}
+              {{- with partial "utils/get-params" . -}}
+                <span class="c-menu__item">{{ .label }}</span>
+              {{- end -}}
+            {{- else -}}
+              {{- with partial "utils/get-params" . -}}
+                {{- partial "components/c-link" (dict
+                  "context" .
+                  "globals" $globals
+                  "options" (dict "class_name" "c-menu__item")
+                ) -}}
+              {{- end -}}
+            {{- end -}}
+          {{- end -}}
+        </li>
+      {{- end -}}
+    {{- end -}}
+  </ul>
+</nav>

@@ -1,0 +1,15 @@
+.u-hidden {
+  display: none;
+}
+
+.u-hidden\@mobile {
+  @include respond-below("md") {
+    display: none;
+  }
+}
+
+.u-hidden\@desktop {
+  @include respond-above("md") {
+    display: none;
+  }
+}

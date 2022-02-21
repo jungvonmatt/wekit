@@ -1,0 +1,17 @@
+name: Test Card
+title: Title
+subtitle: Subtitle
+text:
+  data: {}
+  content:
+    - data: {}
+      content:
+        - data: {}
+          marks: []
+          value: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr.'
+          node_type: text
+      node_type: paragraph
+  node_type: document
+links:
+  - id: button
+    content_type: c-link

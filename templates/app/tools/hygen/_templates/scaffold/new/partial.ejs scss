@@ -1,0 +1,7 @@
+---
+to: assets/scss/<%= category %>/_<%= h.changeCase.paramCase(contentType) %>.scss
+unless_exists: true
+---
+.<%= h.changeCase.paramCase(contentType) %> {
+  $self: &;
+}

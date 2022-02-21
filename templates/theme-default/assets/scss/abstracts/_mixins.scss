@@ -1,0 +1,139 @@
+/* stylelint-disable block-closing-brace-space-before */
+
+/**
+ * Media query: Respond above
+ * @param {String} $key
+ * @param {Boolean} $key
+ * @require $breakpoints
+ */
+@mixin respond-above($key, $container-query: false) {
+  @if map-has-key($breakpoints, $key) {
+    @if $container-query {
+      @media (min-width: #{map-get($breakpoints, $key)}) {
+        html:not(.cq) #{ if(&, "&", "*") } { @content; };
+      }
+
+      /* stylelint-disable-next-line scss/at-rule-no-unknown, at-rule-no-unknown */
+      @container (min-width: #{map-get($breakpoints, $key)}) {
+        @content;
+      }
+    } @else {
+      @media (min-width: #{map-get($breakpoints, $key)}) {
+        @content;
+      }
+    }
+  }
+
+  @else {
+    @warn "Invalid breakpoint: #{$key}.";
+  }
+}
+
+/**
+ * Media query: Respond below
+ * @param {String} $key
+ * @require $breakpoints
+ */
+@mixin respond-below($key, $container-query: false) {
+  @if map-has-key($breakpoints, $key) {
+    @if $container-query {
+      @media (max-width: #{map-get($breakpoints, $key)}) {
+        html:not(.cq) #{ if(&, "&", "*") } { @content; };
+      }
+
+      /* stylelint-disable-next-line scss/at-rule-no-unknown, at-rule-no-unknown */
+      @container (max-width: #{map-get($breakpoints, $key) - 1}) {
+        @content;
+      }
+    } @else {
+      @media (max-width: #{map-get($breakpoints, $key) - 1}) {
+        @content;
+      }
+    }
+  }
+
+  @else {
+    @warn "Invalid breakpoint: #{$key}.";
+  }
+}
+
+/**
+ * Media query: Respond between
+ * @param {String} $lower
+ * @param {String} $upper
+ * @require $breakpoints
+ */
+@mixin respond-between($lower, $upper) {
+  @if map-has-key($breakpoints, $lower) and map-has-key($breakpoints, $upper) {
+    @media (min-width: #{map-get($breakpoints, $lower)}) and (max-width: #{map-get($breakpoints, $upper) - 1}) {
+      @content;
+    }
+  }
+
+  @else {
+    @if (map-has-key($breakpoints, $lower) == false) {
+      @warn "Your lower breakpoint was invalid: #{$lower}.";
+    }
+
+    @if (map-has-key($breakpoints, $upper) == false) {
+      @warn "Your upper breakpoint was invalid: #{$upper}.";
+    }
+  }
+}
+
+/**
+ * CLEARFIX
+ * Mixin to drop micro clearfix into a selector. Further reading:
+ * http://www.cssmojo.com/the-very-latest-clearfix-reloaded/
+
+ * .usage {
+ *   @include clearfix();
+ * }
+ */
+@mixin clearfix() {
+  &::after {
+    content: "" !important;
+    display: block !important;
+    clear: both !important;
+  }
+}
+
+@mixin color-shades($name, $value) {
+  --#{$color}-#{$name}-50: #{mix(white, $value, 95%)};
+  --#{$color}-#{$name}-100: #{mix(white, $value, 80%)};
+  --#{$color}-#{$name}-200: #{mix(white, $value, 60%)};
+  --#{$color}-#{$name}-300: #{mix(white, $value, 40%)};
+  --#{$color}-#{$name}-400: #{mix(white, $value, 20%)};
+  --#{$color}-#{$name}-500: #{$value};
+  --#{$color}-#{$name}-600: #{mix(black, $value, 20%)};
+  --#{$color}-#{$name}-700: #{mix(black, $value, 40%)};
+  --#{$color}-#{$name}-800: #{mix(black, $value, 60%)};
+  --#{$color}-#{$name}-900: #{mix(black, $value, 80%)};
+  --#{$color}-#{$name}-950: #{mix(black, $value, 95%)};
+}
+
+@function strip-unit($value) {
+  @return $value / ($value * 0 + 1);
+}
+
+@mixin fluid-type($min-vw, $max-vw, $min-font-size, $max-font-size) {
+  $u1: unit($min-vw);
+  $u2: unit($max-vw);
+  $u3: unit($min-font-size);
+  $u4: unit($max-font-size);
+
+  @if $u1 == $u2 and $u1 == $u3 and $u1 == $u4 {
+    & {
+      font-size: $min-font-size;
+
+      @media (min-width: $min-vw) {
+        /* stylelint-disable-next-line max-line-length */
+        font-size: calc(#{$min-font-size} + #{strip-unit($max-font-size - $min-font-size)} * ((100vw - #{$min-vw}) / #{strip-unit($max-vw - $min-vw)}));
+      }
+
+      @media (min-width: $max-vw) {
+        font-size: $max-font-size;
+      }
+    }
+  }
+}

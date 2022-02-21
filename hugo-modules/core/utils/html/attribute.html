@@ -1,0 +1,39 @@
+{{/*
+  utils/html/attribute
+  Render HTML attributes.
+
+  @context Map
+    String (.key)
+    Any (.value)
+
+  @example - Go Template
+    {{ $attr := partialCached "utils/html/attribute" (dict
+      "key" "value"
+      "data" (dict "index" 2)
+      "disabled" true
+    ) }}
+
+  @example - Output
+    key="value" data-index="2" disabled
+*/}}
+{{ $result := slice }}
+{{ range $key, $value := . }}
+  {{ with $value }}
+    {{ $type := (printf "%T" .) }}
+    {{ if reflect.IsMap . }}
+      {{ range $inner_key, $inner_value := . }}
+        {{ $result = $result | append (printf `%s='%v'` (print $key "-" $inner_key) $inner_value) }}
+      {{ end }}
+    {{ else if eq $type "bool" }}
+      {{ $result =  $result | append (printf `%s` $key) }}
+    {{ else if in . `"` }}
+      {{ $result =  $result | append (printf `%s='%v'` $key $value) }}
+    {{ else }}
+      {{ $result =  $result | append (printf `%s="%v"` $key $value) }}
+    {{ end }}
+  {{ end }}
+{{ end }}
+
+{{ $attrs := safeHTMLAttr (delimit $result " ")}}
+
+{{ return $attrs }}

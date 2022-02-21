@@ -1,0 +1,24 @@
+{{- $globals := .globals -}}
+{{- $context := .context | default dict -}}
+{{- $options := .options | default dict -}}
+{{- $params := (merge $context $options) -}}
+{{- $modifier := cond (reflect.IsSlice $params.modifier) $params.modifier (cond (ne $params.modifier nil) (slice $params.modifier) dict ) -}}
+{{- $class_name := $params.class_name -}}
+
+{{ $tag := $params.tag | default "h2" }}
+{{ $text := $params.text }}
+
+{{/* Build class */}}
+{{- $class := "c-headline" -}}
+{{- range $modifier -}}
+  {{- $class = (print $class " c-headline--" . ) -}}
+{{- end -}}
+{{- with $class_name -}}
+  {{- $class = (print $class " " . ) -}}
+{{- end -}}
+
+{{ partial "utils/html/tag" (dict
+  "name" $tag
+  "attr" (dict "class" $class)
+  "inner" $text
+) | safeHTML }}

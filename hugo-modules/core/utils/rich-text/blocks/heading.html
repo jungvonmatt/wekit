@@ -1,0 +1,6 @@
+{{- $d := partial "utils/rich-text/get-block.html" (dict
+  "context" .context
+  "globals" .globals
+) -}}
+{{- $n := substr .context.node_type -1 1 -}}
+<h{{- $n }}>{{- $d -}}</h{{- $n -}}>

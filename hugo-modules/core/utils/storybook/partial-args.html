@@ -1,0 +1,64 @@
+{{/*
+  utils/storybook/partial-args
+  Extract args to partial from storybook headless markdown files.
+*/}}
+{{ $globals := .globals }}
+{{ $context := .context }}
+{{ $content_type := $context.content_type }}
+{{ $irrelevant := slice "iscjklanguage" "headless" "draft" "id" "content_type" "created_at" "updated_at" "name" }}
+
+{{ $content_dir_array := split site.Params.contentdir "/" }}
+
+{{ $folder := print "data/" $content_type }}
+{{ with (index $content_dir_array 1) }}
+  {{ $folder = print "data/" . "/" $content_type}}
+{{ end }}
+
+{{ $pages := slice }}
+{{ if fileExists $folder }}
+  {{ range readDir $folder }}
+    {{ $name := .Name }}
+    {{ if not .IsDir }}
+      {{ $arr := split .Name "." }}
+      {{ $name = string (delimit (first (sub (len $arr) 1) $arr) ".") }}
+    {{ end }}
+    {{ with partial "utils/get-params" (dict "content_type" $content_type "id" $name) }}
+      {{ $pages = $pages | append . }}
+    {{ end }}
+  {{ end }}
+{{ end }}
+
+{{ range (where site.Pages "Params.type" "storybook") }}
+  {{ with .Params.partials }}
+    {{ range . }}
+      {{ if (eq .content_type $content_type)}}
+       {{ $pages = $pages | append . }}
+      {{ end }}
+    {{ end }}
+  {{ end }}
+{{ end }}
+
+{{ $result := dict }}
+
+{{ range $pages }}
+  {{ range $key, $val := . }}
+    {{ if not (in $irrelevant $key)}}
+      {{ if reflect.IsMap $val }}
+        {{ with $val.node_type }}
+          {{ $result = merge $result (dict $key "Richtext" )}}
+        {{ end }}
+        {{ with $val.mime_type }}
+          {{ $result = merge $result (dict $key "Image" )}}
+        {{ else }}
+          {{ $result = merge $result (dict $key "Object" )}}
+        {{ end }}
+      {{ else if reflect.IsSlice $val }}
+        {{ $result = merge $result (dict $key "Array" )}}
+      {{ else }}
+        {{ $result = merge $result (dict $key (title (printf "%T" $val))) }}
+      {{ end }}
+    {{ end }}
+  {{ end }}
+{{ end }}
+
+{{ return $result }}

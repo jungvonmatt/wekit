@@ -1,0 +1,19 @@
+{{- $settings := partial "utils/get-settings.html" . -}}
+
+{{ $params := merge site.Params (dict
+  "environment" (or (getenv "HUGO_ENVIRONMENT") hugo.Environment)
+) }}
+
+{{ $js := resources.Get "js/main.js" | js.Build (dict
+  "minify" (eq hugo.Environment "production")
+  "format" "esm"
+  "target" "es2019"
+  "params" $params
+) }}
+
+{{ if eq (hugo.Environment) "storybook" -}}
+  <script type="module" src="{{ $js.RelPermalink }}"></script>
+{{ else -}}
+  {{ $secure_js := $js | resources.Fingerprint "sha256" }}
+  <script type="module" src="{{ $secure_js.RelPermalink }}" integrity="{{ $secure_js.Data.Integrity }}"></script>
+{{ end -}}

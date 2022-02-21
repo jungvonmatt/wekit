@@ -1,0 +1,10 @@
+name: 'netlify-plugin-env-build-overwrites'
+inputs:
+  - name: variable
+    description: Environment variable to be checked
+    default: ''
+    required: false
+  - name: overwrites
+    description: Build overwrites
+    default: ''
+    required: false

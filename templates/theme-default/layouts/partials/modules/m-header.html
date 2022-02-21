@@ -1,0 +1,35 @@
+{{- $globals := .globals -}}
+{{- $context := .context | default dict -}}
+{{- $options := .options | default dict -}}
+{{- $settings := partial "utils/get-settings.html" -}}
+{{- $params := (merge $settings $context $options) -}}
+{{- $logo := $params.logo -}}
+
+<header class="m-header">
+  <div class="o-wrapper m-header__wrapper">
+    <a class="m-header__logo" href="{{ $globals.Site.Home.Permalink }}" title="{{ $globals.Site.Title }}">
+      {{- with $logo -}}
+        {{- partial "utils/asset" (dict
+          "globals" $globals
+          "context" .
+          "options" (dict
+            "class_name" (print "m-header__logo-asset")
+            "lazy" false
+            "decoding" "auto"
+            "inline" true
+            "sprite" false
+          )
+        ) -}}
+      {{- else -}}
+        {{- if os.FileExists "/static/img/logo.svg" -}}
+          {{- readFile "/static/img/logo.svg" | safeHTML -}}
+        {{- end -}}
+      {{- end -}}
+    </a>
+    {{ partial "components/c-menu" (dict
+      "globals" $globals
+      "context" (dict "name" "main")
+      "options" (dict "class_name" "m-header__menu")
+    )}}
+  </div>
+</header>

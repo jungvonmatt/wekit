@@ -1,0 +1,90 @@
+{{- $globals := .globals -}}
+{{- $context := .context | default dict -}}
+{{- $options := .options | default dict -}}
+{{- $params := (merge $context $options) -}}
+
+{{- with $params.settings -}}
+  {{- with partial "utils/get-data" . -}}
+    {{- $params = (merge . $params) -}}
+  {{- end -}}
+{{- end -}}
+
+{{- $class_name := partialCached "utils/get-class-names" (dict
+  "class" "m-list"
+  "context" $params
+) . -}}
+
+{{- $header := $params.header -}}
+{{- $body := $params.body -}}
+{{- $layout := $params.layout -}}
+{{- $columns := $params.columns | default 4 -}}
+
+<section class="m-section {{ with $class_name }}{{ . }}{{ end }}"  style="--columns-desktop: {{ $columns }};">
+  <div class="o-wrapper">
+    {{- with $header -}}
+      {{- partial "utils/get-partial" (dict
+        "globals" $globals
+        "context" .
+      ) -}}
+    {{- end -}}
+    <div class="m-list__body o-slider js-slider" data-loop="true">
+      <div class="o-slider__outer-wrapper">
+        <div class="o-slider__scroll-wrapper js-scroll-wrapper">
+          {{- range $body -}}
+            <div class="m-list__item js-slide o-slider__slide">
+              {{ if eq .node_type "document" }}
+                {{ partial "components/c-text.html" (dict
+                  "context" (dict "text" .)
+                  "globals" $globals
+                  "options" (dict
+                    "layout" $layout
+                  )
+                ) }}
+              {{ else }}
+                {{ partial "utils/get-partial.html" (dict
+                  "context" .
+                  "globals" $globals
+                  "options" (dict
+                    "layout" $layout
+                  )
+                ) }}
+              {{- end -}}
+            </div>
+          {{- end -}}
+        </div>
+      </div>
+
+      <div class="o-slider__dots">
+        {{- range $i,$v := $body -}}
+          <button class="o-slider__dot {{ if eq $i 0 }}is-active{{ end }} js-dot">Slide {{ add $i 1 }}</button>
+        {{- end -}}
+      </div>
+      <div class="o-slider__buttons">
+        <button class="o-slider__button o-slider__button--previous js-button--previous" aria-label="previous slide">
+          <svg viewBox="0 0 25 57" xmlns="http://www.w3.org/2000/svg">
+            <path
+              stroke="currentColor"
+              stroke-width="3"
+              d="m22.5 2.5-19.983 26 19.983 26"
+              fill="none"
+              fill-rule="evenodd"
+              stroke-linecap="square"
+            />
+          </svg>
+        </button>
+        <button class="o-slider__button o-slider__button--next js-button--next" aria-label="next slide">
+          <svg viewBox="0 0 25 57" xmlns="http://www.w3.org/2000/svg">
+            <path
+              stroke="currentColor"
+              stroke-width="3"
+              d="m2.517 2.5 19.983 26-19.983 26"
+              fill="none"
+              fill-rule="evenodd"
+              stroke-linecap="square"
+            />
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+</section>

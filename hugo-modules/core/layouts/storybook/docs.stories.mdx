@@ -1,0 +1,10 @@
+{{- define "main" -}}
+
+import { Meta } from '@storybook/addon-docs';
+
+<Meta title="{{ .Title | default (path.Base (path.Split .File.Dir).Dir | title | humanize) }}" />
+
+{{ .Content | safeHTML }}
+
+
+{{- end -}}

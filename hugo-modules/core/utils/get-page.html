@@ -1,0 +1,22 @@
+{{/*
+  utils/get-page
+  Get linked page for content_type and id.
+
+  @example - Go Template
+    {{ partial "utils/get-page" (dict
+      "id" "ENTRY_ID"
+      "content_type" "CONTENT_TYPE_ID"
+    ) }}
+*/}}
+{{ $entry_id := .id }}
+{{ $content_type := .content_type }}
+{{ $page := dict }}
+{{ if and $content_type $entry_id }}
+  {{ if (eq $content_type "page") }}
+    {{ with index (where site.Pages "Params.sys.id" $entry_id) 0 }}
+      {{ $page = . }}
+    {{ end }}
+  {{ end }}
+{{ end }}
+
+{{ return $page }}

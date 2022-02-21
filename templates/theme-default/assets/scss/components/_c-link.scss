@@ -1,0 +1,51 @@
+.c-link {
+  font: inherit;
+  color: inherit;
+  background-color: transparent;
+  text-decoration: underline;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  vertical-align: text-top;
+
+  &[role="button"] {
+    font-size: var(--#{$font}-size-m);
+    text-decoration: none;
+    line-height: var(--#{$line-height}-normal);
+    padding: 0.5rem 1rem;
+    border: 2px solid transparent;
+    border-radius: 4px;
+  }
+
+  &--solid[role="button"] {
+    transition: background-color 200ms;
+    background-color: var(--#{$color}-gray-300);
+
+    &:hover {
+      background-color: var(--#{$color}-gray-400);
+    }
+  }
+
+  &--outline[role="button"] {
+    transition: border-color 200ms;
+    border-color: var(--#{$color}-gray-300);
+
+    &:hover {
+      border-color: var(--#{$color}-gray-400);
+    }
+  }
+
+  &__icon {
+    display: flex;
+    align-items: center;
+    margin-right: var(--#{$spacing}-xs);
+
+    img,
+    svg {
+      height: 1.2rem;
+      width: 1.2rem;
+    }
+  }
+}

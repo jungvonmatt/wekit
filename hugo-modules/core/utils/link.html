@@ -1,0 +1,56 @@
+{{/*
+  utils/link
+  Get link attributes from context.
+
+  @example - Go Template
+    {{ partial "utils/link" .context }}
+*/}}
+{{ $return := dict }}
+
+{{/* context is url */}}
+{{ if partialCached "utils/reflect/is-string" . . }}
+  {{ $href := cond (hasPrefix . "//") (print "https:" . ) . }}
+  {{ $return = (dict "href" $href) }}
+  {{/* Add target="_blank" and rel="noreferrer" for external links */}}
+  {{ if (and (in . "//") (not (in . site.BaseURL))) }}
+    {{ $return = (merge $return (dict
+      "rel" "noreferrer"
+      "target" "_blank"
+    )) }}
+  {{ end }}
+{{ end }}
+{{ if reflect.IsMap . }}
+  {{/* Contentful richtext nodes */}}
+  {{ if eq .node_type "entry-hyperlink" }}
+    {{ with .data }}
+      {{ $data := (dict
+        "content_type" .content_type
+        "id" .id
+      ) }}
+      {{ $return = partial "utils/link" $data }}
+    {{ end }}
+  {{ else if eq .node_type "asset-hyperlink" }}
+    {{ with .data }}
+      {{ with .url }}
+        {{ $return = partial "utils/link" . }}
+      {{ end }}
+    {{ end }}
+  {{ else if eq .node_type "hyperlink" }}
+    {{ with .data }}
+      {{ with .uri }}
+        {{ $return = partial "utils/link" . }}
+      {{ end }}
+    {{ end }}
+
+  {{/* Page content type */}}
+  {{ else if eq .content_type "page" }}
+    {{ with partialCached "utils/get-page" . . }}
+      {{ $return = (dict
+        "href" (.Permalink | safeURL)
+        "text" .Params.title
+      ) }}
+    {{ end }}
+  {{ end }}
+{{ end }}
+
+{{ return $return }}

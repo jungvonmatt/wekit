@@ -1,0 +1,34 @@
+{{/*
+  utils/rich-text/rich-text
+  Loops over each node and generates the corresponding HTML depending on the nodeType.
+*/}}
+{{- $globals := .globals -}}
+{{- $context := .context -}}
+{{- $content := slice -}}
+
+{{- with $context -}}
+  {{- if reflect.IsSlice . -}}
+    {{ $content = . -}}
+  {{- end -}}
+  {{- if reflect.IsMap . -}}
+    {{- with .content -}}
+      {{ $content = . -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+
+{{- range $content -}}
+  {{- $partial := print "utils/rich-text/blocks/" .node_type ".html" -}}
+  {{- if in (apply (seq 6) "printf" "heading-%v" ".") .node_type }}
+    {{- $partial = print "utils/rich-text/blocks/heading.html" -}}
+  {{ end -}}
+  {{- $partial_check := print "layouts/partials/" $partial -}}
+  {{- if $partial_check -}}
+    {{- partial $partial (dict
+      "context" .
+      "globals" $globals
+    ) -}}
+  {{- else -}}
+    {{- partial "utils/not-found.html" (dict "name" $partial_check) -}}
+  {{ end -}}
+{{- end -}}

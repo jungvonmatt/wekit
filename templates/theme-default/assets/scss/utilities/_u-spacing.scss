@@ -1,0 +1,55 @@
+/**
+ * Utility classes to put specific spacing values onto elements. The below loop
+ * will generate us a suite of classes like:
+ *
+ *   .u-mt {}
+ *   .u-pl-lg {}
+ *   .u-mr-sm {}
+ *   .u-p {}
+ *   .u-pr-0 {}
+ *   .u-ph {}
+ *   .u-pv-xs {}
+ */
+
+$spacing-directions: (
+  null: null,
+  "t": "-top",
+  "r": "-right",
+  "b": "-bottom",
+  "l": "-left",
+  "x": "-left" "-right",
+  "y": "-top" "-bottom",
+) !default;
+$spacing-properties: (
+  "p": "padding",
+  "m": "margin",
+) !default;
+$spacing-sizes: (
+  null: $spacing-md,
+  "-xs": $spacing-xs,
+  "-sm": $spacing-sm,
+  "-md": $spacing-md,
+  "-lg": $spacing-lg,
+  "-xl": $spacing-xl,
+  "-0": 0,
+  "-none": 0
+) !default;
+
+@each $property-namespace, $property in $spacing-properties {
+  @each $direction-namespace, $direction-rules in $spacing-directions {
+    @each $size-namespace, $size in $spacing-sizes {
+
+      .u-#{$property-namespace}#{$direction-namespace}#{$size-namespace} {
+        @each $direction in $direction-rules {
+          #{$property}#{$direction}: $size !important;
+        }
+      }
+    }
+  }
+}
+
+@each $size-namespace, $size in $spacing-sizes {
+  .u-spacing#{$size-namespace} {
+    --#{$spacing}: var(--#{$spacing}#{$size-namespace});
+  }
+}

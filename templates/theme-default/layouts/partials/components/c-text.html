@@ -1,0 +1,24 @@
+{{- $globals := .globals -}}
+{{- $context := .context | default dict -}}
+{{- $options := .options | default dict -}}
+{{- $params := (merge $context $options) -}}
+
+{{- $class_name := partialCached "utils/get-class-names" (dict
+  "class" "c-text"
+  "context" $params
+) . -}}
+
+{{- $text := $params.text -}}
+
+{{- with $text -}}
+  <div class="{{ $class_name }}">
+    {{- if reflect.IsMap . -}}
+      {{- partialCached "utils/rich-text/rich-text" (dict
+          "context" .
+          "globals" $globals
+      ) . -}}
+    {{- else if partial "utils/reflect/is-string" . -}}
+      {{- . -}}
+    {{- end -}}
+  </div>
+{{- end -}}

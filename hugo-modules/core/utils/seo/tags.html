@@ -1,0 +1,7 @@
+{{- with . -}}
+  {{- with partial "utils/seo/private/get-tags" . -}}
+    {{- range . }}
+      {{ (partialCached "utils/html/tag" . .) | safeHTML}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}

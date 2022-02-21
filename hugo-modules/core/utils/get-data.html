@@ -1,0 +1,30 @@
+{{/*
+  utils/get-data
+  Get data from contentful data types.
+
+  @example - Go Template
+    {{ partial "utils/get-data" (dict
+      "id" "ENTRY_ID"
+      "content_type" "CONTENT_TYPE_ID"
+    ) }}
+*/}}
+{{ $entry_id := .id }}
+{{ $content_type := .content_type }}
+{{ $result := dict }}
+{{ $content_dir_array := split site.Params.contentdir "/" }}
+{{ $folder := or (index $content_dir_array 1) site.LanguageCode }}
+{{ $data := or (index site.Data $folder) site.Data }}
+
+{{ if and $content_type $entry_id }}
+  {{ $contents := or (index $data $content_type) dict }}
+  {{ with $contents }}
+    {{ $dict := . }}
+    {{ with $entry_id }}
+      {{ $result = or (index $contents (string $entry_id)) (index $contents (print (string $entry_id) "." $folder)) dict }}
+    {{ end }}
+  {{ end }}
+
+
+{{ end }}
+
+{{ return $result }}

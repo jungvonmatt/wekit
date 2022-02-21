@@ -1,0 +1,9 @@
+.c-paragraph {
+  font-size: 1rem;
+  line-height: var(--#{$line-height}-loose);
+  margin-bottom: 1rem;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}

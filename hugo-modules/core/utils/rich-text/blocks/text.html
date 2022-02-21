@@ -1,0 +1,17 @@
+{{- if .context.marks -}}
+  {{- range .context.marks -}}
+    {{- partial "utils/rich-text/blocks/marks-opening.html" . | safeHTML -}}
+  {{- end -}}
+{{- end -}}
+
+{{/*
+  Replace multiple line breaks like \n\n\n followed by whitespace characters to one
+  single <br> tag. We need \p{Z} for matching NBSP and NNBSP instead of simple \s.
+*/}}
+{{- replaceRE "(\\n(\\p{Z}+)?)+" "<br>" .context.value | safeHTML -}}
+
+{{- if .context.marks -}}
+  {{- range .context.marks -}}
+    {{- partial "utils/rich-text/blocks/marks-closing.html" . | safeHTML -}}
+  {{- end -}}
+{{- end -}}

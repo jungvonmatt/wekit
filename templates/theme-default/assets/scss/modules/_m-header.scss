@@ -1,0 +1,24 @@
+.m-header {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  padding-top: var(--#{$spacing}-sm);
+  padding-bottom: var(--#{$spacing}-sm);
+  border-bottom: 1px solid var(--#{$color}-gray-200);
+  background-color: var(--#{$color}-white);
+
+  &__logo {
+    display: inline-block;
+
+    svg {
+      width: auto;
+      height: 2rem;
+    }
+  }
+
+  &__wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+}

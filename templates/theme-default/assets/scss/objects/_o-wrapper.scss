@@ -1,0 +1,24 @@
+/* ==========================================================================
+   #WRAPPER
+   ========================================================================== */
+
+$wrapper-width: map-get($breakpoints, "xl") !default;
+$wrapper-padding: $spacing-md !default;
+
+/**
+    * Page-level constraining and wrapping elements.
+    */
+
+@if (type-of($wrapper-width) != number) {
+  @error "`#{$wrapper-width}` needs to be a number.";
+}
+
+.o-wrapper {
+  @include clearfix;
+
+  padding-right: $wrapper-padding;
+  padding-left: $wrapper-padding;
+  margin-right: auto;
+  margin-left: auto;
+  max-width: $wrapper-width;
+}

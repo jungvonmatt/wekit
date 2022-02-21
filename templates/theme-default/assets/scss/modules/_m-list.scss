@@ -1,0 +1,32 @@
+$list-spacing: $spacing-sm !default;
+
+.m-list {
+  $self: &;
+
+  --columns: 1;
+
+  @include respond-above("md") {
+    --columns: 2;
+  }
+
+  @include respond-above("lg") {
+    --columns: var(--columns-desktop, 3);
+  }
+
+  &--grid #{$self}__body {
+    display: grid;
+    grid-template-columns: repeat(var(--columns), 1fr);
+    grid-gap: var(--#{$spacing}-md) var(--#{$spacing}-sm);
+  }
+
+  &__wrapper {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    align-items: flex-start;
+
+    @include respond-above("md") {
+      flex-direction: row;
+    }
+  }
+}

@@ -1,0 +1,66 @@
+$prefix: $globalPrefix;
+$color: $prefix + "-color";
+$spacing: $prefix + "-spacing";
+$font: $prefix + "-font";
+$line-height: $prefix + "-line-height";
+$radii: $prefix + "-radii";
+
+:root {
+  // Black and white
+  --#{$color}-black: #000;
+  --#{$color}-white: #fff;
+
+  @include color-shades("gray", #6b7280);
+  @include color-shades("primary", #301c4f);
+
+  --#{$color}-text: var(--#{$color}-gray-900);
+  --#{$color}-text-silent: var(--#{$color}-gray-700);
+  --#{$color}-highlight: var(--#{$color}-primary-500);
+  --#{$color}-background: var(--#{$color}-white);
+  --#{$color}-text-overlay: rgba(255, 255, 255, 0.4);
+
+  /**
+   * Spacing
+   */
+  --#{$spacing}-none: 0;
+  --#{$spacing}-xs: #{$spacing-xs};
+  --#{$spacing}-sm: #{$spacing-sm};
+  --#{$spacing}-md: #{$spacing-md};
+  --#{$spacing}-lg: #{$spacing-lg};
+  --#{$spacing}-xl: #{$spacing-xl};
+
+  /**
+   * Typography
+   */
+
+  // Fonts
+  --#{$font}-sans: "Carloschi VF", "Helvetica", "Arial", sans-serif;
+
+  // TBD: Group Font size and line height?
+
+  // Font sizes
+  --#{$font}-size-sm: #{$font-size-sm};
+  --#{$font}-size-md: #{$font-size-md};
+  --#{$font}-size-lg: #{$font-size-lg};
+  --#{$font}-size-h1: #{$h1-font-size};
+  --#{$font}-size-h2: #{$h2-font-size};
+  --#{$font}-size-h3: #{$h3-font-size};
+  --#{$font}-size-h4: #{$h4-font-size};
+  --#{$font}-size-h5: #{$h5-font-size};
+  --#{$font}-size-h6: #{$h6-font-size};
+  --#{$font}-weight-lighter: #{$font-weight-lighter};
+  --#{$font}-weight-light: #{$font-weight-light};
+  --#{$font}-weight-normal: #{$font-weight-normal};
+  --#{$font}-weight-bold: #{$font-weight-bold};
+  --#{$font}-weight-bolder: #{$font-weight-bolder};
+
+  // Line heights
+  --#{$line-height}-xs: #{$line-height-xs};
+  --#{$line-height}-sm: #{$line-height-sm};
+  --#{$line-height}-md: #{$line-height-md};
+  --#{$line-height}-lg: #{$line-height-lg};
+  --#{$line-height}-heading: #{$line-height-heading};
+
+  // Border radius
+  --#{$radii}-normal: 8px;
+}

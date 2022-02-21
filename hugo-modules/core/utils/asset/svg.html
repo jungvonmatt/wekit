@@ -1,0 +1,32 @@
+{{/*
+  utils/asset/image
+  Render Contentful asset (image/svg+xml). Uses data from cssg-plugin-assets if available.
+
+  @example - Go Template
+    {{ partial "utils/asset/svg" (dict
+      "context" $svg
+      "options" (dict
+        "inline" "true"
+        "class_name" "c-icon"
+        "lazy" true
+      )
+    ) }}
+*/}}
+{{- $globals := .globals -}}
+{{- $context := .context | default dict -}}
+{{- $options := .options | default dict -}}
+{{- $params := (merge $context $options) -}}
+{{- $class_name := $params.class_name -}}
+{{- $mime_type := $params.mime_type -}}
+{{- $inline := $params.inline -}}
+{{- $source := $params.source -}}
+
+{{- if (and (in $mime_type "svg") $inline $source) -}}
+  {{ partial "utils/svg/icon" . }}
+{{- else -}}
+  {{ partial "utils/asset/image" (dict
+    "globals" $globals
+    "context" $context
+    "options" $options
+  ) }}
+{{- end -}}

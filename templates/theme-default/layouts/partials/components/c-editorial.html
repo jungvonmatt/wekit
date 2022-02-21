@@ -1,0 +1,78 @@
+{{- $globals := .globals -}}
+{{- $context := .context | default dict -}}
+{{- $options := .options | default dict -}}
+{{- $params := (merge $context $options) -}}
+
+{{- $class_name := partialCached "utils/get-class-names" (dict
+  "class" "c-editorial"
+  "context" $params
+) . -}}
+
+{{- $title := $params.title -}}
+{{- $subtitle := $params.subtitle -}}
+{{- $text := $params.text -}}
+{{- $media := $params.media -}}
+{{- $links := $params.links | default dict -}}
+{{- $title_tag := $params.title_tag | default "h3" -}}
+{{- $subtitle_tag := $params.subtitle_tag | default "h4" -}}
+{{- $layout := $params.layout | default "default" -}}
+
+{{- $partialPath := printf "components/c-editorial/%s.html" $layout -}}
+{{- if and (ne $layout "default") (templates.Exists ( printf "partials/%s" $partialPath )) -}}
+  {{ partial $partialPath . }}
+{{- else -}}
+  <div class="{{ $class_name }}">
+    <div class="c-editorial__inner">
+      {{- with $media -}}
+        {{- partialCached "utils/get-partial" (dict
+          "context" .
+          "globals" $globals
+          "options" (dict "class_name" "c-editorial__media")
+        ) . -}}
+      {{- end -}}
+      <div class="c-editorial__body">
+        {{- with $title -}}
+          {{- partial "components/c-headline" (dict
+            "globals" $globals
+            "context" (dict
+              "tag" "h2"
+              "class_name" "c-editorial__title"
+              "modifier" ""
+              "text" .
+            )
+          ) -}}
+        {{- end -}}
+        {{- with $subtitle -}}
+          {{- partial "components/c-headline" (dict
+            "globals" $globals
+            "context" (dict
+              "tag" "h3"
+              "class_name" "c-editorial__subtitle"
+              "modifier" ""
+              "text" .
+            )
+          ) -}}
+        {{- end -}}
+        {{- with $text -}}
+          {{- with $text -}}
+            {{- partial "components/c-text" (dict
+              "globals" $globals
+              "context" (dict
+                "class_name" "c-editorial__text"
+                "text" .
+              )
+            ) -}}
+          {{- end -}}
+        {{- end -}}
+        {{- range $links -}}
+          {{ $link :=  partialCached "utils/get-params" . }}
+          {{- partialCached "components/c-link" (dict
+            "context" $link
+            "globals" $globals
+            "options" (dict "class_name" "c-editorial__link")
+          ) . -}}
+        {{- end -}}
+      </div>
+    </div>
+  </div>
+{{- end -}}

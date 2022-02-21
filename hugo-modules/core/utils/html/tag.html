@@ -1,0 +1,55 @@
+{{/*
+  WriteTag
+
+  @author @regisphilibert with some adjustments from jvm
+
+  @context Map
+    String (.name)
+    String (.inner)
+    Map (.attr)
+
+  @access private
+
+  @return String
+
+  @use
+    - private/WriteAttribute
+
+  @example - Go Template
+  {{- with partialCached "utils/html/tag" . . -}}
+  {{- . | safeHTML -}}
+  {{- end -}}
+*/}}
+
+{{ $return := "" }}
+{{ $void_elements := slice "area" "base" "br" "col" "embed" "hr" "img" "input" "link" "meta" "param" "source" "track" "wbr" }}
+{{ with $tag := . }}
+  {{ $attributes := slice }}
+  {{ $void_element := in $void_elements .name }}
+  {{ if $void_element }}
+    {{ with .inner }}
+      {{ partial "tnd-tags/warn" (printf "Tag <%s> is a void element and must self close. It's `inner` setting (%s) will be ignored." $tag.name $tag.inner) }}
+    {{ end }}
+  {{ end }}
+  {{ with .attr }}
+    {{ with partialCached "utils/html/attribute" . . }}
+        {{ $attributes = $attributes | append . }}
+    {{ end }}
+  {{ end }}
+  {{ $close := true }}
+  {{ if $void_element }}
+    {{ $close = false }}
+  {{ end }}
+  {{ $attributes_print := "" }}
+  {{ with $attributes }}
+    {{ $attributes_print = delimit $attributes " " }}
+  {{ end }}
+  {{ if $close }}
+    {{ $inner := default "" $tag.inner }}
+    {{ $return = printf `<%s %s>%s</%s>` $tag.name $attributes_print $inner $tag.name }}
+  {{ else }}
+    {{ $return = printf `<%s %s>` $tag.name $attributes_print }}
+  {{ end }}
+{{ end }}
+
+{{ return $return }}

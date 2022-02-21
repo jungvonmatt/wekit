@@ -1,0 +1,7 @@
+{
+  "name": "multi-text",
+  "id": "multi-text",
+  "fieldTypes": [{ "type": "Symbol" }, { "type": "Array", "items": { "type": "Symbol" } }],
+  "srcdoc": "./bundle.html",
+  "sidebar": false
+}

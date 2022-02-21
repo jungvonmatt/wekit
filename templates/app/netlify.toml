@@ -1,0 +1,27 @@
+[[plugins]]
+  package = "./tools/netlify-plugin-env-build-overwrites"
+
+  [plugins.inputs]
+    variable = "STORYBOOK"
+    [plugins.inputs.overwrites]
+      publish = "storybook-static"
+      command = "npm run build-storybook"
+
+[build]
+  base = "site"
+  publish = "public"
+  NPM_FLAGS = "--production false"
+
+[build.environment]
+  HUGO_VERSION = "0.91.0"
+  GO_VERSION = "1.17"
+
+[context.production]
+  command = "npm run build -- -b $URL"
+
+[context.deploy-preview]
+  command = "npm run build -- -b $DEPLOY_PRIME_URL"
+
+[context.branch-deploy]
+  command = "npm run build -- -b $DEPLOY_PRIME_URL"
+

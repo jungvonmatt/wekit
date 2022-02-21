@@ -1,0 +1,16 @@
+{{- $globals := .globals -}}
+{{- $context := .context -}}
+
+
+{{ $attributes := partialCached "utils/link" $context $context }}
+{{ $attr := "" }}
+{{ with $attributes }}
+  {{ $attr = partialCached "utils/html/attribute" . $context }}
+{{ end }}
+
+<a {{ $attr }}>
+  {{- partial "utils/rich-text/get-block.html" (dict
+    "context" $context
+    "globals" $globals
+  ) -}}
+</a>

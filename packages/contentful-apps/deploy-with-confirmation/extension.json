@@ -1,0 +1,6 @@
+{
+  "id": "deploy-with-confirmation",
+  "name": "deploy-with-confirmation",
+  "srcdoc": "./bundle.html",
+  "sidebar": true
+}

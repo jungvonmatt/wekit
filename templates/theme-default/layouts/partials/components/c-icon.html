@@ -1,0 +1,21 @@
+{{- $globals := .globals -}}
+{{- $context := .context | default dict -}}
+{{- $options := .options | default dict -}}
+{{- $params := (merge $context $options) -}}
+{{- $modifier := cond (reflect.IsSlice $params.modifier) $params.modifier (cond (ne $params.modifier nil) (slice $params.modifier) dict ) -}}
+{{- $class_name := $params.class_name -}}
+
+{{/* Build class */}}
+{{- $class := "c-icon" -}}
+{{- range $modifier -}}
+  {{- $class = (print $class " c-icon--" . ) -}}
+{{- end -}}
+{{- with $class_name -}}
+  {{- $class = (print $class " " . ) -}}
+{{- end -}}
+
+{{ partial "utils/svg/icon" (dict
+  "context" $params
+  "globals" $globals
+  "options" (dict "class_name" $class)
+) }}

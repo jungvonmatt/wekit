@@ -1,0 +1,38 @@
+.c-menu {
+  width: 100%;
+  text-align: right;
+
+  ul {
+    display: inline-flex;
+    list-style: none;
+    margin-left: 0;
+  }
+
+  li {
+    margin: #{$spacing-sm} 0;
+
+    &:first-child {
+      margin-top: 0;
+    }
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+
+    @include respond-above("md") {
+      margin: 0 #{$spacing-sm};
+
+      &:first-child {
+        margin-left: 0;
+      }
+
+      &:last-child {
+        margin-right: 0;
+      }
+    }
+  }
+
+  &__item {
+    vertical-align: text-top;
+  }
+}

@@ -1,0 +1,43 @@
+{{- $globals := .globals -}}
+{{- $context := .context | default dict -}}
+{{- $content := $context.content -}}
+
+{{- $theme := "" -}}
+{{- with $content -}}
+  {{- with partial "utils/get-data" . -}}
+    {{- $theme = .theme -}}
+  {{- end -}}
+{{- end -}}
+
+{{/* {{ partial "utils/dump" $context }} */}}
+<footer class="m-footer{{ with $theme }} u-theme--{{ . }}{{ end }}">
+  <div class="o-wrapper">
+    <p class="c-paragraph">
+      {{ i18n "pages" }}:
+      {{ range $globals.Site.Pages.ByParam "url" }}
+        <a class="m-footer__link" href="{{ .Permalink }}">
+          {{ .Params.title | default "Page" }}
+        </a>
+      {{ end }}
+    </p>
+    <p>
+      {{ i18n "translations" }}:
+      {{- $siteLanguages := $globals.Site.Languages }}
+      {{- $pageLang := $globals.Page.Lang }}
+      {{- range $globals.Page.AllTranslations }}
+        {{- $translation := . }}
+        {{- range sort $siteLanguages "Weight" "asc" }}
+          {{- if eq $translation.Lang .Lang }}
+            {{- $isLangCurrent := eq $pageLang .Lang }}
+            <a
+              class="m-footer__link {{- if $isLangCurrent }}m-footer__link--active{{ end }}"
+              href="{{ $translation.Permalink | relURL }}"
+            >
+              {{- .Params.languageName -}}
+            </a>
+          {{- end }}
+        {{- end }}
+      {{- end }}
+    </p>
+  </div>
+</footer>

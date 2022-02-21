@@ -1,0 +1,42 @@
+{{ $globals := .globals }}
+{{ $context := .context | default dict }}
+{{ $options := .options | default dict }}
+{{ $params := (merge $context $options) }}
+
+{{ $spacing := $params.spacing }}
+{{ $theme := $params.theme }}
+{{ $parent_theme := $params.parent_theme }}
+{{ $class_name := $params.class_name }}
+{{ $layout := $params.layout }}
+{{ $modifier := cond (reflect.IsSlice $params.modifier) $params.modifier (cond (ne $params.modifier nil) (slice $params.modifier) dict ) }}
+
+{{/* Fall back to content type id for base class */}}
+{{ $content_type := partialCached "utils/get-content-type" . . }}
+{{ $base_class := .class | default $params.class | default $content_type }}
+
+{{/* Build class */}}
+{{ $class := slice $base_class }}
+{{ range $modifier }}
+  {{ $class = $class | append (printf "%s--%s" $base_class . ) }}
+{{ end }}
+{{ with $layout }}
+  {{ if ne . "default" }}
+    {{ $class = $class | append (printf "%s--%s" $base_class . ) }}
+  {{ end }}
+{{ end }}
+
+{{ with $theme }}
+  {{ $class = $class | append (printf "u-theme--%s" . ) }}
+{{ end }}
+
+{{ with $spacing }}
+  {{ $class = $class | append (printf "u-spacing-%s" . ) }}
+{{ end }}
+
+{{ with $class_name }}
+  {{ $class = $class | append . }}
+{{ end }}
+
+{{ $result := (delimit $class ` `) | safeHTMLAttr }}
+
+{{ return $result }}

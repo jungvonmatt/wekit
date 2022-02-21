@@ -1,0 +1,47 @@
+{{/*
+  utils/svg/icon
+  Render svg icon
+
+  @example - Go Template
+    {{ partial "utils/svg/icon" (dict
+      "globals" $globals
+      "context" $svg (contentful asset or path relative to assets)
+      "options" (dict
+        "inline" true
+        "sprite" false
+        "class_name" "c-icon"
+        "width" 16
+        "height" 16
+      )
+    ) }}
+*/}}
+{{- $globals := .globals -}}
+{{- $context := .context | default dict -}}
+{{- $options := .options | default dict -}}
+{{- $params := (merge $context $options) -}}
+{{- $class_name := $params.class_name -}}
+{{- $dest_width := $params.width }}
+{{- $dest_height := $params.height }}
+
+{{- with partial "utils/svg/parse" $params -}}
+  {{- $inline := $params.inline | default (cond (lt .size 4096) true false) -}}
+  {{- $sprite := $params.sprite | default true -}}
+
+  {{- if and $inline $sprite -}}
+    {{- if not (in ($globals.Scratch.Get "icon_sprite") .symbol) -}}
+      {{- $globals.Scratch.Add "icon_sprite" .symbol -}}
+    {{- end -}}
+    <svg class="{{- $class_name -}}" width="{{ or $dest_width .width }}" height="{{ or $dest_height .height }}"><use xlink:href="#{{- .id -}}"></use></svg>
+  {{- else if $inline -}}
+    {{- .svg | safeHTML -}}
+  {{- else -}}
+    {{- partial "utils/asset/image" (dict
+    "globals" $globals
+    "context" $context
+    "options" (merge $options (dict
+      "url" .src
+      "mime_type" "image/svg+xml"
+    ))
+  ) -}}
+  {{- end -}}
+{{- end -}}

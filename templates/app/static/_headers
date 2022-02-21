@@ -1,0 +1,9 @@
+/*
+  X-Frame-Options: SAMEORIGIN
+  X-XSS-Protection: 1; mode=block
+  Referrer-Policy: strict-origin
+  X-Content-Type-Options: nosniff
+  Strict-Transport-Security: max-age=2592000; includeSubDomains; preload
+  Feature-Policy: geolocation 'none'; midi 'none'; sync-xhr 'none'; microphone 'none'; camera 'none'; magnetometer 'none'; gyroscope 'none'; fullscreen 'none'; payment 'none'
+  Content-Security-Policy: default-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' https://images.ctfassets.net https://i.ytimg.com; font-src 'self'; connect-src 'self'; media-src 'self'; object-src 'none'; prefetch-src 'self' https://images.ctfassets.net; frame-src 'self' https://www.youtube-nocookie.com https://www.youtube.com https://player.vimeo.com; worker-src 'self'; upgrade-insecure-requests; block-all-mixed-content; base-uri 'self'; manifest-src 'self'
+  Cache-Control: public, max-age=31536000

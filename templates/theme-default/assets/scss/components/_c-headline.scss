@@ -1,0 +1,21 @@
+.c-headline {
+  font-weight: 600;
+  line-height: var(--#{$line-height}-heading);
+  color: var(--#{$color}-text);
+
+  &--s {
+    @include font-size($h5-font-size);
+  }
+
+  &--m {
+    @include font-size($h3-font-size);
+  }
+
+  &--l {
+    @include font-size($h1-font-size);
+  }
+
+  + .c-headline {
+    color: var(--#{$color}-text-silent);
+  }
+}

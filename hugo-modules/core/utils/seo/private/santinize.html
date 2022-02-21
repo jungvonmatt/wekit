@@ -1,0 +1,17 @@
+{{/*
+  SanitizeText
+  Returns a text striped of HTML tags given a markdown or html string
+
+  @author @regisphilibert
+
+  @context String (.)
+
+  @access private
+
+  @returns String
+
+*/}}
+
+{{ $string := . }}
+
+{{ return ($string | markdownify | plainify) }}

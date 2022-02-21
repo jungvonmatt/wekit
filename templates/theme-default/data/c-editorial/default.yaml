@@ -1,0 +1,49 @@
+sys:
+  id: 63zFmxYF4rosxRMUqlWd0W
+  content_type: c-editorial
+  created_at: '2021-12-16T21:57:38.324Z'
+  updated_at: '2021-12-17T14:19:03.606Z'
+name: Test Card
+title: Title
+subtitle: Subtitle
+text:
+  data: {}
+  content:
+    - data: {}
+      content:
+        - data: {}
+          marks:
+            - bold
+          value: Lorem ipsum
+          node_type: text
+        - data: {}
+          marks: []
+          value: ' dolor sit amet, consetetur sadipscing elitr.'
+          node_type: text
+      node_type: paragraph
+    - data: {}
+      content:
+        - data: {}
+          content:
+            - data: {}
+              marks: []
+              value: >-
+                sed diam nonumy eirmod tempor invidunt ut labore et dolore magna
+                aliquyam erat, sed diam voluptua.
+              node_type: text
+          node_type: paragraph
+      node_type: blockquote
+    - data: {}
+      content:
+        - data: {}
+          marks: []
+          value: ''
+          node_type: text
+      node_type: paragraph
+  node_type: document
+media:
+  id: default
+  content_type: c-media
+links:
+  - id: button
+    content_type: c-link

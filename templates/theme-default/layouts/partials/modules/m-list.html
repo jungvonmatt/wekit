@@ -1,0 +1,12 @@
+{{- $globals := .globals -}}
+{{- $context := .context | default dict -}}
+{{- $options := .options | default dict -}}
+{{- $params := (merge $context $options) -}}
+{{- $layout := $params.layout -}}
+
+{{- $partialPath := printf "modules/m-list/%s.html" $layout -}}
+{{- if and (ne $layout "default") (templates.Exists ( printf "partials/%s" $partialPath )) -}}
+  {{- partial $partialPath . -}}
+{{- else -}}
+  {{- partial "modules/m-section" . -}}
+{{- end -}}

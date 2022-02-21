@@ -1,0 +1,13 @@
+{
+  "name": "migrations",
+  "version": "0.0.0",
+  "private": true,
+  "main": "index.js",
+  "files": [
+    "core",
+    "ui"
+  ],
+  "scripts": {
+    "lint": "eslint --ext .js,.ts --fix **/*.js"
+  }
+}

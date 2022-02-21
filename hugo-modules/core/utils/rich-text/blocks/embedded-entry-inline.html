@@ -1,0 +1,12 @@
+{{- $globals := .globals -}}
+{{- $context := .context | default dict -}}
+
+{{- with $context.data -}}
+  {{- partialCached "utils/get-partial" (dict
+    "globals" $globals
+    "context" .
+  ) $context -}}
+{{- end -}}
+
+{{- /* Remove empty space after link */ -}}
+{{- print -}}
