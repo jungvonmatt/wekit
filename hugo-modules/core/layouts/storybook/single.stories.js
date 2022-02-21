@@ -108,7 +108,19 @@
 {{- $templateParams := partial "template-params" (dict "argtypes" $argtypes)  }}
 {{- $combinations := partial "combinations" (dict "list" $templateParams) }}
 
-import '@public/js/main.js';
+{{ $params := merge site.Params (dict
+  "environment" (or (getenv "HUGO_ENVIRONMENT") hugo.Environment)
+) }}
+{{- $js := resources.Get "js/main.js" | js.Build (dict
+  "format" "esm"
+  "target" "es2019"
+  "params" $params
+) -}}
+{{- with $js -}}
+  {{- with .Permalink -}}
+    import '@public{{ . }}';
+  {{- end -}}
+{{- end -}}
 
 {{/* console.log({{ $argtypes | jsonify (dict "prefix" "  " "indent" "  ") }})
 console.log({{ $templateParams | jsonify (dict "prefix" "  " "indent" "  ") }})
