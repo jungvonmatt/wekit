@@ -77,7 +77,7 @@
     "node": ">=14"
   },
   "license": "MIT",
-  "homepage": "https://github.com/jungvonmatt/create-wekit-app#readme",
+  "homepage": "https://github.com/jungvonmatt/wekit/tree/main/packages/create-wekit-app#readme",
   "prettier": {
     "singleQuote": true,
     "printWidth": 100
