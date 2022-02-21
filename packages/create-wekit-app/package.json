@@ -5,7 +5,7 @@
   "main": "index.js",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/jungvonmatt/create-wekit-app.git"
+    "url": "git+https://github.com/jungvonmatt/wekit.git"
   },
   "author": "Jung von Matt TECH",
   "bin": {
