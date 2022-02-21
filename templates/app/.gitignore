@@ -4,6 +4,8 @@ public
 node_modules
 .env
 .hugo_build.lock
+go.sum
+assets/jsconfig.json
 
 # Ignore cssg cache
 .cache
