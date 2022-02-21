@@ -4,16 +4,17 @@ This is a Jamstack kit helping you build secure ([Mozilla Observatory: A+ score]
 
 
 **Hugo Modules**
-- [`core`](./hugo-modules/core/README.md) contains [Hugo](https://gohugo.io/) templates and utilities that support [Contentful](https://www.contentful.com/) and/or [Storybook](https://storybook.js.org/) projects.
+- [`hugo-modules/core`](./hugo-modules/core#readme) contains [Hugo](https://gohugo.io/) templates and utilities that support [Contentful](https://www.contentful.com/) and/or [Storybook](https://storybook.js.org/) projects.
 
 **Packages**
-- [`create-wekit-app`](./packages/create-wekit-app/README.md) contains a CLI tool to scaffold your WEKit app.
-- [`contentful-migrations`](./packages/contentful-migrations) contains migration files for content models used in your app.
-- [`contentful-apps`](./packages/contentful-apps) contains ui extensions / apps used in your app
+- [`packages/create-wekit-app`](./packages/create-wekit-app#readme) contains a CLI tool to scaffold your WEKit app.
+- [`packages/contentful-migrations`](./packages/contentful-migrations) contains migration files for content models used in your app.
+- [`packages/contentful-apps`](./packages/contentful-apps) contains ui extensions / apps used in your app
 
 **App Templates**
-- [`theme-default`](./templates/theme-default/README.md) contains all components, modules and templates.
-- [`app`](./templates/app/README.md) combines everything and shows a production-ready example.
+- [`templates/app`](./templates/app#readme) combines everything and shows a production-ready example.
+- [`templates/theme-default`](./templates/theme-default#readme) contains all components, modules and templates.
+
 
 
 ## Getting started
