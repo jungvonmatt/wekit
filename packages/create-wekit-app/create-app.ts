@@ -212,7 +212,7 @@ export async function createApp({ appPath }: { appPath: string }): Promise<void>
       scaffold: 'node tools/hygen scaffold new',
       'storybook:build': 'hugo --gc --environment storybook --watch',
       'storybook:run': 'start-storybook -p 6006',
-      prestorybook: 'run-s clean cf:docs',
+      prestorybook: 'run-s clean cf:docs cf:argtypes',
       storybook: 'run-p storybook:build storybook:run',
       'prebuild-storybook': 'npm run clean && hugo --gc --environment storybook',
       'build-storybook': 'build-storybook',
@@ -226,6 +226,8 @@ export async function createApp({ appPath }: { appPath: string }): Promise<void>
       'lh:report': 'cd tools/lighthouse && npm run report',
       'cf:login': 'contentful login',
       'cf:docs': 'migrations doc -e master -p docs/contentful --template contentful-docs.js',
+      'cf:argtypes':
+        'migrations doc -e master -p data/contentful/argtypes --template contentful-argtypes.js --extension json',
     },
     migrations: {
       storage: 'content',
@@ -401,7 +403,7 @@ export async function createApp({ appPath }: { appPath: string }): Promise<void>
 
   await cpy(['static/**', 'assets/**', '.stylelintignore', '.stylelintrc'], targetDir, {
     parents: true,
-    cwd: path.join(rootDir, 'ui'),
+    cwd: path.join(rootDir, theme),
   });
 
   await outputFile(path.join(targetDir, 'data/.gitkeep'), '');
@@ -424,7 +426,7 @@ export async function createApp({ appPath }: { appPath: string }): Promise<void>
   /**
    * Copy contentful apps to the target directory
    */
-  await cpy(['**'], path.join(targetDir, 'contentful'), {
+  await cpy(['**'], path.join(targetDir, 'contentful/apps'), {
     parents: true,
     cwd: cwdApps,
   });
@@ -470,7 +472,7 @@ export async function createApp({ appPath }: { appPath: string }): Promise<void>
     yaml.dump({
       imports: [
         {
-          path: 'github.com/jungvonmatt/wekit-core',
+          path: 'github.com/jungvonmatt/wekit/hugo-modules/core',
           mounts: [
             {
               source: 'layouts',
