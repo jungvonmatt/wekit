@@ -56,7 +56,7 @@ module.exports = async function (migration, context) {
   });
   // Add extension
   if (!extensions.flatMap((e) => [e.sys.id, e.extension.name]).includes('deploy-with-confirmation')) {
-    const dir = path.join(__dirname, '../ui-extensions/deploy-with-confirmation');
+    const dir = path.join(__dirname, '../contentful-apps/deploy-with-confirmation');
     const { id, ...extension } = await readJsonAsync(path.join(dir, 'extension.json'));
     extension.srcdoc = await readFileAsync(path.join(dir, extension.srcdoc), 'utf8');
 

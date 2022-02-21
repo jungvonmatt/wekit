@@ -28,13 +28,17 @@ import compareVersions from 'compare-versions';
 export class DownloadError extends Error {}
 
 export async function createApp({ appPath }: { appPath: string }): Promise<void> {
-  const template = 'site';
-  let templateDir = '';
+  let rootDir = '';
+
+  let template = 'templates/app';
+  let theme = 'templates/theme-default';
+  let contentfulMigrationsDir = 'packages/contentful-migrations';
+  let contentfulAppsDir = 'packages/contentful-apps';
 
   console.log();
   const templateSpinner = ora({ prefixText: `Fetching latest boilerplate:` }).start();
   try {
-    templateDir = await loadTemplate();
+    rootDir = await loadTemplate();
     templateSpinner.succeed();
   } catch (error: unknown) {
     templateSpinner.fail();
@@ -66,10 +70,11 @@ export async function createApp({ appPath }: { appPath: string }): Promise<void>
 
   requirementsSpinner.succeed();
 
-  const cwdMigrations = path.join(templateDir, 'contentful/migrations');
-  const cwdContent = path.join(templateDir, 'ui/content');
-  const cwdData = path.join(templateDir, 'ui/data');
-  const cwdUi = path.join(templateDir, 'ui/layouts/partials');
+  const cwdApps = path.join(rootDir, contentfulAppsDir);
+  const cwdMigrations = path.join(rootDir, contentfulMigrationsDir);
+  const cwdContent = path.join(rootDir, `${theme}/content`);
+  const cwdData = path.join(rootDir, `${theme}/data`);
+  const cwdUi = path.join(rootDir, `${theme}/layouts/partials`);
 
   const migrationsAvailable = await globby('**/*.{cjs,js}', {
     cwd: cwdMigrations,
@@ -95,9 +100,9 @@ export async function createApp({ appPath }: { appPath: string }): Promise<void>
     return { ...result, [type]: [...group, name] };
   }, {});
 
-  const root = path.resolve(appPath);
+  const targetDir = path.resolve(appPath);
 
-  if (!(await isWriteable(path.dirname(root)))) {
+  if (!(await isWriteable(path.dirname(targetDir)))) {
     console.error(
       'The application path is not writable, please check folder permissions and try again.'
     );
@@ -105,21 +110,21 @@ export async function createApp({ appPath }: { appPath: string }): Promise<void>
     process.exit(1);
   }
 
-  const appName = path.basename(root);
+  const appName = path.basename(targetDir);
 
-  await makeDir(root);
-  if (!isFolderEmpty(root, appName)) {
+  await makeDir(targetDir);
+  if (!isFolderEmpty(targetDir, appName)) {
     process.exit(1);
   }
 
   const originalDirectory = process.cwd();
 
   const displayedCommand = 'npm';
-  console.log(`Creating a new Contentful HUGO app in ${chalk.green(root)}.`);
+  console.log(`Creating a new Contentful HUGO app in ${chalk.green(targetDir)}.`);
   console.log();
 
-  await makeDir(root);
-  process.chdir(root);
+  await makeDir(targetDir);
+  process.chdir(targetDir);
 
   // Add .env
   let args: Answers;
@@ -187,7 +192,7 @@ export async function createApp({ appPath }: { appPath: string }): Promise<void>
   /**
    * Write it to disk.
    */
-  fs.writeFileSync(path.join(root, '.env'), envContent);
+  fs.writeFileSync(path.join(targetDir, '.env'), envContent);
 
   /**
    * Create a package.json for the new project.
@@ -232,7 +237,7 @@ export async function createApp({ appPath }: { appPath: string }): Promise<void>
   /**
    * Write it to disk.
    */
-  fs.writeFileSync(path.join(root, 'package.json'), JSON.stringify(packageJson, null, 2) + os.EOL);
+  fs.writeFileSync(path.join(targetDir, 'package.json'), JSON.stringify(packageJson, null, 2) + os.EOL);
 
   /**
    * These flags will be passed to `install()`.
@@ -309,7 +314,7 @@ export async function createApp({ appPath }: { appPath: string }): Promise<void>
     }
 
     console.log();
-    await install(root, dependencies, installFlags);
+    await install(targetDir, dependencies, installFlags);
   }
 
   /**
@@ -325,7 +330,7 @@ export async function createApp({ appPath }: { appPath: string }): Promise<void>
     console.log();
 
     const devInstallFlags = { devDependencies: true, ...installFlags };
-    await install(root, devDependencies, devInstallFlags);
+    await install(targetDir, devDependencies, devInstallFlags);
   }
 
   console.log();
@@ -333,24 +338,24 @@ export async function createApp({ appPath }: { appPath: string }): Promise<void>
   /**
    * Copy github actions to target directory.
    */
-  await cpy(['.github/workflows/**/*'], root, {
+  await cpy(['.github/workflows/**/*'], targetDir, {
     parents: true,
-    cwd: templateDir,
+    cwd: rootDir,
   });
 
   /**
    * Copy tool configurations
    */
-  await cpy(['.nvmrc', '.editorconfig', '.eslintrc', '.prettierrc', '.prettierignore'], root, {
+  await cpy(['.nvmrc', '.editorconfig', '.eslintrc', '.prettierrc', '.prettierignore'], targetDir, {
     parents: true,
-    cwd: templateDir,
+    cwd: rootDir,
   });
 
   /**
    * Copy partials to the target directory
    */
   if (uiFiles.length) {
-    const dest = path.join(root, 'layouts/partials');
+    const dest = path.join(targetDir, 'layouts/partials');
     await mkdirp(dest);
     await cpy(uiFiles, dest, {
       parents: true,
@@ -375,10 +380,10 @@ export async function createApp({ appPath }: { appPath: string }): Promise<void>
       '!package.json',
       '!package-lock.json',
     ],
-    root,
+    targetDir,
     {
       parents: true,
-      cwd: path.join(templateDir, template),
+      cwd: path.join(rootDir, template),
       rename(name: string) {
         switch (name) {
           case 'gitignore':
@@ -394,41 +399,41 @@ export async function createApp({ appPath }: { appPath: string }): Promise<void>
     }
   );
 
-  await cpy(['static/**', 'assets/**', '.stylelintignore', '.stylelintrc'], root, {
+  await cpy(['static/**', 'assets/**', '.stylelintignore', '.stylelintrc'], targetDir, {
     parents: true,
-    cwd: path.join(templateDir, 'ui'),
+    cwd: path.join(rootDir, 'ui'),
   });
 
-  await outputFile(path.join(root, 'data/.gitkeep'), '');
-  await outputFile(path.join(root, 'content/.gitkeep'), '');
+  await outputFile(path.join(targetDir, 'data/.gitkeep'), '');
+  await outputFile(path.join(targetDir, 'content/.gitkeep'), '');
 
   /**
    * Copy migrations to the target directory
    */
   if (migrationFiles.length) {
-    const dest = path.join(root, 'contentful/migrations');
+    const dest = path.join(targetDir, 'contentful/migrations');
     await mkdirp(dest);
     await cpy(migrationFiles, dest, {
       cwd: cwdMigrations,
       parents: false,
     });
   } else {
-    await outputFile(path.join(root, 'contentful/migrations/.gitkeep'), '');
+    await outputFile(path.join(targetDir, 'contentful/migrations/.gitkeep'), '');
   }
 
   /**
-   * Copy contentful ui-extensions to the target directory
+   * Copy contentful apps to the target directory
    */
-  await cpy(['ui-extensions/**'], path.join(root, 'contentful'), {
+  await cpy(['**'], path.join(targetDir, 'contentful'), {
     parents: true,
-    cwd: path.join(templateDir, 'contentful'),
+    cwd: cwdApps,
   });
 
   /**
    * Copy storybook content + data
    */
   if (contentFiles.length) {
-    const dest = path.join(root, 'content/storybook');
+    const dest = path.join(targetDir, 'content/storybook');
     await mkdirp(dest);
     await cpy(contentFiles, dest, {
       parents: true,
@@ -437,7 +442,7 @@ export async function createApp({ appPath }: { appPath: string }): Promise<void>
   }
 
   if (dataFiles.length) {
-    const dest = path.join(root, 'data/storybook');
+    const dest = path.join(targetDir, 'data/storybook');
     await mkdirp(dest);
     await cpy(dataFiles, dest, {
       parents: true,
@@ -450,7 +455,7 @@ export async function createApp({ appPath }: { appPath: string }): Promise<void>
   /**
    * Generate hugo config files
    */
-  const configFile = path.join(root, 'config/_default/config.yaml');
+  const configFile = path.join(targetDir, 'config/_default/config.yaml');
   // Const hugoConfigBase = TOML.parse(await readFile(configFile, 'utf8'));
   // const hugoConfig = TOML.stringify({ ...hugoConfigBase, title: appName });
   const hugoConfigBase = yaml.load(await readFile(configFile, 'utf8')) as KeyValueMap;
@@ -461,7 +466,7 @@ export async function createApp({ appPath }: { appPath: string }): Promise<void>
    * Generate hugo module config
    */
   await outputFile(
-    path.join(root, 'config/_default/module.yaml'),
+    path.join(targetDir, 'config/_default/module.yaml'),
     yaml.dump({
       imports: [
         {
@@ -482,7 +487,7 @@ export async function createApp({ appPath }: { appPath: string }): Promise<void>
   );
 
   await outputFile(
-    path.join(root, 'go.mod'),
+    path.join(targetDir, 'go.mod'),
     stripIndents`
     module github.com/jungvonmatt/${appName}
 
@@ -490,7 +495,7 @@ export async function createApp({ appPath }: { appPath: string }): Promise<void>
   );
 
   await outputFile(
-    path.join(root, 'netlify.toml'),
+    path.join(targetDir, 'netlify.toml'),
     TOML.stringify({
       plugins: [
         {
@@ -528,7 +533,7 @@ export async function createApp({ appPath }: { appPath: string }): Promise<void>
 
   // Populate variables to docs
   const docs = await globby(['*.md', 'docs/**/*.md'], {
-    cwd: root,
+    cwd: targetDir,
   });
   await Promise.all(
     docs.map(async (file) => {
@@ -543,7 +548,7 @@ export async function createApp({ appPath }: { appPath: string }): Promise<void>
     console.log();
   }
 
-  if (tryGitInit(root)) {
+  if (tryGitInit(targetDir)) {
     console.log('Initialized a git repository.');
     console.log();
   }

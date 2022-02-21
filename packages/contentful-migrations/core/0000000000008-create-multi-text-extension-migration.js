@@ -21,7 +21,7 @@ module.exports = async function (migration, context) {
   });
   // Add extension
   if (!extensions.flatMap((e) => [e.sys.id, e.extension.name]).includes('multi-text')) {
-    const dir = path.join(__dirname, '../ui-extensions/multi-text');
+    const dir = path.join(__dirname, '../contentful-apps/multi-text');
     const { id, ...extension } = await readJsonAsync(path.join(dir, 'extension.json'));
     extension.srcdoc = await readFileAsync(path.join(dir, extension.srcdoc), 'utf8');
 
