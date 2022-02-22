@@ -7,8 +7,8 @@ ignoreFiles:
 disableHugoGeneratorInject: true
 enableRobotsTXT: true
 buildDrafts: true
-languageCode: en
-defaultContentLanguage: en
+languageCode: en-us
+defaultContentLanguage: en-us
 defaultContentLanguageInSubdir: true
 sitemap:
   changefreq: daily

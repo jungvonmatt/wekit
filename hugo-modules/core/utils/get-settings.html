@@ -5,5 +5,5 @@
   @example - Go Template
     {{ partial "utils/get-settings" }}
 */}}
-{{ $data := or (index site.Data site.LanguageCode) dict }}
+{{ $data := or (index site.Data site.Language.Lang) dict }}
 {{ return or $data.settings dict }}

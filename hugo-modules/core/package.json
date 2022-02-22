@@ -1,7 +1,7 @@
 {
   "name": "wekit-core",
   "version": "1.0.0",
-  "private": "true",
+  "private": true,
   "description": "[Hugo](https://gohugo.io/) templates and utilities that support [Contentful](https://www.contentful.com/) and/or [Storybook](https://storybook.js.org/) projects.",
   "main": "index.js",
   "scripts": {
@@ -9,14 +9,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/jungvonmatt/wekit-core.git"
+    "url": "git+https://github.com/jungvonmatt/wekit.git"
   },
   "author": "Ben Zörb",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/jungvonmatt/wekit-core/issues"
+    "url": "https://github.com/jungvonmatt/wekit/issues"
   },
-  "homepage": "https://github.com/jungvonmatt/wekit-core#readme",
+  "homepage": "https://github.com/jungvonmatt/wekit/hugo-modules/core#readme",
   "devDependencies": {
     "prettier": "^2.5.1",
     "prettier-plugin-go-template": "^0.0.11"

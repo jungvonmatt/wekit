@@ -12,7 +12,7 @@
 {{ $content_type := .content_type }}
 {{ $result := dict }}
 {{ $content_dir_array := split site.Params.contentdir "/" }}
-{{ $folder := or (index $content_dir_array 1) site.LanguageCode }}
+{{ $folder := or (index $content_dir_array 1) site.Language.Lang }}
 {{ $data := or (index site.Data $folder) site.Data }}
 
 {{ if and $content_type $entry_id }}
