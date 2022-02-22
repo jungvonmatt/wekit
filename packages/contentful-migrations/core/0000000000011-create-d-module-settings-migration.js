@@ -1,4 +1,12 @@
-module.exports = function (migration) {
+module.exports = async function (migration, context) {
+  const { makeRequest } = context;
+  // Fetch locale
+  const { items: locales } = await makeRequest({
+    method: 'GET',
+    url: '/locales',
+  });
+  const defaultLocale = locales.find((locale) => locale.default);
+
   const dModuleSettings = migration
     .createContentType('d-module-settings')
     .name('Data: Module Settings')
@@ -26,7 +34,7 @@ module.exports = function (migration) {
       },
     ])
     .defaultValue({
-      en: 'light',
+      [defaultLocale.code]: 'light',
     })
     .disabled(false)
     .omitted(false);
@@ -43,7 +51,7 @@ module.exports = function (migration) {
       },
     ])
     .defaultValue({
-      en: 'md',
+      [defaultLocale.code]: 'md',
     })
     .disabled(false)
     .omitted(false);
