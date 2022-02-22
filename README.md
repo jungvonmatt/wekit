@@ -42,6 +42,24 @@ To get started, use the following command:
 npx @jungvonmatt/create-wekit-app@latest
 ```
 
-## Contributing
+## Get involved
 
-- [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?maxAge=31557600)](http://makeapullrequest.com)
+
+We appreciate any help on our repositories. For more details about how to
+contribute, see our [CONTRIBUTING.md](CONTRIBUTING.md)
+document.
+
+## Contributors
+<a href="https://github.com/jungvonmatt/wekit/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=jungvonmatt/wekit" />
+</a>
+
+
+## You found a bug or want to propose a feature?
+
+- File an issue here on GitHub: [![File an issue](https://img.shields.io/badge/-Create%20Issue-6cc644.svg?logo=github&maxAge=31557600)](https://github.com/jungvonmatt/wekit/issues/new). Make sure to remove any credential from your code before sharing it.
+
+## License
+
+This repository is published under the [MIT](LICENSE) license.
