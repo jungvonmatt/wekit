@@ -26,3 +26,7 @@ To get started, use the following command:
 ```bash
 npx @jungvonmatt/create-wekit-app@latest
 ```
+
+## Contributing
+
+- [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/)
