@@ -2,7 +2,7 @@ module.exports = function (migration) {
   const mMedia = migration
     .createContentType('m-media')
     .name('Module: Media')
-    .description('Module wrapper for media content')
+    .description('Module wrapper for media component')
     .displayField('name');
   mMedia
     .createField('name')

@@ -1,7 +1,11 @@
 module.exports = function (migration) {
-  const xFolder = migration.createContentType('x-folder').name('Folder').description('').displayField('name');
+  const folder = migration
+    .createContentType('folder')
+    .name('Folder')
+    .description('Allows structuring pages in folders')
+    .displayField('name');
 
-  xFolder
+  folder
     .createField('name')
     .name('Internal name')
     .type('Symbol')
@@ -11,7 +15,7 @@ module.exports = function (migration) {
     .disabled(false)
     .omitted(false);
 
-  xFolder
+  folder
     .createField('label')
     .name('Label')
     .type('Symbol')
@@ -25,7 +29,7 @@ module.exports = function (migration) {
     .disabled(false)
     .omitted(false);
 
-  xFolder
+  folder
     .createField('slug')
     .name('Slug')
     .type('Symbol')
@@ -39,7 +43,7 @@ module.exports = function (migration) {
     .disabled(false)
     .omitted(false);
 
-  xFolder
+  folder
     .createField('parent')
     .name('Parent page')
     .type('Link')
@@ -47,14 +51,14 @@ module.exports = function (migration) {
     .required(false)
     .validations([
       {
-        linkContentType: ['x-folder', 'page'],
+        linkContentType: ['folder', 'page'],
       },
     ])
     .disabled(false)
     .omitted(false)
     .linkType('Entry');
 
-  xFolder
+  folder
     .createField('menu')
     .name('Submenu')
     .type('Link')
@@ -69,13 +73,13 @@ module.exports = function (migration) {
     .omitted(false)
     .linkType('Entry');
 
-  xFolder.changeFieldControl('name', 'builtin', 'singleLine', {
+  folder.changeFieldControl('name', 'builtin', 'singleLine', {
     helpText: "This field is for internal use. It won't appear on the page.",
   });
-  xFolder.changeFieldControl('label', 'builtin', 'singleLine', {});
-  xFolder.changeFieldControl('slug', 'builtin', 'slugEditor', {
+  folder.changeFieldControl('label', 'builtin', 'singleLine', {});
+  folder.changeFieldControl('slug', 'builtin', 'slugEditor', {
     trackingFieldId: 'label',
   });
-  xFolder.changeFieldControl('parent', 'builtin', 'entryLinkEditor', {});
-  xFolder.changeFieldControl('menu', 'builtin', 'entryLinkEditor', {});
+  folder.changeFieldControl('parent', 'builtin', 'entryLinkEditor', {});
+  folder.changeFieldControl('menu', 'builtin', 'entryLinkEditor', {});
 };

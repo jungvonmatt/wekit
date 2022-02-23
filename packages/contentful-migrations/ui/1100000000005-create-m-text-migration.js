@@ -7,7 +7,11 @@ module.exports = async function (migration, context) {
   });
   const defaultLocale = locales.find((locale) => locale.default);
 
-  const mText = migration.createContentType('m-text').name('Module: Text').description('').displayField('name');
+  const mText = migration
+    .createContentType('m-text')
+    .name('Module: Text')
+    .description('Content type for placing richtext')
+    .displayField('name');
   mText
     .createField('name')
     .name('Internal name')

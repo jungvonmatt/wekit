@@ -7,7 +7,7 @@ module.exports = function (migration) {
   const deploy = migration
     .createContentType('x-deploy')
     .name('Deploy')
-    .description('Depoy trigger ')
+    .description('Depoy trigger')
     .displayField('name');
   deploy
     .createField('name')

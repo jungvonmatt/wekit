@@ -17,7 +17,7 @@
       {{- range . -}}
         <li>
           {{- with .Params -}}
-            {{- if eq .content_type "x-folder" -}}
+            {{- if eq .content_type "folder" -}}
               {{- with partial "utils/get-params" . -}}
                 <span class="c-menu__item">{{ .label }}</span>
               {{- end -}}

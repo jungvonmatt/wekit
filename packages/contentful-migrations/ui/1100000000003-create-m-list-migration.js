@@ -7,7 +7,11 @@ module.exports = async function (migration, context) {
   });
   const defaultLocale = locales.find((locale) => locale.default);
 
-  const mList = migration.createContentType('m-list').name('Module: List').description('').displayField('name');
+  const mList = migration
+    .createContentType('m-list')
+    .name('Module: List')
+    .description('Allows placing multiple components in a slider or grid')
+    .displayField('name');
   mList
     .createField('name')
     .name('Internal name')

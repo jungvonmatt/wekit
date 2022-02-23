@@ -10,7 +10,7 @@ module.exports = async function (migration, context) {
   const cMedia = migration
     .createContentType('c-media')
     .name('Component: Media')
-    .description('Images / loop videos with predefined ratio')
+    .description('Images / loop videos with predefined ratios')
     .displayField('name');
   cMedia
     .createField('name')

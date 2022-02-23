@@ -2,7 +2,7 @@ module.exports = async function (migration) {
   const cEditorial = migration
     .createContentType('c-editorial')
     .name('Component: Editorial')
-    .description('')
+    .description('Teaser-like components with text, image & links')
     .displayField('name');
   cEditorial
     .createField('name')

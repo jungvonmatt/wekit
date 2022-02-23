@@ -1,5 +1,9 @@
 module.exports = function (migration) {
-  const cMenu = migration.createContentType('c-menu').name('Component: Menu').description('').displayField('name');
+  const cMenu = migration
+    .createContentType('c-menu')
+    .name('Component: Menu')
+    .description('Content type for specifying menus')
+    .displayField('name');
   cMenu
     .createField('name')
     .name('Internal name')
@@ -32,7 +36,7 @@ module.exports = function (migration) {
       type: 'Link',
       validations: [
         {
-          linkContentType: ['c-link', 'page', 'x-folder'],
+          linkContentType: ['c-link', 'page', 'folder'],
         },
       ],
       linkType: 'Entry',

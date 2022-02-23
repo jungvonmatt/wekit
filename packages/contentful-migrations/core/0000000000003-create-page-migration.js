@@ -31,7 +31,7 @@ module.exports = function (migration) {
     .required(false)
     .validations([
       {
-        linkContentType: ['page'],
+        linkContentType: ['folder', 'page'],
       },
     ])
     .disabled(false)

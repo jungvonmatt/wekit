@@ -2,7 +2,7 @@ module.exports = function (migration) {
   const cModuleHeader = migration
     .createContentType('c-module-header')
     .name('Component: Module header')
-    .description('')
+    .description('Header/Intro content for modules')
     .displayField('name');
 
   cModuleHeader

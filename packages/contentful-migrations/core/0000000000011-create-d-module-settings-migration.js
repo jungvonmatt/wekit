@@ -10,7 +10,7 @@ module.exports = async function (migration, context) {
   const dModuleSettings = migration
     .createContentType('d-module-settings')
     .name('Data: Module Settings')
-    .description('')
+    .description('Layout settings (theme, spacing, ...) for modules')
     .displayField('name');
   dModuleSettings
     .createField('name')

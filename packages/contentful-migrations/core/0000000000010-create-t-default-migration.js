@@ -10,7 +10,7 @@ module.exports = async function (migration, context) {
   const tDefault = migration
     .createContentType('t-default')
     .name('Template: Default')
-    .description('')
+    .description('Default template with no module restrictions')
     .displayField('name');
 
   tDefault

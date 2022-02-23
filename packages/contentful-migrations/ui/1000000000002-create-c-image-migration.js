@@ -7,7 +7,11 @@ module.exports = async function (migration, context) {
   });
   const defaultLocale = locales.find((locale) => locale.default);
 
-  const cImage = migration.createContentType('c-image').name('Component: Image').description('').displayField('name');
+  const cImage = migration
+    .createContentType('c-image')
+    .name('Component: Image')
+    .description('Image type with dedicated fields for mobile & desktop asset')
+    .displayField('name');
   cImage
     .createField('name')
     .name('Internal name')

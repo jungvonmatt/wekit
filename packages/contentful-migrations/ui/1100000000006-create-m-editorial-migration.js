@@ -10,7 +10,7 @@ module.exports = async function (migration, context) {
   const mEditorial = migration
     .createContentType('m-editorial')
     .name('Module: Editorial')
-    .description('Module wrapper for the editorial content')
+    .description('Module wrapper for the editorial component')
     .displayField('name');
 
   mEditorial
