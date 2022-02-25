@@ -1,7 +1,7 @@
 {
   "name": "@jungvonmatt/wekit-theme-hugo-basic",
   "description": "A Jamstack kit for Contentful, Hugo and Netlify.",
-  "version": "0.2.0",
+  "version": "0.5.3",
   "private": true,
   "browserslist": [
     "defaults"

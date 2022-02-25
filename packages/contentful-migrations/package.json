@@ -1,6 +1,6 @@
 {
   "name": "migrations",
-  "version": "0.0.0",
+  "version": "0.5.3",
   "private": true,
   "main": "index.js",
   "files": [
