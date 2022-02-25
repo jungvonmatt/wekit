@@ -43,7 +43,15 @@
 {{/* Compute inner */}}
 {{- $inner := "" -}}
 {{- with $icon -}}
-  {{- $img := partial "utils/asset" (dict "context" . "globals" $globals "options" (dict "inline" true)) -}}
+  {{- $img := "" -}}
+  {{- if partialCached "utils/reflect/is-string" . . -}}
+    {{- $img = partial "components/c-icon" (dict
+      "globals" $globals
+      "context" (dict "id" . "inline" true)
+    ) -}}
+  {{- else -}}
+    {{- $img = partial "utils/asset" (dict "context" . "globals" $globals "options" (dict "inline" true "sprite" false)) -}}
+  {{- end -}}
   {{- $inner = print "<span class=\"c-link__icon\">" $img "</span>" }}
 {{- end -}}
 {{- with $text -}}

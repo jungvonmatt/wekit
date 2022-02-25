@@ -6,6 +6,9 @@
 
 {{/* Get link object */}}
 {{- $link := dict -}}
+{{- with $params.url -}}
+  {{- $link = partial "utils/link" . -}}
+{{- end -}}
 {{- with $params.link_to_url -}}
   {{- $link = partial "utils/link" . -}}
 {{- end -}}
