@@ -5,7 +5,7 @@
 {{- else if eq . "underline" -}}
   <u>
 {{- else -}}
-  {{- partial "utils/not-found.html" (
+  {{- partial "utils/not-found" (
     dict "name" .
     "inline" true
   ) -}}

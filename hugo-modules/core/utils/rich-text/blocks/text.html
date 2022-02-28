@@ -1,6 +1,6 @@
 {{- if .context.marks -}}
   {{- range .context.marks -}}
-    {{- partial "utils/rich-text/blocks/marks-opening.html" . | safeHTML -}}
+    {{- partial "utils/rich-text/blocks/marks-opening" . | safeHTML -}}
   {{- end -}}
 {{- end -}}
 
@@ -12,6 +12,6 @@
 
 {{- if .context.marks -}}
   {{- range .context.marks -}}
-    {{- partial "utils/rich-text/blocks/marks-closing.html" . | safeHTML -}}
+    {{- partial "utils/rich-text/blocks/marks-closing" . | safeHTML -}}
   {{- end -}}
 {{- end -}}

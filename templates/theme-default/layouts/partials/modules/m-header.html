@@ -1,7 +1,7 @@
 {{- $globals := .globals -}}
 {{- $context := .context | default dict -}}
 {{- $options := .options | default dict -}}
-{{- $settings := partial "utils/get-settings.html" -}}
+{{- $settings := partial "utils/get-settings" . -}}
 {{- $params := (merge $settings $context $options) -}}
 {{- $logo := $params.logo -}}
 

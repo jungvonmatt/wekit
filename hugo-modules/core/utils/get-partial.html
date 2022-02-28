@@ -27,7 +27,7 @@
   {{- $file_path := print $category "/" $content_type ".html" -}}
 
   {{- if templates.Exists (printf "partials/%s" $file_path) -}}
-    {{- with partial "utils/get-params.html" $context -}}
+    {{- with partial "utils/get-params" $context -}}
       {{- partial $file_path (dict
         "globals" $globals
         "context" .

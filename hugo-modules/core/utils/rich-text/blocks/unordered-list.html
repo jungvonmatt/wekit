@@ -4,13 +4,13 @@
   {{- range .context.content -}}
     {{- if eq .node_type "list-item" -}}
       <li>
-        {{- partial "utils/rich-text/get-block.html" (dict
+        {{- partial "utils/rich-text/get-block" (dict
           "context" .
           "globals" $globals
         ) -}}
       </li>
     {{- else -}}
-      {{- partial "utils/not-found.html" (dict "name" .node_type) -}}
+      {{- partial "utils/not-found" (dict "name" .node_type) -}}
     {{- end -}}
   {{- end -}}
 </ul>

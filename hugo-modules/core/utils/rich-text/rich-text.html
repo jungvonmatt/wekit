@@ -20,7 +20,7 @@
 {{- range $content -}}
   {{- $partial := print "utils/rich-text/blocks/" .node_type ".html" -}}
   {{- if in (apply (seq 6) "printf" "heading-%v" ".") .node_type }}
-    {{- $partial = print "utils/rich-text/blocks/heading.html" -}}
+    {{- $partial = print "utils/rich-text/blocks/heading"  -}}
   {{ end -}}
   {{- $partial_check := print "layouts/partials/" $partial -}}
   {{- if $partial_check -}}
@@ -29,6 +29,6 @@
       "globals" $globals
     ) -}}
   {{- else -}}
-    {{- partial "utils/not-found.html" (dict "name" $partial_check) -}}
+    {{- partial "utils/not-found" (dict "name" $partial_check) -}}
   {{ end -}}
 {{- end -}}

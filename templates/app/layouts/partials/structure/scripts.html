@@ -1,4 +1,4 @@
-{{- $settings := partial "utils/get-settings.html" . -}}
+{{- $settings := partial "utils/get-settings" . -}}
 
 {{ $params := merge site.Params (dict
   "environment" (or (getenv "HUGO_ENVIRONMENT") hugo.Environment)

@@ -8,6 +8,6 @@
       "globals" $globals
     ) | safeHTML -}}
   {{- else -}}
-    {{- partial "utils/not-found.html" (dict "name" $file_path) -}}
+    {{- partial "utils/not-found" (dict "name" $file_path) -}}
   {{- end -}}
 {{- end -}}
