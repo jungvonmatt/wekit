@@ -6,7 +6,7 @@
 {{ define "main" }}
   {{- $pages := .Pages -}}
   {{ with .Params.content }}
-    {{ partial "utils/get-partial.html" (dict
+    {{ partial "utils/get-partial" (dict
       "context" .
       "globals" $
       "options" (dict

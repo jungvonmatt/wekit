@@ -36,7 +36,7 @@
         {{- range $content -}}
           <div class="m-list__item">
             {{ if eq .node_type "document" }}
-              {{ partial "components/c-text.html" (dict
+              {{ partial "components/c-text" (dict
                 "context" (dict "text" .)
                 "globals" $globals
                 "options" (dict
@@ -44,7 +44,7 @@
                 )
               ) }}
             {{ else }}
-              {{ partial "utils/get-partial.html" (dict
+              {{ partial "utils/get-partial" (dict
                 "context" .
                 "globals" $globals
                 "options" (dict

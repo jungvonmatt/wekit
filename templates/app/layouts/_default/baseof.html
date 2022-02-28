@@ -1,12 +1,12 @@
 <!doctype html>
 <html lang="{{ (index (split site.LanguageCode "-") 0) | default "en" }}">
   <head>
-    {{ partial "structure/head.html" . }}
+    {{ partial "structure/head" . }}
   </head>
   <body>
     {{ block "header" . }}
       {{ if templates.Exists "partials/modules/m-header.html" }}
-        {{ partial "modules/m-header.html" (dict
+        {{ partial "modules/m-header" (dict
           "context" .Params
           "globals" $
         ) }}
@@ -15,7 +15,7 @@
     {{ block "main" . }}{{ end }}
     {{ block "footer" . }}
       {{ if templates.Exists "partials/modules/m-footer.html" }}
-        {{ partial "modules/m-footer.html" (dict
+        {{ partial "modules/m-footer" (dict
             "context" .Params
             "globals" $
           ) }}

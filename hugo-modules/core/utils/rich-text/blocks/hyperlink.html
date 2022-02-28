@@ -7,7 +7,7 @@
   {{ $attr = partialCached "utils/html/attribute" . $context }}
 {{ end }}
 <a {{ $attr }}>
-  {{- partial "utils/rich-text/get-block.html" (dict
+  {{- partial "utils/rich-text/get-block" (dict
     "context" $context
     "globals" $globals
   ) -}}

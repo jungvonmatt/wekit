@@ -58,7 +58,7 @@
         {{- end -}}
         </div>
         {{ range $content }}
-          {{ partialCached "utils/get-partial.html" (dict
+          {{ partialCached "utils/get-partial" (dict
             "context" .
             "globals" $globals
             "options" (dict

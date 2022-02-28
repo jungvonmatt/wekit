@@ -6,13 +6,13 @@
 
 <main class="t-default{{ with $theme }} u-theme--{{ . }}{{ end }}">
   {{- with $stage -}}
-    {{- partial "utils/get-partial.html" (dict
+    {{- partial "utils/get-partial" (dict
       "context" .
       "globals" $globals
     ) -}}
   {{- end -}}
   {{- range $modules -}}
-    {{- partial "utils/get-partial.html" (dict
+    {{- partial "utils/get-partial" (dict
       "context" .
       "globals" $globals
     ) -}}
