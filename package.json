@@ -12,14 +12,14 @@
     "test-doc": "alex"
   },
   "devDependencies": {
-    "alex": "^1.0.0",
-    "lerna": "^4.0.0",
-    "prettier": "^2.5.1",
+    "alex": "^10.0.0",
     "eslint-config-prettier": "^8.4.0",
     "eslint-config-xo": "^0.40.0",
     "eslint-config-xo-space": "^0.32.0",
     "eslint-config-xo-typescript": "^0.50.0",
     "eslint-plugin-prettier": "^4.0.0",
+    "lerna": "^4.0.0",
+    "prettier": "^2.5.1",
     "prettier-plugin-go-template": "^0.0.11"
   },
   "engines": {

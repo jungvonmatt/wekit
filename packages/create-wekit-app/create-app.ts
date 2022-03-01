@@ -225,9 +225,9 @@ export async function createApp({ appPath }: { appPath: string }): Promise<void>
       'lh:start': 'cd tools/lighthouse && npm run start',
       'lh:report': 'cd tools/lighthouse && npm run report',
       'cf:login': 'contentful login',
-      'cf:docs': 'migrations doc -e master -p docs/contentful --template contentful-docs.js',
+      'cf:docs': 'migrations doc -p docs/contentful --template contentful-docs.js',
       'cf:argtypes':
-        'migrations doc -e master -p data/contentful/argtypes --template contentful-argtypes.js --extension json',
+        'migrations doc -p data/contentful/argtypes --template contentful-argtypes.js --extension json',
     },
     migrations: {
       storage: 'content',
