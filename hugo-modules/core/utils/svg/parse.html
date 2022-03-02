@@ -34,7 +34,7 @@
     ) }}
 */}}
 
-{{- $id := .id -}}
+{{- $id := .id | default "" -}}
 {{- $path := .path | default (printf "icons/%s.svg" $id) -}}
 {{- $class := .class_name | default "" -}}
 {{- $dest_width := .width }}
@@ -49,6 +49,9 @@
 {{ $height := 0 }}
 {{ with .source }}
   {{ $source = . }}
+  {{ if eq $id "" }}
+    {{ $id = md5 . }}
+  {{ end }}
 {{ end }}
 {{ with .url }}
   {{ $src = cond (hasPrefix . "//") (print "https:" .) . }}
@@ -56,7 +59,7 @@
     {{ $src = .RelPermalink }}
     {{ $source = .Content }}
     {{ $size = len .Content }}
-    {{ if not $id }}
+    {{ if eq $id "" }}
       {{ $id = replace .Name ".svg" "" }}
     {{ end }}
   {{ end }}
@@ -66,7 +69,7 @@
     {{ $source = .Content  }}
     {{ $src = .RelPermalink }}
     {{ $size = len .Content }}
-    {{ if not $id }}
+    {{ if eq $id "" }}
       {{ $id = replace .Name ".svg" "" }}
     {{ end }}
   {{ end }}
