@@ -20,8 +20,8 @@
 {{- $options := .options | default dict -}}
 {{- $params := (merge $context $options) -}}
 {{- $class_name := $params.class_name -}}
-{{- $dest_width := $params.width }}
-{{- $dest_height := $params.height }}
+{{- $dest_width := $params.width -}}
+{{- $dest_height := $params.height -}}
 
 {{- with partial "utils/svg/parse" $params -}}
   {{- $inline := $params.inline | default (cond (lt .size 4096) true false) -}}

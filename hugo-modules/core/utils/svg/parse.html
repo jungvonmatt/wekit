@@ -39,6 +39,7 @@
 {{- $class := .class_name | default "" -}}
 {{- $dest_width := .width }}
 {{- $dest_height := .height }}
+{{- $attributes := .attributes | default dict -}}
 
 {{/* find source file */}}
 {{ $source := "" }}
@@ -105,10 +106,23 @@
 
   {{ $viewbox := or (replaceRE "<\\s*\\/?\\s*svg\\s*[^>]*view[bB]ox=\"([^\"]+)\".*" "${1}" ($viewbox_markup))  (printf "0 0 %s %s" $width $height) }}
 
-  {{ $symbol = replaceRE (print "<" $tag ".*?>") (printf "<symbol id=\"%s\" viewBox=\"%s\">" $id $viewbox) . }}
+  {{ $symbol_attributes := partial "utils/html/attribute" (merge
+    $attributes  (dict "id" $id "viewBox" $viewbox)
+  ) }}
+  {{ $symbol = replaceRE (print "<" $tag ".*?>") (printf "<symbol %s>" $symbol_attributes) . }}
   {{ $symbol = replaceRE (print "</" $tag ".*?>") "</symbol>" $symbol }}
   {{ $symbol = replaceRE "(\\n(\\p{Z}+)?)+" "" $symbol }}
-  {{ $svg = replaceRE (print "<" $tag ".*?>") (printf "<svg class=\"%s\" width=\"%.f\" height=\"%.f\" viewBox=\"%s\"  xmlns=\"http://www.w3.org/2000/svg\">" $class (float (or $dest_width $width)) (float (or  $dest_height $height)) $viewbox) . }}
+
+   {{ $svg_attributes := partial "utils/html/attribute" (merge
+    $attributes  (dict
+      "xmlns" "http://www.w3.org/2000/svg"
+      "class" $class
+      "viewBox" $viewbox
+      "width" (float (or $dest_width $width))
+      "height" (float (or  $dest_height $height))
+    )
+  ) }}
+  {{ $svg = replaceRE (print "<" $tag ".*?>") (printf "<svg %s>" $svg_attributes) . }}
   {{ $svg = replaceRE (print "</" $tag ".*?>") "</svg>" $svg }}
   {{ $svg = replaceRE "(\\n(\\p{Z}+)?)+" "" $svg }}
 {{ end }}
