@@ -1,5 +1,15 @@
 const splitValues = (values) => {
-  return values.map((value) => `\`${value}\``).join(', ');
+  if (['number', 'string'].includes(typeof values)) {
+    return `\`${values}\``;
+  }
+
+  if (Array.isArray(values)) {
+    return values.map((value) => `\`${value}\``).join(', ');
+  }
+
+  return Object.entries(values)
+    .map(([key, value]) => `${key}: \`${value}\``)
+    .join(', ');
 };
 
 const formatValidations = (validations) => {
