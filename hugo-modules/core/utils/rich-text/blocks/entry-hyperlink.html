@@ -1,7 +1,6 @@
 {{- $globals := .globals -}}
 {{- $context := .context -}}
 
-
 {{ $attributes := partialCached "utils/link" $context $context }}
 {{ $attr := "" }}
 {{ with $attributes }}
