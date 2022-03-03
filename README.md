@@ -32,15 +32,41 @@ This is a Jamstack kit helping you build secure ([Mozilla Observatory: A+ score]
 
 
 
+## Requirements
+
+Make sure all dependencies have been installed:
+
+- [Hugo](https://gohugo.io/) >= v0.91.0+extended
+- [Go](https://golang.org/) >= v1.17
+- [Node.js](https://nodejs.org/) >= v16
+
+Set up Contentful:
+
+- Create a new and preferably empty space.
+- Generate API Keys for content delivery and preview tokens.
+- Log in to your account by running `npx contentful-cli login`.
+
 ## Getting started
 
-The easiest way to kickstart a new WEKit project using contentful and hugo is by using `@jungvonmatt/create-wekit-app`.
+The easiest way to kickstart a new WEKit project using Contentful and Hugo is by using `@jungvonmatt/create-wekit-app`.
 This CLI tool enables you to quickly setup a new WEKit application, with everything set up for you.
 To get started, use the following command:
 
 ```bash
 npx @jungvonmatt/create-wekit-app@latest
 ```
+
+The script takes care of the most important settings:
+
+- 🐹 A pre-configured Hugo setup.
+- 🎨 A set of well-designed UI components, ready to test in Storybook.
+- ✏️ Suitable migration scripts for Contentful.
+- 🤖 The migrations can be started directly (or later) and all dependencies are installed automatically.
+
+After that, you can try out the new app. To do so, change to the newly created directory and run
+`npm run storybook`. This will start the Storybook development environment with all the UI components
+you selected. You can also start the Hugo development server by running `npm start`. However,
+you will only see an empty page because no entries have been created in Contentful yet.
 
 ## Get involved
 
