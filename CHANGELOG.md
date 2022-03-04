@@ -3,6 +3,24 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.6.0](https://github.com/jungvonmatt/wekit/compare/v0.5.5...v0.6.0) (2022-03-04)
+
+
+### Bug Fixes
+
+* **c-icon:** fallback if png is passed as attribute ([0ff87a6](https://github.com/jungvonmatt/wekit/commit/0ff87a67813b60d472cd1c686478ce9e3a431fe7))
+* **migrations:** Uses dynamic locale code for default value in media module ([c13114f](https://github.com/jungvonmatt/wekit/commit/c13114f729919119e136602cd87cd6babf56c752))
+* **scaffold:** Adjust hygen script to version 6.2.0 ([9e56033](https://github.com/jungvonmatt/wekit/commit/9e56033221f4c0f4f4e6df4ac5bac21614b42680))
+
+
+### Features
+
+* **netlify:** Adds netlify-cli devDependency ([5e18664](https://github.com/jungvonmatt/wekit/commit/5e186648c4c77e922ca1fc1a481ea39a8a29edf2))
+
+
+
+
+
 ## [0.5.5](https://github.com/jungvonmatt/wekit/compare/v0.5.4...v0.5.5) (2022-03-02)
 
 
