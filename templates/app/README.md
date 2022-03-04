@@ -1,22 +1,11 @@
 # Site
 
-## Netlify preview
-
-[https://wekit-demo.netlify.app](https://wekit-demo.netlify.app/)
-
-[![Netlify Status](https://api.netlify.com/api/v1/badges/975cd966-61a9-47a2-ab34-ab6b4d3a7265/deploy-status)](https://app.netlify.com/sites/wekit-demo/deploys)
-
-### Storybook
-
-[https://wekit-storybook.netlify.app](https://wekit-storybook.netlify.app)
-
-[![Netlify Status](https://api.netlify.com/api/v1/badges/5d3fa6dc-46ec-49d8-959a-afbd2a305361/deploy-status)](https://app.netlify.com/sites/wekit-storybook/deploys)
-
 ## Requirements
 
 Make sure all dependencies have been installed:
 
-- [Hugo](https://gohugo.io/) >= v0.89.4+extended
+- [Hugo](https://gohugo.io/) >= v0.91.0+extended
+- [Go](https://golang.org/) >= v1.17
 - [Node.js](https://nodejs.org/) >= v16
 
 ## Getting started
@@ -32,7 +21,7 @@ npm install
 Build development files with live reloading and injection:
 
 ```bash
-npm run start
+npm start
 ```
 
 ### Other commands

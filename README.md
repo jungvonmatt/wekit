@@ -32,15 +32,71 @@ This is a Jamstack kit helping you build secure ([Mozilla Observatory: A+ score]
 
 
 
+## Requirements
+
+Make sure all dependencies have been installed:
+
+- [Hugo](https://gohugo.io/) >= v0.91.0+extended
+- [Go](https://golang.org/) >= v1.17
+- [Node.js](https://nodejs.org/) >= v16
+
+Set up Contentful:
+
+- Create a new and preferably empty space.
+- Go to *"Settings > API keys"* and add an API key for content delivery and preview tokens.
+- Log in to your account by running `npx contentful-cli login`.
+
 ## Getting started
 
-The easiest way to kickstart a new WEKit project using contentful and hugo is by using `@jungvonmatt/create-wekit-app`.
+The easiest way to kickstart a new WEKit project using Contentful and Hugo is by using `@jungvonmatt/create-wekit-app`.
 This CLI tool enables you to quickly setup a new WEKit application, with everything set up for you.
 To get started, use the following command:
 
 ```bash
 npx @jungvonmatt/create-wekit-app@latest
 ```
+
+The script takes care of the most important settings:
+
+- 🐹 A pre-configured Hugo setup.
+- 🎨 A set of well-designed UI components, ready to test in Storybook.
+- ✏️ Suitable migration scripts for Contentful.
+- 🤖 The migrations can be started directly (or later) and all dependencies are installed automatically.
+
+After that, you can try out the new app. To do so, change to the newly created directory and run
+`npm run storybook`. This will start the Storybook development environment with all the UI components
+you selected. You can also start the Hugo development server by running `npm start`. However,
+you will only see an empty page because no entries have been created in Contentful yet.
+
+Nice job so far. Now you can easily deploy your site to Netlify.
+
+First, push the app to GitHub:
+
+```
+# Replace the origin with the correct URL to your repo
+git remote add origin git@github.com:{ACCOUNT}/{REPO}.git`
+git branch -M main
+git push -u origin main
+```
+
+Create and configure a continuous deployment for a new site in Netlify:
+
+- Log in to your account by running `npx netlify login`.
+- `npx netlify init` configures a continuous deployment for a new site.
+- And `npx netlify env:import .env` imports the current environment variables.
+
+And last but not least we set up a webhook in Contentful:
+
+- Netlify: Go to *"Site settings > Build & deploy > Build hooks"*, add a new build hook and copy it.
+- Contentful: Go to *"Settings > Webhooks"*, add a new webhook and change the following settings.
+  - URL: Paste the copied Netlify build hook URL
+  - Triggers: Select specific triggering events
+  - Content Events: Select only *Publish* and *Unpublish* for *Entry*
+  - Filter: Add a new filter *Entity ID (sys.id) equals* with *deploy-to-production*
+
+You are now ready to deploy. Open the *"Deploy to production"* content entry and click *Deploy*.
+Switch to Netlify and check whether the webhook has run in. The build should now start
+and after a short while... **Site is live ✨**
 
 ## Get involved
 
