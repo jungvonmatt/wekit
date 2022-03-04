@@ -1,6 +1,5 @@
 /* eslint-env node */
-const { runner } = require('hygen');
-const Logger = require('hygen/lib/logger');
+const { runner, Logger } = require('hygen');
 const pc = require('picocolors');
 const fs = require('fs-extra');
 const { Confirm } = require('enquirer');
