@@ -3,7 +3,7 @@
   Render Contentful asset (image/...). Uses data from cssg-plugin-assets if available.
 
   @example - Go Template
-    {{ partial "utils/asset/image" (dict
+    {{- partial "utils/asset/image" (dict
       "context" $image
       "options" (dict
         "sizes" "(max-width: 768px) 100vw, 768px"
@@ -12,7 +12,7 @@
         "decoding" "auto"
         "lazy" true
       )
-    ) }}
+    ) -}}
 */}}
 {{- $context := .context | default dict -}}
 {{- $options := .options | default dict -}}
@@ -27,13 +27,13 @@
 {{- $class_name := $params.class_name -}}
 {{- $decoding := $params.decoding | default "async" -}}
 {{- $loading :=  cond (eq $params.lazy true) "lazy" ($params.loading | default false) -}}
-{{- $ratio := $params.ratio }}
+{{- $ratio := $params.ratio -}}
 {{- $sizes := $params.sizes -}}
 
-{{ $image_attributes := partialCached "utils/html/attribute" (dict
+{{- $image_attributes := partialCached "utils/html/attribute" (dict
   "loading" $loading
   "decoding" $decoding
-) $params }}
+) $params -}}
 {{- if in $mime_type "image" -}}
   {{- with $derivatives -}}
     {{- $data := (index $derivatives "original") -}}
@@ -46,9 +46,9 @@
       {{- $src := .src -}}
       {{- $width := .width -}}
       {{- $height := .height -}}
-      <picture class="{{ $class_name }}">
+      <picture class="{{- $class_name -}}">
         {{- range $srcsets -}}
-          <source sizes="{{ $local_sizes }}" srcset="{{- .srcset -}}" type="{{ .type }}">
+          <source sizes="{{- $local_sizes -}}" srcset="{{- .srcset -}}" type="{{- .type -}}">
         {{- end -}}
         <img src="{{- $src -}}" width="{{- $width -}}" height="{{- $height -}}" {{ $image_attributes }} alt="{{- $alt -}}">
       </picture>

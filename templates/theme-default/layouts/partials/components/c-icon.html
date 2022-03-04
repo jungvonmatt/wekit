@@ -14,8 +14,16 @@
   {{- $class = (print $class " " . ) -}}
 {{- end -}}
 
-{{ partial "utils/svg/icon" (dict
+{{- with partial "utils/asset" (dict
   "context" $params
   "globals" $globals
   "options" (dict "class_name" $class)
-) }}
+) -}}
+  {{- . -}}
+{{- else -}}
+  {{- partial "utils/svg/icon" (dict
+    "context" $params
+    "globals" $globals
+    "options" (dict "class_name" $class)
+  ) -}}
+{{- end -}}

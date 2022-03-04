@@ -3,13 +3,13 @@
   Render Contentful asset. Uses data from cssg-plugin-assets if available.
 
   @example - Go Template
-    {{ partial "utils/asset" (dict
+    {{- partial "utils/asset" (dict
       "globals" $globals
       "context" $image
       "options" (dict
         "sizes" "(max-width: 768px) 100vw, 768px"
       )
-    ) }}
+    ) -}}
 */}}
 {{- $globals := .globals -}}
 {{- $context := .context | default dict -}}
@@ -18,21 +18,21 @@
 {{- $mime_type := $params.mime_type -}}
 
 {{- if in $mime_type "video" -}}
-  {{ partialCached "utils/asset/video" (dict
+  {{- partialCached "utils/asset/video" (dict
     "globals" $globals
     "context" $context
     "options" $options
-  ) $params }}
-{{ else if in $mime_type "svg" -}}
-  {{ partialCached "utils/asset/svg" (dict
+  ) $params -}}
+{{- else if in $mime_type "svg" -}}
+  {{- partialCached "utils/asset/svg" (dict
     "globals" $globals
     "context" $context
     "options" $options
-  ) $params }}
-{{ else }}
-  {{ partialCached "utils/asset/image" (dict
+  ) $params -}}
+{{- else -}}
+  {{- partialCached "utils/asset/image" (dict
     "globals" $globals
     "context" $context
     "options" $options
-  ) $params }}
-{{ end }}
+  ) $params -}}
+{{- end -}}
