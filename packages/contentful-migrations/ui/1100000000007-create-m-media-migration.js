@@ -1,4 +1,12 @@
-module.exports = function (migration) {
+module.exports = async function (migration, context) {
+  const { makeRequest } = context;
+  // Fetch locale
+  const { items: locales } = await makeRequest({
+    method: 'GET',
+    url: '/locales',
+  });
+  const defaultLocale = locales.find((locale) => locale.default);
+
   const mMedia = migration
     .createContentType('m-media')
     .name('Module: Media')
@@ -56,7 +64,7 @@ module.exports = function (migration) {
       },
     ])
     .defaultValue({
-      en: 'default',
+      [defaultLocale.code]: 'default',
     })
     .disabled(false)
     .omitted(false);
