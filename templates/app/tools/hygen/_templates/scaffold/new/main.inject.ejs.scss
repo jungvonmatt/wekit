@@ -1,7 +1,7 @@
 ---
 inject: true
 to: assets/scss/main.scss
-after: '.*(<%= category %>|<%= h.changeCase.pascalCase(category) %>)'
-skip_if: <%= h.changeCase.paramCase(contentType) %>
+before: '(?<=(<%= category %>\/.*\n)|(<%= h.changeCase.pascalCase(category) %>.*\n))\n'
+skip_if: '"<%= category %>\/<%= h.changeCase.paramCase(contentType) -%>"'
 ---
 @import "<%= category %>/<%= h.changeCase.paramCase(contentType) -%>";
