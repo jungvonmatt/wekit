@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.6.2](https://github.com/jungvonmatt/wekit/compare/v0.6.1...v0.6.2) (2022-03-14)
+
+
+### Bug Fixes
+
+* generates valid env file ([62914c8](https://github.com/jungvonmatt/wekit/commit/62914c8e3770ec29fc53d81dcf6d90eced5bfa2e))
+
+
+
+
+
 ## [0.6.1](https://github.com/jungvonmatt/wekit/compare/v0.6.0...v0.6.1) (2022-03-14)
 
 
