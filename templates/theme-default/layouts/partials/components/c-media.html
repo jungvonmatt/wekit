@@ -21,7 +21,7 @@
       "globals" $globals
       "context" $media_mobile
       "options" (merge $params (dict
-        "class_name" (print "c-media__asset" (cond $different_ratios " u-hidden@desktop" "") )
+        "class_name" (print "c-media__asset" (cond $different_ratios " md:u-hidden" "") )
         "ratio" $mobile_ratio
       ))
     ) -}}
@@ -30,7 +30,7 @@
         "globals" $globals
         "context" $media_desktop
         "options" (merge $params (dict
-          "class_name" (print "c-media__asset" (cond $different_ratios " u-hidden@mobile" "") )
+          "class_name" (print "c-media__asset" (cond $different_ratios " -md:u-hidden" "") )
           "ratio" $desktop_ratio
         ))
       ) -}}

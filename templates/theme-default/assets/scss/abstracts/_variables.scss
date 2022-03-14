@@ -6,7 +6,7 @@ $breakpoints: (
   "sm": 640px,
   "md": 768px,
   "lg": 1024px,
-  "xl": 1280px,
+  "xl": 1440px,
   "max": 1920px,
 );
 
@@ -26,27 +26,44 @@ $grid-columns: (
   12: #{12 / 12 * 100 + "%"},
 ) !default;
 
-// This core file sets up inuitcss’ most important setup variables. They
-// underpin a lot of how the framework functions and should be modified and
-// preconfigured with caution.
-// https://github.com/inuitcss/inuitcss/blob/develop/settings/_settings.core.scss
+// Colors
+// Each color in this map is added in steps from 100 (dark) to 900 (light) as css custom property
+// using the @mixin color-shades
+$colors: (
+  "gray": #6b7280,
+  "primary": #301c4f
+) !default;
 
 // Baseline grid lines height.
 // Every spacing metric should be based on this.
 $spacing-base: 8px !default;
+$spacing-factors: (
+  "0": 0,
+  "0\\.5": 0.5,
+  "1": 1,
+  "2": 2,
+  "3": 3,
+  "4": 4,
+  "5": 5,
+  "6": 6,
+  "7": 7,
+  "8": 8,
+  "9": 9,
+  "10": 10,
+  "15": 15,
+);
 
 // How many grid lines should our spacing unit variants span?
 // Each value should be an unitless integer.
-$spacing-factor-xs: 1 !default; // 8px
-$spacing-factor-sm: 2 !default; // 16px
-$spacing-factor-md: 4 !default; // 32px
-$spacing-factor-lg: 8 !default; // 64px
-$spacing-factor-xl: 16 !default; // 128px
+$spacing-factor-xs: map-get($spacing-factors, "1") !default; // 8px
+$spacing-factor-sm: map-get($spacing-factors, "2") !default; // 16px
+$spacing-factor-md: map-get($spacing-factors, "4") !default; // 32px
+$spacing-factor-lg: map-get($spacing-factors, "8") !default; // 64px
+$spacing-factor-xl: map-get($spacing-factors, "15") !default; // 120px
 
 // Spacing values are determined based on your project’s global baseline grid.
 // It is not recommended that you modify these following variables
 // (it can break your vertical rhythm), but if you need to, you can.
-
 $spacing-xs: $spacing-base * $spacing-factor-xs !default;
 $spacing-sm: $spacing-base * $spacing-factor-sm !default;
 $spacing-md: $spacing-base * $spacing-factor-md !default;
@@ -55,13 +72,28 @@ $spacing-xl: $spacing-base * $spacing-factor-xl !default;
 
 // Base typographical styles.
 
-// $font-size-root affects the value of `rem`, which is used for as well font sizes, paddings, and margins
+// $font-size-base affects the value of `rem`, which is used for as well font sizes, paddings, and margins
 // $font-size-md affects the font size of the body text
 $small-font-size: 0.875em !default;
-$font-size-root: 16px !default;
+$font-size-base: 16px !default;
 $font-size-md: 1rem !default; // Assumes the browser default, typically `16px`
-$font-size-sm: $font-size-md * 0.875 !default;
-$font-size-lg: $font-size-md * 1.25 !default;
+$font-size-sm: $font-size-base * 0.875 !default;
+$font-size-lg: $font-size-base * 1.25 !default;
+
+// Responsive headline sizes (used with the @mixin fluid)
+$h1-font-size-desktop: $font-size-base * 3 !default;     // 48px
+$h2-font-size-desktop: $font-size-base * 2 !default;     // 32px
+$h3-font-size-desktop: $font-size-base * 1.75 !default;  // 28px
+$h4-font-size-desktop: $font-size-base * 1.5 !default;   // 24px
+$h5-font-size-desktop: $font-size-base * 1.125 !default; // 18px
+$h6-font-size-desktop: $font-size-base * 1.125 !default; // 18px
+$h1-font-size-mobile: $font-size-base * 2.5 !default;   // 40px
+$h2-font-size-mobile: $font-size-base * 1.75 !default;  // 28px
+$h3-font-size-mobile: $font-size-base * 1.5 !default;   // 24px
+$h4-font-size-mobile: $font-size-base * 1.25 !default;  // 20px
+$h5-font-size-mobile: $font-size-base * 1.125 !default; // 18px
+$h6-font-size-mobile: $font-size-base * 1.125 !default; // 18px
+
 $font-weight-lighter: lighter !default;
 $font-weight-light: 300 !default;
 $font-weight-normal: 400 !default;
@@ -73,9 +105,3 @@ $line-height-sm: 1.25 !default;
 $line-height-md: 1.5 !default;
 $line-height-lg: 2 !default;
 $line-height-heading: 1 !default;
-$h1-font-size: $font-size-md * 2.5 !default;
-$h2-font-size: $font-size-md * 2 !default;
-$h3-font-size: $font-size-md * 1.5 !default;
-$h4-font-size: $font-size-md * 1.25 !default;
-$h5-font-size: $font-size-md * 1.125 !default;
-$h6-font-size: $font-size-md !default;

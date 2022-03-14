@@ -20,7 +20,7 @@
  * 3. Ensure the page always fills at least the entire height of the viewport.
  */
 :root {
-  font-size: $font-size-root; /* [1] */
+  font-size: $font-size-base; /* [1] */
   line-height: $line-height; /* [1] */
   overflow-y: scroll; /* [2] */
   min-height: 100%; /* [3] */
@@ -106,45 +106,37 @@ h6,
 }
 
 /**
- * Headlines use rfe's font-size mixin.
- * We've also included a fluid-type mixin if the headlines should be fluid between two defined font-sizes:
- *
- * Example:
- *
- * $min-vw: 375px;
- * $max-vw: 1440px;
- * $min-font-size: 24px;
- * $max-font-size: 48px;
- * @include fluid-type($min-vw, $max-vw, $min-font-size, $max-font-size)
+ * Headlines
  */
 h1,
 .h1 {
-  @include font-size($h1-font-size);
+  font-size: var(--#{$font}-size-h1);
+  line-height: var(--#{$line-height}-h1);
 }
 
 h2,
 .h2 {
-  @include font-size($h2-font-size);
+  font-size: var(--#{$font}-size-h2);
 }
 
 h3,
 .h3 {
-  @include font-size($h3-font-size);
+  font-size: var(--#{$font}-size-h3);
 }
 
 h4,
 .h4 {
-  @include font-size($h4-font-size);
+  font-size: var(--#{$font}-size-h4);
 }
 
 h5,
 .h5 {
-  @include font-size($h5-font-size);
+  font-size: var(--#{$font}-size-h5);
 }
 
 h6,
 .h6 {
-  @include font-size($h6-font-size);
+  font-size: var(--#{$font}-size-h6);
 }
 
 /**

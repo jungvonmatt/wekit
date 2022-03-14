@@ -27,7 +27,7 @@
       "globals" $globals
       "context" .
       "options" (merge $params (dict
-        "class_name" (print "c-image__asset" (cond $has_desktop " u-hidden@desktop" "") )
+        "class_name" (print "c-image__asset" (cond $has_desktop " md:u-hidden" "") )
       ))
     ) -}}
   {{- end -}}
@@ -36,7 +36,7 @@
       "globals" $globals
       "context" .
       "options" (merge $params (dict
-        "class_name" (print "c-image__asset" (cond $has_mobile " u-hidden@mobile" "") )
+        "class_name" (print "c-image__asset" (cond $has_mobile " -md:u-hidden" "") )
       ))
     ) -}}
   {{- end -}}

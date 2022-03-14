@@ -25,14 +25,14 @@ $spacing-properties: (
   "m": "margin",
 ) !default;
 $spacing-sizes: (
-  null: $spacing-md,
-  "-xs": $spacing-xs,
-  "-sm": $spacing-sm,
-  "-md": $spacing-md,
-  "-lg": $spacing-lg,
-  "-xl": $spacing-xl,
+  null: var(--#{$spacing}-md),
+  "-xs": var(--#{$spacing}-xs),
+  "-sm": var(--#{$spacing}-sm),
+  "-md": var(--#{$spacing}-md),
+  "-lg": var(--#{$spacing}-lg),
+  "-xl": var(--#{$spacing}-xl),
   "-0": 0,
-  "-none": 0
+  "-none": 0,
 ) !default;
 
 @each $property-namespace, $property in $spacing-properties {

@@ -10,8 +10,9 @@ $radii: $prefix + "-radii";
   --#{$color}-black: #000;
   --#{$color}-white: #fff;
 
-  @include color-shades("gray", #6b7280);
-  @include color-shades("primary", #301c4f);
+  @each $name, $color in $colors {
+    @include color-shades($name, $color);
+  }
 
   --#{$color}-text: var(--#{$color}-gray-900);
   --#{$color}-text-silent: var(--#{$color}-gray-700);
@@ -29,6 +30,10 @@ $radii: $prefix + "-radii";
   --#{$spacing}-lg: #{$spacing-lg};
   --#{$spacing}-xl: #{$spacing-xl};
 
+  @each $num, $factor in $spacing-factors {
+    --#{$spacing}-#{$num}: #{$spacing-base * $factor};
+  }
+
   /**
    * Typography
    */
@@ -36,18 +41,19 @@ $radii: $prefix + "-radii";
   // Fonts
   --#{$font}-sans: "Carloschi VF", "Helvetica", "Arial", sans-serif;
 
-  // TBD: Group Font size and line height?
-
   // Font sizes
   --#{$font}-size-sm: #{$font-size-sm};
   --#{$font}-size-md: #{$font-size-md};
   --#{$font}-size-lg: #{$font-size-lg};
-  --#{$font}-size-h1: #{$h1-font-size};
-  --#{$font}-size-h2: #{$h2-font-size};
-  --#{$font}-size-h3: #{$h3-font-size};
-  --#{$font}-size-h4: #{$h4-font-size};
-  --#{$font}-size-h5: #{$h5-font-size};
-  --#{$font}-size-h6: #{$h6-font-size};
+
+  @include fluid(--#{$font}-size-h1, $h1-font-size-mobile, $h1-font-size-desktop);
+  @include fluid(--#{$font}-size-h2, $h2-font-size-mobile, $h2-font-size-desktop);
+  @include fluid(--#{$font}-size-h3, $h3-font-size-mobile, $h3-font-size-desktop);
+  @include fluid(--#{$font}-size-h4, $h4-font-size-mobile, $h4-font-size-desktop);
+  @include fluid(--#{$font}-size-h5, $h5-font-size-mobile, $h5-font-size-desktop);
+  @include fluid(--#{$font}-size-h6, $h6-font-size-mobile, $h6-font-size-desktop);
+
+  // Font weights
   --#{$font}-weight-lighter: #{$font-weight-lighter};
   --#{$font}-weight-light: #{$font-weight-light};
   --#{$font}-weight-normal: #{$font-weight-normal};

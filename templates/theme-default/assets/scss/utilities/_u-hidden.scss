@@ -1,15 +1,11 @@
 .u-hidden {
-  display: none;
+  display: none !important;
 }
 
-.u-hidden\@mobile {
-  @include respond-below("md") {
-    display: none;
-  }
+.u-transparent {
+  opacity: 0;
 }
 
-.u-hidden\@desktop {
-  @include respond-above("md") {
-    display: none;
-  }
+@include make-responsive(u-hidden) {
+  display: none !important;
 }

@@ -37,7 +37,7 @@
 @mixin respond-below($key, $container-query: false) {
   @if map-has-key($breakpoints, $key) {
     @if $container-query {
-      @media (max-width: #{map-get($breakpoints, $key)}) {
+      @media (max-width: #{map-get($breakpoints, $key) - 1}) {
         html:not(.cq) #{ if(&, "&", "*") } { @content; };
       }
 
@@ -116,23 +116,92 @@
   @return $value / ($value * 0 + 1);
 }
 
-@mixin fluid-type($min-vw, $max-vw, $min-font-size, $max-font-size) {
+@mixin fluid-type($min-font-size, $max-font-size, $min-vw: 414px, $max-vw: 1440px) {
+  @include fluid(font-size, $min-font-size, $max-font-size, $min-vw, $max-vw);
+}
+
+@mixin fluid-width($min-value, $max-value, $min-vw: 414px, $max-vw: 1440px) {
+  @include fluid(width, $min-value, $max-value, $min-vw, $max-vw);
+}
+
+@mixin fluid-height($min-value, $max-value, $min-vw: 414px, $max-vw: 1440px) {
+  @include fluid(height, $min-value, $max-value, $min-vw, $max-vw);
+}
+
+@mixin fluid($property, $min-value, $max-value, $min-vw: 414px, $max-vw: 1440px) {
   $u1: unit($min-vw);
   $u2: unit($max-vw);
-  $u3: unit($min-font-size);
-  $u4: unit($max-font-size);
+  $u3: unit($min-value);
+  $u4: unit($max-value);
 
   @if $u1 == $u2 and $u1 == $u3 and $u1 == $u4 {
     & {
-      font-size: $min-font-size;
+      #{$property}: $min-value;
 
       @media (min-width: $min-vw) {
         /* stylelint-disable-next-line max-line-length */
-        font-size: calc(#{$min-font-size} + #{strip-unit($max-font-size - $min-font-size)} * ((100vw - #{$min-vw}) / #{strip-unit($max-vw - $min-vw)}));
+        #{$property}: calc(#{$min-value} + #{strip-unit($max-value - $min-value)} * ((100vw - #{$min-vw}) / #{strip-unit($max-vw - $min-vw)}));
       }
 
       @media (min-width: $max-vw) {
-        font-size: $max-font-size;
+        #{$property}: $max-value;
+      }
+    }
+  }
+}
+
+/**
+ * Force the use of the css function in favour of scss
+ * https://github.com/sass/sass/issues/2849#issuecomment-621991522
+ */
+@function css-function($function, $values...) {
+  @return $function + unquote("(") + $values + unquote(")");
+}
+
+@function css-min($values...) {
+  @return css-function(min, $values);
+}
+
+@function css-max($values...) {
+  @return css-function(max, $values);
+}
+
+@function css-clamp($values...) {
+  @return css-function(clamp, $values);
+}
+
+/**
+ * Make responsive versions of the classname
+ *
+ * @include make-responsive(u-hidden) { display: none; }
+ *
+ * -md\:u-hidden { respond-below("md") { ... } }
+ * sm-lg\:u-hidden { respond-between("sm","md") { ... } }
+ * xl\:u-hidden { respond-above("md") { ... } }
+ */
+@mixin make-responsive($classname, $breakpoints: $breakpoints) {
+  $steps: map-keys($breakpoints);
+
+  @each $size in $steps {
+    $index: index($steps, $size);
+    .-#{$size}\:#{$classname} {
+      @include respond-below($size) {
+        @content;
+      }
+    }
+    .#{$size}\:#{$classname} {
+      @include respond-above($size) {
+        @content;
+      }
+    }
+
+    @each $size_inner in $steps {
+      @if $index < index($steps, $size_inner) {
+        .#{$size}-#{$size_inner}\:#{$classname} {
+          @include respond-between($size, $size_inner) {
+            @content;
+          }
+        }
       }
     }
   }
