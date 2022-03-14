@@ -178,15 +178,15 @@ export async function createApp({ appPath }: { appPath: string }): Promise<void>
   const dataFiles = micromatch(dataAvailable, patterns);
 
   const envContent = stripIndents`
-    CONTENTFUL_SPACE_ID = '${args.spaceId}'
-    CONTENTFUL_DELIVERY_TOKEN = '${args.deliveryToken}'
-    CONTENTFUL_PREVIEW_TOKEN = '${args.previewToken}'
+    CONTENTFUL_SPACE_ID='${args.spaceId}'
+    CONTENTFUL_DELIVERY_TOKEN='${args.deliveryToken}'
+    CONTENTFUL_PREVIEW_TOKEN='${args.previewToken}'
 
     # Override default environment id (master)
-    CONTENTFUL_ENVIRONMENT_ID = '${args.environmentId}'
+    CONTENTFUL_ENVIRONMENT_ID='${args.environmentId}'
 
     # To get the preview content (draft) set this to 'true'
-    CONTENTFUL_USE_PREVIEW = 'false'
+    CONTENTFUL_USE_PREVIEW=false
   `;
 
   /**
