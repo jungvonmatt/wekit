@@ -15,7 +15,7 @@ export const loadTemplate = async () => {
     await remove(dir);
   }
 
-  const result = pull('git@github.com:jungvonmatt/wekit.git', dir);
+  const result = pull('https://github.com/jungvonmatt/wekit.git', dir);
   if (result.status !== 0) {
     throw new Error('Error fetching repository');
   }
