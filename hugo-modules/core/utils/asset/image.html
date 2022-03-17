@@ -46,17 +46,17 @@
       {{- $src := .src -}}
       {{- $width := .width -}}
       {{- $height := .height -}}
-      <picture class="{{- $class_name -}}">
+      <picture{{ with $class_name }} class="{{- . -}}-container"{{ end }}>
         {{- range $srcsets -}}
           <source sizes="{{- $local_sizes -}}" srcset="{{- .srcset -}}" type="{{- .type -}}">
         {{- end -}}
-        <img src="{{- $src -}}" width="{{- $width -}}" height="{{- $height -}}" {{ $image_attributes }} alt="{{- $alt -}}">
+        <img src="{{- $src -}}"{{ with $class_name }} class="{{- . -}}"{{ end }} width="{{- $width -}}" height="{{- $height -}}" {{ $image_attributes }} alt="{{- $alt -}}">
       </picture>
     {{- end -}}
   {{- else -}}
     {{- with $url -}}
       {{- $src := $params.src | default (cond (hasPrefix . "//") (print "https:" .) .) -}}
-      <img src="{{- $src -}}" class="{{- $class_name -}}" width="{{- $width -}}" height="{{- $height -}}" {{ $image_attributes }} alt="{{- $alt -}}">
+      <img src="{{- $src -}}"{{ with $class_name }} class="{{- . -}}"{{ end }} width="{{- $width -}}" height="{{- $height -}}" {{ $image_attributes }} alt="{{- $alt -}}">
     {{- end -}}
   {{- end -}}
 {{- end -}}
