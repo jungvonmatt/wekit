@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.7.0](https://github.com/jungvonmatt/wekit/compare/v0.6.2...v0.7.0) (2022-03-17)
+
+**Note:** Version bump only for package @jungvonmatt/create-wekit-app
+
+
+
+
+
 ## [0.6.2](https://github.com/jungvonmatt/wekit/compare/v0.6.1...v0.6.2) (2022-03-14)
 
 

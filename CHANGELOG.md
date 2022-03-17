@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.7.0](https://github.com/jungvonmatt/wekit/compare/v0.6.2...v0.7.0) (2022-03-17)
+
+
+### Features
+
+* **scss:** Adds new mixins & responsive utilities ([eda6409](https://github.com/jungvonmatt/wekit/commit/eda6409fe7fc222cc47e85c592059ae35441190e))
+
+
+
+
+
 ## [0.6.2](https://github.com/jungvonmatt/wekit/compare/v0.6.1...v0.6.2) (2022-03-14)
 
 
