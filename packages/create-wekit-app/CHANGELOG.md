@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.7.2](https://github.com/jungvonmatt/wekit/compare/v0.7.1...v0.7.2) (2022-03-22)
+
+
+### Bug Fixes
+
+* **dependencies:** fix dependencies ([6ca0574](https://github.com/jungvonmatt/wekit/commit/6ca0574cec19f6063128bd64f4ffda696883a35a))
+
+
+
+
+
 
 
 **Note:** Version bump only for package @jungvonmatt/create-wekit-app
