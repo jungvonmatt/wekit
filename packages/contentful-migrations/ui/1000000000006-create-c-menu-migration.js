@@ -48,7 +48,7 @@ module.exports = function (migration) {
 
   const page = migration.editContentType('page');
   page
-    .createField('menu')
+    .createField('submenu')
     .name('Submenu')
     .type('Link')
     .localized(false)
@@ -62,6 +62,6 @@ module.exports = function (migration) {
     .omitted(false)
     .linkType('Entry');
 
-  page.moveField('menu').beforeField('content');
-  page.changeFieldControl('menu', 'builtin', 'entryLinkEditor', {});
+  page.moveField('submenu').beforeField('content');
+  page.changeFieldControl('submenu', 'builtin', 'entryLinkEditor', {});
 };

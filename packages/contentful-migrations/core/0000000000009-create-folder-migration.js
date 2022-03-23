@@ -59,7 +59,7 @@ module.exports = function (migration) {
     .linkType('Entry');
 
   folder
-    .createField('menu')
+    .createField('submenu')
     .name('Submenu')
     .type('Link')
     .localized(false)
@@ -81,5 +81,5 @@ module.exports = function (migration) {
     trackingFieldId: 'label',
   });
   folder.changeFieldControl('parent', 'builtin', 'entryLinkEditor', {});
-  folder.changeFieldControl('menu', 'builtin', 'entryLinkEditor', {});
+  folder.changeFieldControl('submenu', 'builtin', 'entryLinkEditor', {});
 };
