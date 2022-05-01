@@ -1,3 +1,5 @@
 node_modules
 
 **/go.sum
+# Local Netlify folder
+.netlify
