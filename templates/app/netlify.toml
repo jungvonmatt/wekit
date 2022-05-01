@@ -15,6 +15,7 @@
 [build.environment]
   HUGO_VERSION = "0.91.0"
   GO_VERSION = "1.17"
+  NODE_VERSION = "16"
 
 [context.production]
   command = "npm run build -- -b $URL"
