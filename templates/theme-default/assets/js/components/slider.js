@@ -183,10 +183,12 @@ function init(el) {
 
   function getNextSlide(direction = 1) {
     let next =
-      direction > 0 ? activeSlide.nextElementSibling || activeSlide : activeSlide.previousElementSibling || activeSlide;
+      direction > 0
+        ? activeSlide?.nextElementSibling || activeSlide
+        : activeSlide?.previousElementSibling || activeSlide;
 
     for (let i = 1; i < slidesPerGroup; i++) {
-      next = direction > 0 ? next.nextElementSibling || next : next.previousElementSibling || next;
+      next = direction > 0 ? next?.nextElementSibling || next : next?.previousElementSibling || next;
     }
 
     return next;

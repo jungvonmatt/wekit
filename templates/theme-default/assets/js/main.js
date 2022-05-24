@@ -22,7 +22,7 @@ if (supportsContainerQueries) {
 const cvObserver = new IntersectionObserver((entries, observer) => {
   entries.forEach((entry) => {
     if (entry.isIntersecting) {
-      entry.target.attributeStyleMap.set('content-visibility', 'visible');
+      entry.target.style.contentVisibility = 'visible';
       observer.unobserve(entry.target);
     }
   });
@@ -30,8 +30,16 @@ const cvObserver = new IntersectionObserver((entries, observer) => {
 
 const initialize = () => {
   Array.from(document.querySelectorAll('main img')).forEach((el) => cvObserver.observe(el));
-  initVideo();
-  initSlider();
+  try {
+    initVideo();
+  } catch (e) {
+    console.log(e);
+  }
+  try {
+    initSlider();
+  } catch (e) {
+    console.log(e);
+  }
 };
 
 // We need to retrigger initialize in storybook so we don't have to reload the page
