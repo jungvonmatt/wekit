@@ -24,38 +24,47 @@ module.exports = async function (migration, context) {
     .omitted(false);
 
   mColumns
-    .createField('header')
-    .name('Module header')
-    .type('Link')
+    .createField('theme')
+    .name('Theme')
+    .type('Symbol')
     .localized(false)
     .required(false)
     .validations([
       {
-        linkContentType: ['c-module-header'],
+        in: ['light', 'dark'],
       },
     ])
+    .defaultValue({
+      [defaultLocale.code]: 'light',
+    })
     .disabled(false)
-    .omitted(false)
-    .linkType('Entry');
+    .omitted(false);
 
   mColumns
-    .createField('settings')
-    .name('Module settings')
-    .type('Link')
+    .createField('spacing')
+    .name('Spacing')
+    .type('Symbol')
     .localized(false)
     .required(false)
     .validations([
       {
-        linkContentType: ['d-module-settings'],
+        in: ['none', 'sm', 'md', 'lg'],
       },
     ])
+    .defaultValue({
+      [defaultLocale.code]: 'md',
+    })
     .disabled(false)
-    .omitted(false)
-    .linkType('Entry');
+    .omitted(false);
+
+  mColumns.changeFieldControl('theme', 'builtin', 'dropdown', {
+    helpText: 'light: Light background, dark text; dark: Dark background, light text.',
+  });
+  mColumns.changeFieldControl('spacing', 'builtin', 'dropdown', {});
 
   mColumns
     .createField('layout')
-    .name('Module layout')
+    .name('Layout')
     .type('Symbol')
     .localized(false)
     .required(false)
@@ -109,12 +118,8 @@ module.exports = async function (migration, context) {
     });
 
   mColumns.changeFieldControl('name', 'builtin', 'singleLine', {});
-  mColumns.changeFieldControl('header', 'builtin', 'entryLinkEditor', {});
-  mColumns.changeFieldControl('settings', 'builtin', 'entryLinkEditor', {
-    helpText: 'Theme, Spacings, ...',
-    showLinkEntityAction: true,
-    showCreateEntityAction: true,
-  });
+  mColumns.changeFieldControl('theme', 'builtin', 'dropdown', {});
+  mColumns.changeFieldControl('spacing', 'builtin', 'dropdown', {});
   mColumns.changeFieldControl('layout', 'builtin', 'dropdown', {});
   mColumns.changeFieldControl('column_left', 'builtin', 'entryLinksEditor', {});
   mColumns.changeFieldControl('column_right', 'builtin', 'entryLinksEditor', {});

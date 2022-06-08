@@ -3,12 +3,6 @@
 {{- $options := .options | default dict -}}
 {{- $params := (merge $context $options) -}}
 
-{{- with $context.settings -}}
-  {{- with partial "utils/get-data" . -}}
-    {{- $params = (merge . $params) -}}
-  {{- end -}}
-{{- end -}}
-
 {{- $class_name := partialCached "utils/get-class-names" (dict
   "class" "m-section"
   "context" $params
@@ -20,12 +14,6 @@
 
 <section class="{{ with $class_name }}{{ . }}{{ end }}">
   <div class="o-wrapper">
-    {{- with $header -}}
-      {{- partial "utils/get-partial" (dict
-        "globals" $globals
-        "context" .
-      ) -}}
-    {{- end -}}
     {{- with $body -}}
       {{- $content := . -}}
       {{- if not (reflect.IsSlice .) -}}

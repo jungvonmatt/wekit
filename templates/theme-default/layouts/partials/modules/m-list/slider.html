@@ -3,12 +3,6 @@
 {{- $options := .options | default dict -}}
 {{- $params := (merge $context $options) -}}
 
-{{- with $params.settings -}}
-  {{- with partial "utils/get-data" . -}}
-    {{- $params = (merge . $params) -}}
-  {{- end -}}
-{{- end -}}
-
 {{- $class_name := partialCached "utils/get-class-names" (dict
   "class" "m-list"
   "context" $params
@@ -21,12 +15,6 @@
 
 <section class="m-section {{ with $class_name }}{{ . }}{{ end }}"  style="--columns-desktop: {{ $columns }};">
   <div class="o-wrapper">
-    {{- with $header -}}
-      {{- partial "utils/get-partial" (dict
-        "globals" $globals
-        "context" .
-      ) -}}
-    {{- end -}}
     <div class="m-list__body o-slider js-slider" data-loop="true">
       <div class="o-slider__outer-wrapper">
         <div class="o-slider__scroll-wrapper js-scroll-wrapper">

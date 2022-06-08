@@ -23,38 +23,42 @@ module.exports = async function (migration, context) {
     .omitted(false);
 
   mMedia
-    .createField('header')
-    .name('Module header')
-    .type('Link')
+    .createField('theme')
+    .name('Theme')
+    .type('Symbol')
     .localized(false)
     .required(false)
     .validations([
       {
-        linkContentType: ['c-module-header'],
+        in: ['light', 'dark'],
       },
     ])
+    .defaultValue({
+      [defaultLocale.code]: 'light',
+    })
     .disabled(false)
-    .omitted(false)
-    .linkType('Entry');
+    .omitted(false);
 
   mMedia
-    .createField('settings')
-    .name('Module settings')
-    .type('Link')
+    .createField('spacing')
+    .name('Spacing')
+    .type('Symbol')
     .localized(false)
     .required(false)
     .validations([
       {
-        linkContentType: ['d-module-settings'],
+        in: ['none', 'sm', 'md', 'lg'],
       },
     ])
+    .defaultValue({
+      [defaultLocale.code]: 'md',
+    })
     .disabled(false)
-    .omitted(false)
-    .linkType('Entry');
+    .omitted(false);
 
   mMedia
     .createField('layout')
-    .name('Module layout')
+    .name('Layout')
     .type('Symbol')
     .localized(false)
     .required(false)
@@ -71,7 +75,7 @@ module.exports = async function (migration, context) {
 
   mMedia
     .createField('body')
-    .name('Module body')
+    .name('Media')
     .type('Link')
     .localized(false)
     .required(true)
@@ -85,14 +89,8 @@ module.exports = async function (migration, context) {
     .linkType('Entry');
 
   mMedia.changeFieldControl('name', 'builtin', 'singleLine', {});
-  mMedia.changeFieldControl('header', 'builtin', 'entryLinkEditor', {});
-
-  mMedia.changeFieldControl('settings', 'builtin', 'entryLinkEditor', {
-    helpText: 'Theme, Spacings, ...',
-    showLinkEntityAction: true,
-    showCreateEntityAction: true,
-  });
-
+  mMedia.changeFieldControl('theme', 'builtin', 'dropdown', {});
+  mMedia.changeFieldControl('spacing', 'builtin', 'dropdown', {});
   mMedia.changeFieldControl('layout', 'builtin', 'dropdown', {});
   mMedia.changeFieldControl('body', 'builtin', 'entryLinkEditor', {});
 };

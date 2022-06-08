@@ -23,44 +23,53 @@ module.exports = async function (migration, context) {
     .omitted(false);
 
   mText
-    .createField('header')
-    .name('Module header')
-    .type('Link')
-    .localized(false)
-    .required(false)
-    .validations([
-      {
-        linkContentType: ['c-module-header'],
-      },
-    ])
-    .disabled(false)
-    .omitted(false)
-    .linkType('Entry');
-
-  mText
-    .createField('settings')
-    .name('Module settings')
-    .type('Link')
-    .localized(false)
-    .required(false)
-    .validations([
-      {
-        linkContentType: ['d-module-settings'],
-      },
-    ])
-    .disabled(false)
-    .omitted(false)
-    .linkType('Entry');
-
-  mText
-    .createField('layout')
-    .name('Module layout')
+    .createField('theme')
+    .name('Theme')
     .type('Symbol')
     .localized(false)
     .required(false)
     .validations([
       {
-        in: ['align-left', 'align-center', 'align-right'],
+        in: ['light', 'dark'],
+      },
+    ])
+    .defaultValue({
+      [defaultLocale.code]: 'light',
+    })
+    .disabled(false)
+    .omitted(false);
+
+  mText
+    .createField('spacing')
+    .name('Spacing')
+    .type('Symbol')
+    .localized(false)
+    .required(false)
+    .validations([
+      {
+        in: ['none', 'sm', 'md', 'lg'],
+      },
+    ])
+    .defaultValue({
+      [defaultLocale.code]: 'md',
+    })
+    .disabled(false)
+    .omitted(false);
+
+  mText.changeFieldControl('theme', 'builtin', 'dropdown', {
+    helpText: 'light: Light background, dark text; dark: Dark background, light text.',
+  });
+  mText.changeFieldControl('spacing', 'builtin', 'dropdown', {});
+
+  mText
+    .createField('layout')
+    .name('Layout')
+    .type('Symbol')
+    .localized(false)
+    .required(false)
+    .validations([
+      {
+        in: ['align-left', 'align-center', 'align-right', '2-column'],
       },
     ])
     .defaultValue({
@@ -70,8 +79,28 @@ module.exports = async function (migration, context) {
     .omitted(false);
 
   mText
+    .createField('headline')
+    .name('Headline')
+    .type('Symbol')
+    .localized(true)
+    .required(false)
+    .validations([])
+    .disabled(false)
+    .omitted(false);
+
+  mText
+    .createField('subline')
+    .name('Subline')
+    .type('Symbol')
+    .localized(true)
+    .required(false)
+    .validations([])
+    .disabled(false)
+    .omitted(false);
+
+  mText
     .createField('body')
-    .name('Module body')
+    .name('Text')
     .type('RichText')
     .localized(true)
     .required(false)
@@ -99,12 +128,11 @@ module.exports = async function (migration, context) {
     .omitted(false);
 
   mText.changeFieldControl('name', 'builtin', 'singleLine', {});
-  mText.changeFieldControl('header', 'builtin', 'entryLinkEditor', {});
-  mText.changeFieldControl('settings', 'builtin', 'entryLinkEditor', {
-    helpText: 'Theme, Spacings, ...',
-    showLinkEntityAction: true,
-    showCreateEntityAction: true,
-  });
+  mText.changeFieldControl('theme', 'builtin', 'dropdown', {});
+  mText.changeFieldControl('spacing', 'builtin', 'dropdown', {});
   mText.changeFieldControl('layout', 'builtin', 'dropdown', {});
+
+  mText.changeFieldControl('headline', 'builtin', 'singleLine', {});
+  mText.changeFieldControl('subline', 'builtin', 'singleLine', {});
   mText.changeFieldControl('body', 'builtin', 'richTextEditor', {});
 };

@@ -23,38 +23,42 @@ module.exports = async function (migration, context) {
     .omitted(false);
 
   mList
-    .createField('header')
-    .name('Module header')
-    .type('Link')
+    .createField('theme')
+    .name('Theme')
+    .type('Symbol')
     .localized(false)
     .required(false)
     .validations([
       {
-        linkContentType: ['c-module-header'],
+        in: ['light', 'dark'],
       },
     ])
+    .defaultValue({
+      [defaultLocale.code]: 'light',
+    })
     .disabled(false)
-    .omitted(false)
-    .linkType('Entry');
+    .omitted(false);
 
   mList
-    .createField('settings')
-    .name('Module settings')
-    .type('Link')
+    .createField('spacing')
+    .name('Spacing')
+    .type('Symbol')
     .localized(false)
     .required(false)
     .validations([
       {
-        linkContentType: ['d-module-settings'],
+        in: ['none', 'sm', 'md', 'lg'],
       },
     ])
+    .defaultValue({
+      [defaultLocale.code]: 'md',
+    })
     .disabled(false)
-    .omitted(false)
-    .linkType('Entry');
+    .omitted(false);
 
   mList
     .createField('layout')
-    .name('Module layout')
+    .name('Layout')
     .type('Symbol')
     .localized(false)
     .required(false)
@@ -91,8 +95,8 @@ module.exports = async function (migration, context) {
     });
 
   mList.changeFieldControl('name', 'builtin', 'singleLine', {});
-  mList.changeFieldControl('header', 'builtin', 'entryLinkEditor', {});
-  mList.changeFieldControl('settings', 'builtin', 'entryLinkEditor', {});
   mList.changeFieldControl('layout', 'builtin', 'dropdown', {});
+  mList.changeFieldControl('theme', 'builtin', 'dropdown', {});
+  mList.changeFieldControl('spacing', 'builtin', 'dropdown', {});
   mList.changeFieldControl('body', 'builtin', 'entryLinksEditor', {});
 };
