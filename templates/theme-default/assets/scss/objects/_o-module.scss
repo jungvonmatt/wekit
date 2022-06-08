@@ -5,10 +5,10 @@
   position: relative;
   background-color: var(--#{$color}-background);
   color: var(--#{$color}-text);
-  padding-bottom: var(--#{$spacing}, var(--#{$spacing}-15));
+  padding-bottom: var(--#{$spacing}, var(--#{$spacing}-10));
 
   &.u-theme--dark + &.u-theme--light,
   &.u-theme--light + &.u-theme--dark {
-    padding-top: var(--#{$spacing}, var(--#{$spacing}-15));
+    padding-top: var(--#{$spacing}, var(--#{$spacing}-10));
   }
 }
