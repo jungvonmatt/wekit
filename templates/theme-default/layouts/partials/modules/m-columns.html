@@ -13,7 +13,7 @@
 {{- $column_left := $params.column_left | default slice -}}
 {{- $column_right := $params.column_right | default slice -}}
 
-<section class="m-section {{ with $class_name }}{{ . }}{{ end }}">
+<section class="o-module m-section{{ with $class_name }} {{ . }}{{ end }}">
   <div class="o-wrapper">
     <div class="m-columns__body">
       {{- range (slice $column_left $column_right) -}}
