@@ -1,0 +1,14 @@
+.o-module {
+  $self: &;
+
+  overflow: hidden;
+  position: relative;
+  background-color: var(--#{$color}-background);
+  color: var(--#{$color}-text);
+  padding-bottom: var(--#{$spacing}, var(--#{$spacing}-15));
+
+  &.u-theme--dark + &.u-theme--light,
+  &.u-theme--light + &.u-theme--dark {
+    padding-top: var(--#{$spacing}, var(--#{$spacing}-15));
+  }
+}

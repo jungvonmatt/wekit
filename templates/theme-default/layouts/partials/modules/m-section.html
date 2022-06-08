@@ -12,7 +12,7 @@
 {{- $body := $params.body -}}
 {{- $layout := $params.layout -}}
 
-<section class="{{ with $class_name }}{{ . }}{{ end }}">
+<section class="o-module{{ with $class_name }} {{ . }}{{ end }}">
   <div class="o-wrapper">
     {{- with $body -}}
       {{- $content := . -}}

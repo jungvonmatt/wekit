@@ -13,7 +13,7 @@
 {{- $layout := $params.layout -}}
 {{- $columns := $params.columns | default 4 -}}
 
-<section class="m-section {{ with $class_name }}{{ . }}{{ end }}"  style="--columns-desktop: {{ $columns }};">
+<section class="o-module m-section {{ with $class_name }}{{ . }}{{ end }}" style="--columns-desktop: {{ $columns }};">
   <div class="o-wrapper">
     <div class="m-list__body o-slider js-slider" data-loop="true">
       <div class="o-slider__outer-wrapper">

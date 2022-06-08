@@ -3,7 +3,11 @@
 {{- $options := .options | default dict -}}
 {{- $params := (merge $context $options) -}}
 {{- $modifier := cond (reflect.IsSlice $params.modifier) $params.modifier (cond (ne $params.modifier nil) (slice $params.modifier) dict ) -}}
-{{- $class_name := $params.class_name -}}
+
+{{- $class_name := partialCached "utils/get-class-names" (dict
+  "class" "m-stage"
+  "context" $params
+) . -}}
 
 {{- $title := $params.title -}}
 {{- $subtitle := $params.subtitle -}}
@@ -18,7 +22,7 @@
 {{- if and (ne $layout "default") (templates.Exists ( printf "partials/%s" $partialPath )) -}}
   {{- partial $partialPath . -}}
 {{- else -}}
-  <section class="m-stage m-stage--{{ $layout }}{{ range $modifier }} m-stage--{{ . }}{{ end }}{{ with $layout }} m-stage--{{ . }}{{end}}{{ with $class_name }} {{ . }}{{end}}">
+  <section class="o-module{{ with $class_name }} {{ . }}{{ end }}">
     <div class="m-stage__body">
       {{- with $media -}}
         {{- partial "utils/get-partial" (dict
