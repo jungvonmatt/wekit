@@ -1,12 +1,12 @@
 {{ define "main" }}
   {{- $pages := .Pages -}}
   {{ with .Params.content }}
-    {{ partial "utils/get-partial" (dict
+    {{ partialCached "utils/get-partial" (dict
       "context" .
       "globals" $
       "options" (dict
         "pages" $pages
       )
-    ) }}
+    ) . }}
   {{ end }}
 {{ end }}

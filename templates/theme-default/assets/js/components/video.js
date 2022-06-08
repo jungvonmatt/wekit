@@ -39,4 +39,28 @@ export const initVideo = (root = document) => {
   Array.from(videos).forEach((root) => {
     init(root);
   });
+
+  // Lazy loading videos
+  if ('IntersectionObserver' in window) {
+    const lazyVideos = Array.from(document.querySelectorAll('video[loading="lazy"]'));
+    const lazyVideoObserver = new IntersectionObserver(function (entries) {
+      entries.forEach(function (video) {
+        if (video.isIntersecting) {
+          for (const videoSource of video.target.children) {
+            if (typeof videoSource?.tagName === 'string' && videoSource?.tagName === 'SOURCE') {
+              videoSource.src = videoSource.dataset.src;
+            }
+          }
+
+          video.target.load();
+          video.target.removeAttribute('loading');
+          lazyVideoObserver.unobserve(video.target);
+        }
+      });
+    });
+
+    lazyVideos.forEach(function (lazyVideo) {
+      lazyVideoObserver.observe(lazyVideo);
+    });
+  }
 };

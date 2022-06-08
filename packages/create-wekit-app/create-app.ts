@@ -239,7 +239,10 @@ export async function createApp({ appPath }: { appPath: string }): Promise<void>
   /**
    * Write it to disk.
    */
-  fs.writeFileSync(path.join(targetDir, 'package.json'), JSON.stringify(packageJson, null, 2) + os.EOL);
+  fs.writeFileSync(
+    path.join(targetDir, 'package.json'),
+    JSON.stringify(packageJson, null, 2) + os.EOL
+  );
 
   /**
    * These flags will be passed to `install()`.
@@ -251,6 +254,7 @@ export async function createApp({ appPath }: { appPath: string }): Promise<void>
   const dependencies = [
     '@fullhuman/postcss-purgecss@4',
     'autoprefixer@10',
+    'quicklink',
     'container-query-polyfill',
     'postcss@8',
     'postcss-cli@9',

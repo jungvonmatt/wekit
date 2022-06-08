@@ -64,11 +64,11 @@ main {
   max-width: map-get($breakpoints, "max");
   margin: 0 auto;
   display: flow-root;
+}
 
-  img {
-    /* Only render when in viewport */
-    content-visibility: auto;
-  }
+/* Performance: Only render when in viewport */
+main > *:nth-child(n + 2) {
+  content-visibility: auto;
 }
 
 figure {
