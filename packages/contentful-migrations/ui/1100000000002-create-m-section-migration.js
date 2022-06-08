@@ -24,38 +24,42 @@ module.exports = async function (migration, context) {
     .omitted(false);
 
   mSection
-    .createField('header')
-    .name('Module header')
-    .type('Link')
+    .createField('theme')
+    .name('Theme')
+    .type('Symbol')
     .localized(false)
     .required(false)
     .validations([
       {
-        linkContentType: ['c-module-header'],
+        in: ['light', 'dark'],
       },
     ])
+    .defaultValue({
+      [defaultLocale.code]: 'light',
+    })
     .disabled(false)
-    .omitted(false)
-    .linkType('Entry');
+    .omitted(false);
 
   mSection
-    .createField('settings')
-    .name('Module settings')
-    .type('Link')
+    .createField('spacing')
+    .name('Spacing')
+    .type('Symbol')
     .localized(false)
     .required(false)
     .validations([
       {
-        linkContentType: ['d-module-settings'],
+        in: ['none', 'sm', 'md', 'lg'],
       },
     ])
+    .defaultValue({
+      [defaultLocale.code]: 'md',
+    })
     .disabled(false)
-    .omitted(false)
-    .linkType('Entry');
+    .omitted(false);
 
   mSection
     .createField('layout')
-    .name('Module layout')
+    .name('Layout')
     .type('Symbol')
     .localized(false)
     .required(false)
@@ -72,7 +76,7 @@ module.exports = async function (migration, context) {
 
   mSection
     .createField('body')
-    .name('Module body')
+    .name('Content')
     .type('Array')
     .localized(false)
     .required(false)
@@ -86,13 +90,9 @@ module.exports = async function (migration, context) {
     });
 
   mSection.changeFieldControl('name', 'builtin', 'singleLine', {});
-  mSection.changeFieldControl('header', 'builtin', 'entryLinkEditor', {});
 
-  mSection.changeFieldControl('settings', 'builtin', 'entryLinkEditor', {
-    helpText: 'Theme, Spacings, ...',
-    showLinkEntityAction: true,
-    showCreateEntityAction: true,
-  });
+  mSection.changeFieldControl('theme', 'builtin', 'dropdown', {});
+  mSection.changeFieldControl('spacing', 'builtin', 'dropdown', {});
 
   mSection.changeFieldControl('layout', 'builtin', 'dropdown', {});
   mSection.changeFieldControl('body', 'builtin', 'entryLinksEditor', {});

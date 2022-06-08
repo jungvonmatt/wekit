@@ -24,6 +24,16 @@ module.exports = function (migration) {
     .omitted(false);
 
   page
+    .createField('slug')
+    .name('Slug')
+    .type('Symbol')
+    .localized(true)
+    .required(true)
+    .validations([])
+    .disabled(false)
+    .omitted(false);
+
+  page
     .createField('parent_page')
     .name('Parent page')
     .type('Link')
@@ -37,16 +47,6 @@ module.exports = function (migration) {
     .disabled(false)
     .omitted(false)
     .linkType('Entry');
-
-  page
-    .createField('slug')
-    .name('Slug')
-    .type('Symbol')
-    .localized(true)
-    .required(true)
-    .validations([])
-    .disabled(false)
-    .omitted(false);
 
   page
     .createField('seo')

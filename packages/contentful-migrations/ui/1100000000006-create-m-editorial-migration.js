@@ -24,55 +24,59 @@ module.exports = async function (migration, context) {
     .omitted(false);
 
   mEditorial
-    .createField('header')
-    .name('Module header')
-    .type('Link')
-    .localized(false)
-    .required(false)
-    .validations([
-      {
-        linkContentType: ['c-module-header'],
-      },
-    ])
-    .disabled(false)
-    .omitted(false)
-    .linkType('Entry');
-
-  mEditorial
-    .createField('settings')
-    .name('Module settings')
-    .type('Link')
-    .localized(false)
-    .required(false)
-    .validations([
-      {
-        linkContentType: ['d-module-settings'],
-      },
-    ])
-    .disabled(false)
-    .omitted(false)
-    .linkType('Entry');
-
-  mEditorial
-    .createField('layout')
-    .name('Module layout')
+    .createField('theme')
+    .name('Theme')
     .type('Symbol')
     .localized(false)
     .required(false)
     .validations([
       {
-        in: ['default'],
+        in: ['light', 'dark'],
       },
     ])
     .defaultValue({
-      [defaultLocale.code]: 'default',
+      [defaultLocale.code]: 'light',
+    })
+    .disabled(false)
+    .omitted(false);
+
+  mEditorial
+    .createField('spacing')
+    .name('Spacing')
+    .type('Symbol')
+    .localized(false)
+    .required(false)
+    .validations([
+      {
+        in: ['none', 'sm', 'md', 'lg'],
+      },
+    ])
+    .defaultValue({
+      [defaultLocale.code]: 'md',
+    })
+    .disabled(false)
+    .omitted(false);
+
+  mEditorial
+    .createField('layout')
+    .name('Layout')
+    .type('Symbol')
+    .localized(false)
+    .required(false)
+    .validations([
+      {
+        in: ['teaser'],
+      },
+    ])
+    .defaultValue({
+      [defaultLocale.code]: 'teaser',
     })
     .disabled(false)
     .omitted(false);
 
   mEditorial
     .createField('body')
-    .name('Module body')
+    .name('Content')
     .type('Link')
     .localized(false)
     .required(true)
@@ -86,14 +90,8 @@ module.exports = async function (migration, context) {
     .linkType('Entry');
 
   mEditorial.changeFieldControl('name', 'builtin', 'singleLine', {});
-  mEditorial.changeFieldControl('header', 'builtin', 'entryLinkEditor', {});
-
-  mEditorial.changeFieldControl('settings', 'builtin', 'entryLinkEditor', {
-    helpText: 'Theme, Spacings, ...',
-    showLinkEntityAction: true,
-    showCreateEntityAction: true,
-  });
-
+  mEditorial.changeFieldControl('theme', 'builtin', 'dropdown', {});
+  mEditorial.changeFieldControl('spacing', 'builtin', 'dropdown', {});
   mEditorial.changeFieldControl('layout', 'builtin', 'dropdown', {});
   mEditorial.changeFieldControl('body', 'builtin', 'entryLinkEditor', {});
 };

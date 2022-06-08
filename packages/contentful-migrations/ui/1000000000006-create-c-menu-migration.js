@@ -64,4 +64,82 @@ module.exports = function (migration) {
 
   page.moveField('submenu').beforeField('content');
   page.changeFieldControl('submenu', 'builtin', 'entryLinkEditor', {});
+
+  const dSettings = migration.editContentType('d-settings');
+  dSettings
+    .createField('main_menu')
+    .name('Main menu')
+    .type('Link')
+    .localized(false)
+    .required(false)
+    .validations([
+      {
+        linkContentType: ['c-menu'],
+      },
+    ])
+    .disabled(false)
+    .omitted(false)
+    .linkType('Entry');
+
+  dSettings
+    .createField('meta_menu')
+    .name('Meta menu')
+    .type('Link')
+    .localized(false)
+    .required(false)
+    .validations([
+      {
+        linkContentType: ['c-menu'],
+      },
+    ])
+    .disabled(false)
+    .omitted(false)
+    .linkType('Entry');
+
+  dSettings
+    .createField('social_menu')
+    .name('Social menu')
+    .type('Link')
+    .localized(false)
+    .required(false)
+    .validations([
+      {
+        linkContentType: ['c-menu'],
+      },
+    ])
+    .disabled(false)
+    .omitted(false)
+    .linkType('Entry');
+
+  dSettings
+    .createField('footer_menus')
+    .name('Footer menus')
+    .type('Array')
+    .localized(false)
+    .required(false)
+    .validations([
+      {
+        size: {
+          max: 4,
+        },
+      },
+    ])
+    .disabled(false)
+    .omitted(false)
+    .items({
+      type: 'Link',
+
+      validations: [
+        {
+          linkContentType: ['c-menu'],
+        },
+      ],
+
+      linkType: 'Entry',
+    });
+
+  dSettings.changeFieldControl('main_menu', 'builtin', 'entryLinkEditor', {});
+  dSettings.changeFieldControl('meta_menu', 'builtin', 'entryLinkEditor', {});
+  dSettings.changeFieldControl('social_menu', 'builtin', 'entryLinkEditor', {});
+  dSettings.changeFieldControl('footer_menus', 'builtin', 'entryLinksEditor', {});
 };
