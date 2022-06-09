@@ -2,20 +2,31 @@
 <meta name="viewport" content="width=device-width">
 
 {{- with site.Params.preconnect -}}
-  {{ range . }}
+  {{- range . }}
     <link rel="preconnect" href="{{ . | safeHTMLAttr }}">
-  {{ end }}
+  {{- end -}}
 {{- end -}}
 
+{{/* Preload fonts */}}
 <link rel="preload" href="/fonts/CarloschiVF.woff2" as="font" type="font/woff2" crossorigin="">
+{{/* Render preload tags  */}}
+{{- with .Scratch.Get "preload" -}}
+  {{- range . -}}
+    {{ partial "utils/html/tag" (dict
+      "name" "link"
+      "attr" (merge (dict "rel" "preload") . )
+      ) | safeHTML
+    }}
+  {{- end -}}
+{{- end -}}
+
+{{ partial "structure/styles" $ }}
+{{ partial "structure/scripts" $ }}
 
 {{ partial "utils/seo/tags" $ }}
 {{- with site.Params.theme_color -}}
   <meta name="theme-color" content="{{ . }}">
 {{- end -}}
-
-{{ partial "structure/styles" $ }}
-{{ partial "structure/scripts" $ }}
 
 <link rel="manifest" href='{{ "site.webmanifest" | absURL }}' crossorigin="use-credentials">
 <!-- TBD: Do we need absolute URLs? -->

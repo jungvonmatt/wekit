@@ -1,2 +1,6 @@
 theme_color: "#fff"
 project_prefix: jvm
+
+preconnect:
+  - https://videos.ctfassets.net
+  - https://images.ctfassets.net

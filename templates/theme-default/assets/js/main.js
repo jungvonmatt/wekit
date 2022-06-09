@@ -1,10 +1,14 @@
 import params from '@params';
-
+import { listen } from 'quicklink';
 import { initVideo } from './components/video.js';
 import { initSlider } from './components/slider.js';
 
-console.log('%cHUGO @params:', 'color:green');
-Object.entries(params).map(([key, value]) => console.log(`${key}: ${JSON.stringify(value)}`));
+if (params.environment !== 'production') {
+  console.log('%cHUGO @params:', 'color:green');
+  Object.entries(params).map(([key, value]) => console.log(`${key}: ${JSON.stringify(value)}`));
+}
+
+listen();
 
 // Polyfill css container queries
 const supportsContainerQueries = 'container' in document.documentElement.style;
@@ -28,17 +32,16 @@ const cvObserver = new IntersectionObserver((entries, observer) => {
   });
 });
 
+Array.from(document.querySelectorAll('main > *:nth-child(n + 2)')).forEach((el) => cvObserver.observe(el));
+
+// Initialize components
 const initialize = () => {
-  Array.from(document.querySelectorAll('main img')).forEach((el) => cvObserver.observe(el));
-  try {
-    initVideo();
-  } catch (e) {
-    console.log(e);
-  }
-  try {
-    initSlider();
-  } catch (e) {
-    console.log(e);
+  for (const init of [initVideo, initSlider]) {
+    try {
+      init();
+    } catch (e) {
+      console.log(e);
+    }
   }
 };
 

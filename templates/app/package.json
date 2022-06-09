@@ -41,7 +41,8 @@
     "generate-template-files": "^3.2.0",
     "postcss": "^8.4.4",
     "postcss-cli": "^9.0.2",
-    "purgecss-whitelister": "^2.4.0"
+    "purgecss-whitelister": "^2.4.0",
+    "quicklink": "^2.2.0"
   },
   "devDependencies": {
     "@babel/core": "^7.16.12",

@@ -1,3 +1,18 @@
+{{- $settings := partial "utils/get-settings" . -}}
+
+{{- $params := merge site.Params (dict
+  "environment" (or (getenv "HUGO_ENVIRONMENT") hugo.Environment)
+) -}}
+
+{{- with .Params.content -}}
+  {{/* Prerender the page so we have the Scratch object available in "structure/head" to apply preload hints */}}
+  {{/* Stored in a variable so we don't render the content to screen */}}
+  {{ $tmp := partialCached "utils/get-partial.html" (dict
+    "context" .
+    "globals" $
+  ) . }}
+{{- end -}}
+
 <!doctype html>
 <html lang="{{ (index (split site.LanguageCode "-") 0) | default "en" }}">
   <head>

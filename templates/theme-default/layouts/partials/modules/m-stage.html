@@ -28,7 +28,12 @@
         {{- partial "utils/get-partial" (dict
           "context" .
           "globals" $globals
-          "options" (dict  "class_name" "m-stage__media" "lazy" false "decoding" "auto" "sizes" "50vw")
+          "options" (dict
+            "lazy" false
+            "decoding" "auto"
+            "preload" true
+            "class_name" "m-stage__media"
+          )
         ) -}}
       {{- end -}}
       <div class="m-stage__content">

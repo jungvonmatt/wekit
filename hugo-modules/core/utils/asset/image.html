@@ -14,6 +14,7 @@
       )
     ) -}}
 */}}
+{{- $globals := .globals -}}
 {{- $context := .context | default dict -}}
 {{- $options := .options | default dict -}}
 {{- $params := (merge $context $options) -}}
@@ -29,6 +30,7 @@
 {{- $loading :=  cond (eq $params.lazy true) "lazy" ($params.loading | default false) -}}
 {{- $ratio := $params.ratio -}}
 {{- $sizes := $params.sizes -}}
+{{- $preload := $params.preload  | default false -}}
 
 {{- $image_attributes := partialCached "utils/html/attribute" (dict
   "loading" $loading
@@ -49,13 +51,30 @@
         {{- $height := .height -}}
           {{- range $srcsets -}}
             <source sizes="{{- $local_sizes -}}" srcset="{{- .srcset -}}" type="{{- .type -}}">
+            {{- $preload_attr := (dict
+              "as" "image"
+              "imagesizes" $local_sizes
+              "imagesrcset" .srcset
+              "type" .type
+            ) -}}
+            {{- if and $preload (eq .type "image/avif") (not (in ($globals.Scratch.Get "preload") $preload_attr)) -}}
+              {{- $globals.Scratch.Add "preload" (slice $preload_attr) -}}
+            {{- end -}}
           {{- end -}}
-          <img src="{{- $src -}}" width="{{- $width -}}" height="{{- $height -}}" {{ $image_attributes }} alt="{{- $alt -}}">
+          <img src="{{- $src -}}" width="{{- $width -}}" height="{{- $height -}}" {{ $image_attributes }} alt="{{- $alt -}}"{{ with $params.preload }} fetchpriority="high"{{ end }}>
       {{- end -}}
     {{- else -}}
       {{- with $url -}}
         {{- $src := $params.src | default (cond (hasPrefix . "//") (print "https:" .) .) -}}
-        <img src="{{- $src -}}" width="{{- $width -}}" height="{{- $height -}}" {{ $image_attributes }} alt="{{- $alt -}}">
+        <img src="{{- $src -}}" width="{{- $width -}}" height="{{- $height -}}" {{ $image_attributes }} alt="{{- $alt -}}"{{ with $params.preload }} fetchpriority="high"{{ end }}>
+        {{- $preload_attr := (dict
+          "as" "image"
+          "href" $src
+          "type" $mime_type
+        ) -}}
+        {{- if and $preload (eq .type "image/avif") (not (in ($globals.Scratch.Get "preload") $preload_attr)) -}}
+          {{- $globals.Scratch.Add "preload" (slice $preload_attr) -}}
+        {{- end -}}
       {{- end -}}
     {{- end -}}
   </picture>
