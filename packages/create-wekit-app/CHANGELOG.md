@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.7.4](https://github.com/jungvonmatt/wekit/compare/v0.7.3...v0.7.4) (2022-06-23)
+
+
+### Bug Fixes
+
+* **scripts:** adds storybook:build script to run before storybook ([2d64d87](https://github.com/jungvonmatt/wekit/commit/2d64d872f5820e12fff65055e164fdfbeba26a12))
+
+
+
+
+
 ## [0.7.3](https://github.com/jungvonmatt/wekit/compare/v0.7.2...v0.7.3) (2022-06-23)
 
 
