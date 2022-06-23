@@ -50,14 +50,16 @@
         {{- $width := .width -}}
         {{- $height := .height -}}
           {{- range $srcsets -}}
-            <source sizes="{{- $local_sizes -}}" srcset="{{- .srcset -}}" type="{{- .type -}}">
+            {{ $srcset := .srcset | default "" }}
+            {{ $type := .type | default ""}}
+            <source sizes="{{- $local_sizes -}}" srcset="{{- $srcset -}}" type="{{- $type -}}">
             {{- $preload_attr := (dict
               "as" "image"
               "imagesizes" $local_sizes
-              "imagesrcset" .srcset
-              "type" .type
+              "imagesrcset" $srcset
+              "type" $type
             ) -}}
-            {{- if and $preload (eq .type "image/avif") (not (in ($globals.Scratch.Get "preload") $preload_attr)) -}}
+            {{- if and $preload (eq $type "image/avif") (not (in ($globals.Scratch.Get "preload") $preload_attr)) -}}
               {{- $globals.Scratch.Add "preload" (slice $preload_attr) -}}
             {{- end -}}
           {{- end -}}
@@ -72,7 +74,7 @@
           "href" $src
           "type" $mime_type
         ) -}}
-        {{- if and $preload (eq .type "image/avif") (not (in ($globals.Scratch.Get "preload") $preload_attr)) -}}
+        {{- if and $preload (not (in ($globals.Scratch.Get "preload") $preload_attr)) -}}
           {{- $globals.Scratch.Add "preload" (slice $preload_attr) -}}
         {{- end -}}
       {{- end -}}
