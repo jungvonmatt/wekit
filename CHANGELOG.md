@@ -3,6 +3,26 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.7.3](https://github.com/jungvonmatt/wekit/compare/v0.7.2...v0.7.3) (2022-06-23)
+
+
+### Bug Fixes
+
+* bump dependencies ([a8d3c8a](https://github.com/jungvonmatt/wekit/commit/a8d3c8a1cd687d6aba3800d8ed313f197786a407))
+* **image:** adds defaults for type & srcset ([29d60f2](https://github.com/jungvonmatt/wekit/commit/29d60f215d9476e5b01c43d39ca3849a2adbda70))
+* **menu:** renames menu field in page to submenu ([ce37fd8](https://github.com/jungvonmatt/wekit/commit/ce37fd8c3dc9f21813d5edcadec195b25f1d96a2))
+* **spacing:** reduce default spacing ([d5cbfa2](https://github.com/jungvonmatt/wekit/commit/d5cbfa21e39ac8425d0b4ad29697e11ef40acf8f))
+* **spacings:** only use bottom spacings ([bf74818](https://github.com/jungvonmatt/wekit/commit/bf748189c4fe133c748ebfc04181e2cbe9580f11))
+
+
+### Performance Improvements
+
+* **resource-hints:** Adds preload tag for stage images ([18489b3](https://github.com/jungvonmatt/wekit/commit/18489b36726d9324aa1bb7108c6fff62d0bbe9da))
+
+
+
+
+
 ## [0.7.2](https://github.com/jungvonmatt/wekit/compare/v0.7.1...v0.7.2) (2022-03-22)
 
 
