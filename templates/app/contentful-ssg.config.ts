@@ -12,6 +12,10 @@ const config: Config = {
         ratios: {
           default: { square: 1 / 1, landscape: 16 / 9, portrait: 3 / 4, rectangle: 4 / 3 },
         },
+        // Uncomment line to auto-generate poster images for video files
+        // generatePosterImages: true,
+        // Uncomment line to download assets from contentful
+        // download: true,
       },
     ],
   ],
