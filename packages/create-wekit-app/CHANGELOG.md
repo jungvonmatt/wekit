@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.7.5](https://github.com/jungvonmatt/wekit/compare/v0.7.4...v0.7.5) (2022-06-27)
+
+
+### Features
+
+* **scripts:** adds watch script to package.json ([f05e770](https://github.com/jungvonmatt/wekit/commit/f05e770a4392309c67948c5d7fb25d5dac69ea46))
+
+
+
+
+
 ## [0.7.4](https://github.com/jungvonmatt/wekit/compare/v0.7.3...v0.7.4) (2022-06-23)
 
 
