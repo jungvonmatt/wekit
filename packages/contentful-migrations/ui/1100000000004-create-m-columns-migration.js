@@ -82,40 +82,32 @@ module.exports = async function (migration, context) {
   mColumns
     .createField('column_left')
     .name('Column left')
-    .type('Array')
+    .type('Link')
     .localized(false)
     .required(false)
-    .validations([])
+    .validations([
+      {
+        linkContentType: ['c-editorial', 'c-image', 'c-media', 'c-video'],
+      },
+    ])
     .disabled(false)
     .omitted(false)
-    .items({
-      type: 'Link',
-      validations: [
-        {
-          linkContentType: ['c-link', 'c-editorial', 'c-image', 'c-media', 'c-video'],
-        },
-      ],
-      linkType: 'Entry',
-    });
+    .linkType('Entry');
 
   mColumns
     .createField('column_right')
     .name('Column right')
-    .type('Array')
+    .type('Link')
     .localized(false)
     .required(false)
-    .validations([])
+    .validations([
+      {
+        linkContentType: ['c-editorial', 'c-image', 'c-media', 'c-video'],
+      },
+    ])
     .disabled(false)
     .omitted(false)
-    .items({
-      type: 'Link',
-      validations: [
-        {
-          linkContentType: ['c-link', 'c-editorial', 'c-image', 'c-media', 'c-video'],
-        },
-      ],
-      linkType: 'Entry',
-    });
+    .linkType('Entry');
 
   mColumns.changeFieldControl('internal_name', 'builtin', 'singleLine', {
     helpText: 'e.g. "Home page > Columns"',
@@ -127,7 +119,7 @@ module.exports = async function (migration, context) {
 
   mColumns.changeFieldControl('layout', 'builtin', 'dropdown', {});
 
-  mColumns.changeFieldControl('column_left', 'builtin', 'entryLinksEditor', {});
+  mColumns.changeFieldControl('column_left', 'builtin', 'entryLinkEditor', {});
 
-  mColumns.changeFieldControl('column_right', 'builtin', 'entryLinksEditor', {});
+  mColumns.changeFieldControl('column_right', 'builtin', 'entryLinkEditor', {});
 };
