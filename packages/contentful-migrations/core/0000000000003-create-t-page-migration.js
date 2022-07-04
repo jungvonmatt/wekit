@@ -10,7 +10,7 @@ module.exports = async function (migration, context) {
   const tPage = migration
     .createContentType('t-page')
     .name('Template: Page')
-    .description('Represents a regular web page')
+    .description('Template for a regular web page')
     .displayField('name');
 
   tPage

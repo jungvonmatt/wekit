@@ -2,8 +2,7 @@ module.exports = function (migration) {
   const dSettings = migration
     .createContentType('d-settings')
     .name('Data: Settings')
-    .description('')
-    .displayField('name');
+    .description('Global site parameters')
   dSettings
     .createField('name')
     .name('Internal name')
