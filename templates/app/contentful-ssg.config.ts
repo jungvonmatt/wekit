@@ -7,7 +7,6 @@ const config: Config = {
   plugins: [
     [
       '@jungvonmatt/cssg-plugin-hugo',
-      // TODO: Change this in the presets of the plugin and remove it here
       {
         menuRootTypes: ['t-*', 'folder', 'x-folder'],
         typeConfig: {
