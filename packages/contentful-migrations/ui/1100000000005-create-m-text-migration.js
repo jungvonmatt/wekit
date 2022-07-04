@@ -117,7 +117,7 @@ module.exports = async function (migration, context) {
         nodes: {
           'entry-hyperlink': [
             {
-              linkContentType: ['page'],
+              linkContentType: ['t-page'],
               message: null,
             },
           ],

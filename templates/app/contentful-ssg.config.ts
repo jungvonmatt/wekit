@@ -5,7 +5,16 @@ const config: Config = {
   richTextRenderer: false,
   preview: process.env.CONTENTFUL_USE_PREVIEW === 'true',
   plugins: [
-    '@jungvonmatt/cssg-plugin-hugo',
+    [
+      '@jungvonmatt/cssg-plugin-hugo',
+      // TODO: Change this in the presets of the plugin and remove it here
+      {
+        menuRootTypes: ['t-*', 'folder', 'x-folder'],
+        typeConfig: {
+          content: ['t-*'],
+        },
+      },
+    ],
     [
       '@jungvonmatt/cssg-plugin-assets',
       {

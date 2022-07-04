@@ -4,7 +4,7 @@
 {{- $stage := $context.stage -}}
 {{- $modules := $context.modules -}}
 
-<main class="t-default{{ with $theme }} u-theme--{{ . }}{{ end }}">
+<main class="t-page{{ with $theme }} u-theme--{{ . }}{{ end }}">
   {{- with $stage -}}
     {{- partial "utils/get-partial" (dict
       "context" .

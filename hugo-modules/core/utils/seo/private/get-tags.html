@@ -97,7 +97,7 @@
 {{/* Dealing with private setting */}}
 {{ with $seo }}
   {{ $value := "noindex, nofollow" }}
-  {{ $production := eq (getenv "HUGO_ENV") "production" }}
+  {{ $production := eq (hugo.Environment) "production" }}
   {{ $index := cond (eq .no_index true) "noindex" "index" }}
   {{ $follow := cond (eq .no_follow true) "nofollow" "follow" }}
 

@@ -48,7 +48,7 @@ module.exports = function (migration) {
     .required(false)
     .validations([
       {
-        linkContentType: ['page'],
+        linkContentType: ['t-page'],
       },
     ])
     .disabled(false)

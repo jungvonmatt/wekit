@@ -36,7 +36,7 @@ module.exports = function (migration) {
       type: 'Link',
       validations: [
         {
-          linkContentType: ['c-link', 'page', 'folder'],
+          linkContentType: ['c-link', 't-page', 'folder'],
         },
       ],
       linkType: 'Entry',
@@ -46,8 +46,8 @@ module.exports = function (migration) {
   cMenu.changeFieldControl('title', 'builtin', 'singleLine', {});
   cMenu.changeFieldControl('entries', 'builtin', 'entryLinksEditor', {});
 
-  const page = migration.editContentType('page');
-  page
+  const tPage = migration.editContentType('t-page');
+  tPage
     .createField('submenu')
     .name('Submenu')
     .type('Link')
@@ -62,8 +62,8 @@ module.exports = function (migration) {
     .omitted(false)
     .linkType('Entry');
 
-  page.moveField('submenu').beforeField('content');
-  page.changeFieldControl('submenu', 'builtin', 'entryLinkEditor', {});
+  tPage.moveField('submenu').afterField('parent_page');
+  tPage.changeFieldControl('submenu', 'builtin', 'entryLinkEditor', {});
 
   const dSettings = migration.editContentType('d-settings');
   dSettings

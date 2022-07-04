@@ -14,7 +14,7 @@
 {{ $content_type := .content_type }}
 {{ $params := dict }}
 
-{{ if (eq $content_type "page") }}
+{{ if hasPrefix $content_type "t-" }}
   {{ $page := partial "utils/get-page" . }}
   {{ with $page }}
     {{ $params = .Params }}

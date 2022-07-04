@@ -103,7 +103,7 @@ module.exports = async function (migration, context) {
 
       validations: [
         {
-          linkContentType: ['c-link', 'page'],
+          linkContentType: ['c-link', 't-page'],
         },
       ],
 
