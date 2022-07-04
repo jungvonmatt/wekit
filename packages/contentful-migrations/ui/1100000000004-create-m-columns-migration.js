@@ -1,11 +1,7 @@
-module.exports = async function (migration, context) {
-  const { makeRequest } = context;
-  // Fetch locale
-  const { items: locales } = await makeRequest({
-    method: 'GET',
-    url: '/locales',
-  });
-  const defaultLocale = locales.find((locale) => locale.default);
+const { withHelpers } = require('@jungvonmatt/contentful-migrations');
+
+module.exports = withHelpers(async (migration, _context, helpers) => {
+  const defaultLocale = await helpers.locale.getDefaultLocale();
 
   const mColumns = migration
     .createContentType('m-columns')
@@ -122,4 +118,4 @@ module.exports = async function (migration, context) {
   mColumns.changeFieldControl('column_left', 'builtin', 'entryLinkEditor', {});
 
   mColumns.changeFieldControl('column_right', 'builtin', 'entryLinkEditor', {});
-};
+});

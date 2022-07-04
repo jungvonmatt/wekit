@@ -1,11 +1,7 @@
-module.exports = async function (migration, context) {
-  const { makeRequest } = context;
-  // Fetch locale
-  const { items: locales } = await makeRequest({
-    method: 'GET',
-    url: '/locales',
-  });
-  const defaultLocale = locales.find((locale) => locale.default);
+const { withHelpers } = require('@jungvonmatt/contentful-migrations');
+
+module.exports = withHelpers(async (migration, _context, helpers) => {
+  const defaultLocale = await helpers.locale.getDefaultLocale();
 
   const mText = migration
     .createContentType('m-text')
@@ -144,4 +140,4 @@ module.exports = async function (migration, context) {
   mText.changeFieldControl('subline', 'builtin', 'singleLine', {});
 
   mText.changeFieldControl('body', 'builtin', 'richTextEditor', {});
-};
+});
