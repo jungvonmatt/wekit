@@ -8,7 +8,7 @@ const config: Config = {
     [
       '@jungvonmatt/cssg-plugin-hugo',
       {
-        menuRootTypes: ['t-*', 'folder', 'x-folder'],
+        menuRootTypes: ['t-*'],
         typeConfig: {
           content: ['t-*'],
         },
