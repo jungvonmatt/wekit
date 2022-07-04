@@ -20,7 +20,7 @@ module.exports = async function (_migration, context) {
     headers: { 'X-Contentful-Content-Type': 'd-settings' },
     data: {
       fields: {
-        name: {
+        internal_name: {
           [defaultLocale.code]: 'Global settings',
         },
       },

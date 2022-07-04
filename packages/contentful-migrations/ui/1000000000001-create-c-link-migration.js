@@ -3,10 +3,10 @@ module.exports = function (migration) {
     .createContentType('c-link')
     .name('Component: Link')
     .description('Content type for internal & external Links')
-    .displayField('name');
+    .displayField('internal_name');
 
   cLink
-    .createField('name')
+    .createField('internal_name')
     .name('Internal name')
     .type('Symbol')
     .localized(false)
@@ -131,11 +131,12 @@ module.exports = function (migration) {
     .disabled(false)
     .omitted(false);
 
-  cLink.changeFieldControl('name', 'builtin', 'singleLine', {
-    helpText: "This field is for internal use only. It won't appear on the page.",
+  cLink.changeFieldControl('internal_name', 'builtin', 'singleLine', {
+    helpText: 'e.g. "Home page > Stage > Link"',
   });
 
   cLink.changeFieldControl('text', 'builtin', 'singleLine', {});
+
   cLink.changeFieldControl('query', 'builtin', 'singleLine', {});
 
   cLink.changeFieldControl('icon', 'builtin', 'assetLinkEditor', {
@@ -157,6 +158,8 @@ module.exports = function (migration) {
   cLink.changeFieldControl('link_to_url', 'builtin', 'urlEditor', {});
 
   cLink.changeFieldControl('target_blank', 'builtin', 'boolean', {});
+
   cLink.changeFieldControl('open_as_download', 'builtin', 'boolean', {});
+
   cLink.changeFieldControl('appearance', 'builtin', 'dropdown', {});
 };

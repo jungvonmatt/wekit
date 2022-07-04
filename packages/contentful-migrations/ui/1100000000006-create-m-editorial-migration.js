@@ -11,10 +11,10 @@ module.exports = async function (migration, context) {
     .createContentType('m-editorial')
     .name('Module: Editorial')
     .description('Module wrapper for the editorial component')
-    .displayField('name');
+    .displayField('internal_name');
 
   mEditorial
-    .createField('name')
+    .createField('internal_name')
     .name('Internal name')
     .type('Symbol')
     .localized(false)
@@ -89,9 +89,15 @@ module.exports = async function (migration, context) {
     .omitted(false)
     .linkType('Entry');
 
-  mEditorial.changeFieldControl('name', 'builtin', 'singleLine', {});
+  mEditorial.changeFieldControl('internal_name', 'builtin', 'singleLine', {
+    helpText: 'e.g. "Home page > Editorial"',
+  });
+
   mEditorial.changeFieldControl('theme', 'builtin', 'dropdown', {});
+
   mEditorial.changeFieldControl('spacing', 'builtin', 'dropdown', {});
+
   mEditorial.changeFieldControl('layout', 'builtin', 'dropdown', {});
+
   mEditorial.changeFieldControl('body', 'builtin', 'entryLinkEditor', {});
 };

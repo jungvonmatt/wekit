@@ -11,16 +11,18 @@ module.exports = async function (migration, context) {
     .createContentType('m-stage')
     .name('Module: Stage')
     .description('Stage module is the very first element on every page.')
-    .displayField('name');
+    .displayField('internal_name');
+
   mStage
-    .createField('name')
+    .createField('internal_name')
     .name('Internal name')
     .type('Symbol')
     .localized(false)
-    .required(false)
+    .required(true)
     .validations([])
     .disabled(false)
     .omitted(false);
+
   mStage
     .createField('title')
     .name('Title')
@@ -30,6 +32,7 @@ module.exports = async function (migration, context) {
     .validations([])
     .disabled(false)
     .omitted(false);
+
   mStage
     .createField('subtitle')
     .name('Subtitle')
@@ -146,12 +149,21 @@ module.exports = async function (migration, context) {
       linkType: 'Entry',
     });
 
-  mStage.changeFieldControl('name', 'builtin', 'singleLine', {});
+  mStage.changeFieldControl('internal_name', 'builtin', 'singleLine', {
+    helpText: 'e.g. "Home page > Stage"',
+  });
+
   mStage.changeFieldControl('title', 'builtin', 'singleLine', {});
+
   mStage.changeFieldControl('subtitle', 'builtin', 'singleLine', {});
+
   mStage.changeFieldControl('text', 'builtin', 'richTextEditor', {});
+
   mStage.changeFieldControl('media', 'builtin', 'entryLinkEditor', {});
+
   mStage.changeFieldControl('links', 'builtin', 'entryLinksEditor', {});
+
   mStage.changeFieldControl('layout', 'builtin', 'dropdown', {});
+
   mStage.changeFieldControl('content', 'builtin', 'entryLinksEditor', {});
 };

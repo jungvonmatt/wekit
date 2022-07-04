@@ -11,14 +11,14 @@ module.exports = async function (migration, context) {
     .createContentType('m-columns')
     .name('Module: Columns')
     .description('Helper for two column layouts')
-    .displayField('name');
+    .displayField('internal_name');
 
   mColumns
-    .createField('name')
+    .createField('internal_name')
     .name('Internal name')
     .type('Symbol')
     .localized(false)
-    .required(false)
+    .required(true)
     .validations([])
     .disabled(false)
     .omitted(false);
@@ -117,10 +117,17 @@ module.exports = async function (migration, context) {
       linkType: 'Entry',
     });
 
-  mColumns.changeFieldControl('name', 'builtin', 'singleLine', {});
+  mColumns.changeFieldControl('internal_name', 'builtin', 'singleLine', {
+    helpText: 'e.g. "Home page > Columns"',
+  });
+
   mColumns.changeFieldControl('theme', 'builtin', 'dropdown', {});
+
   mColumns.changeFieldControl('spacing', 'builtin', 'dropdown', {});
+
   mColumns.changeFieldControl('layout', 'builtin', 'dropdown', {});
+
   mColumns.changeFieldControl('column_left', 'builtin', 'entryLinksEditor', {});
+
   mColumns.changeFieldControl('column_right', 'builtin', 'entryLinksEditor', {});
 };

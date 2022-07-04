@@ -11,13 +11,14 @@ module.exports = async function (migration, context) {
     .createContentType('m-list')
     .name('Module: List')
     .description('Allows placing multiple components in a slider or grid')
-    .displayField('name');
+    .displayField('internal_name');
+
   mList
-    .createField('name')
+    .createField('internal_name')
     .name('Internal name')
     .type('Symbol')
     .localized(false)
-    .required(false)
+    .required(true)
     .validations([])
     .disabled(false)
     .omitted(false);
@@ -94,9 +95,15 @@ module.exports = async function (migration, context) {
       linkType: 'Entry',
     });
 
-  mList.changeFieldControl('name', 'builtin', 'singleLine', {});
+  mList.changeFieldControl('internal_name', 'builtin', 'singleLine', {
+    helpText: 'e.g. "Home page > List"',
+  });
+
   mList.changeFieldControl('layout', 'builtin', 'dropdown', {});
+
   mList.changeFieldControl('theme', 'builtin', 'dropdown', {});
+
   mList.changeFieldControl('spacing', 'builtin', 'dropdown', {});
+
   mList.changeFieldControl('body', 'builtin', 'entryLinksEditor', {});
 };

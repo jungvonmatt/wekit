@@ -11,13 +11,14 @@ module.exports = async function (migration, context) {
     .createContentType('m-text')
     .name('Module: Text')
     .description('Content type for placing richtext')
-    .displayField('name');
+    .displayField('internal_name');
+
   mText
-    .createField('name')
+    .createField('internal_name')
     .name('Internal name')
     .type('Symbol')
     .localized(false)
-    .required(false)
+    .required(true)
     .validations([])
     .disabled(false)
     .omitted(false);
@@ -59,6 +60,7 @@ module.exports = async function (migration, context) {
   mText.changeFieldControl('theme', 'builtin', 'dropdown', {
     helpText: 'light: Light background, dark text; dark: Dark background, light text.',
   });
+
   mText.changeFieldControl('spacing', 'builtin', 'dropdown', {});
 
   mText
@@ -127,12 +129,19 @@ module.exports = async function (migration, context) {
     .disabled(false)
     .omitted(false);
 
-  mText.changeFieldControl('name', 'builtin', 'singleLine', {});
+  mText.changeFieldControl('internal_name', 'builtin', 'singleLine', {
+    helpText: 'e.g. "Home page > Text"',
+  });
+
   mText.changeFieldControl('theme', 'builtin', 'dropdown', {});
+
   mText.changeFieldControl('spacing', 'builtin', 'dropdown', {});
+
   mText.changeFieldControl('layout', 'builtin', 'dropdown', {});
 
   mText.changeFieldControl('headline', 'builtin', 'singleLine', {});
+
   mText.changeFieldControl('subline', 'builtin', 'singleLine', {});
+
   mText.changeFieldControl('body', 'builtin', 'richTextEditor', {});
 };

@@ -11,10 +11,10 @@ module.exports = async function (migration, context) {
     .createContentType('t-page')
     .name('Template: Page')
     .description('Template for a regular web page')
-    .displayField('name');
+    .displayField('internal_name');
 
   tPage
-    .createField('name')
+    .createField('internal_name')
     .name('Internal name')
     .type('Symbol')
     .localized(false)
@@ -164,32 +164,45 @@ module.exports = async function (migration, context) {
       linkType: 'Entry',
     });
 
-  tPage.changeFieldControl('name', 'builtin', 'singleLine', {});
+  tPage.changeFieldControl('internal_name', 'builtin', 'singleLine', {
+    helpText: 'e.g. "Home page"',
+  });
+
   tPage.changeFieldControl('title', 'builtin', 'singleLine', {});
+
   tPage.changeFieldControl('parent_page', 'builtin', 'entryLinkEditor', {});
+
   tPage.changeFieldControl('slug', 'builtin', 'slugEditor', {
     trackingFieldId: 'title',
   });
+
   tPage.changeFieldControl('seo_title', 'builtin', 'singleLine', {
     helpText: 'This will override the page title in search engine results',
   });
+
   tPage.changeFieldControl('seo_description', 'builtin', 'singleLine', {
     helpText: 'This will be displayed in search engine results',
   });
+
   tPage.changeFieldControl('share_image', 'builtin', 'assetLinkEditor', {
     helpText: 'This will be displayed when sharing the page on social media',
   });
+
   tPage.changeFieldControl('no_index', 'builtin', 'boolean', {
     helpText: 'Search engines will not include this page in search results',
     trueLabel: 'Yes',
     falseLabel: 'No',
   });
+
   tPage.changeFieldControl('no_follow', 'builtin', 'boolean', {
     helpText: 'Search engines will not follow the links on your page',
     trueLabel: 'Yes',
     falseLabel: 'No',
   });
+
   tPage.changeFieldControl('theme', 'builtin', 'radio', {});
+
   tPage.changeFieldControl('stage', 'builtin', 'entryLinkEditor', {});
+
   tPage.changeFieldControl('modules', 'builtin', 'entryLinksEditor', {});
 };

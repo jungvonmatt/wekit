@@ -11,13 +11,14 @@ module.exports = async function (migration, context) {
     .createContentType('c-image')
     .name('Component: Image')
     .description('Image type with dedicated fields for mobile & desktop asset')
-    .displayField('name');
+    .displayField('internal_name');
+
   cImage
-    .createField('name')
+    .createField('internal_name')
     .name('Internal name')
     .type('Symbol')
     .localized(false)
-    .required(false)
+    .required(true)
     .validations([])
     .disabled(false)
     .omitted(false);
@@ -85,14 +86,19 @@ module.exports = async function (migration, context) {
     })
     .omitted(false);
 
-  cImage.changeFieldControl('name', 'builtin', 'singleLine', {
-    helpText: "This field is for internal use only. It won't appear on the page.",
+  cImage.changeFieldControl('internal_name', 'builtin', 'singleLine', {
+    helpText: 'e.g. "Home page > Stage > Image"',
   });
+
   cImage.changeFieldControl('alt', 'builtin', 'singleLine', {});
+
   cImage.changeFieldControl('caption', 'builtin', 'multipleLine', {});
+
   cImage.changeFieldControl('image_mobile', 'builtin', 'assetLinkEditor', {});
+
   cImage.changeFieldControl('image_desktop', 'builtin', 'assetLinkEditor', {
-    helpText: 'Leave emptzy to use the mobile image on all screen sizes',
+    helpText: 'Leave empty to use the mobile image on all screen sizes',
   });
+
   cImage.changeFieldControl('lazy', 'builtin', 'boolean', {});
 };

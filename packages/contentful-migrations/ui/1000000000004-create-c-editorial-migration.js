@@ -3,9 +3,10 @@ module.exports = async function (migration) {
     .createContentType('c-editorial')
     .name('Component: Editorial')
     .description('Teaser-like components with text, image & links')
-    .displayField('name');
+    .displayField('internal_name');
+
   cEditorial
-    .createField('name')
+    .createField('internal_name')
     .name('Internal name')
     .type('Symbol')
     .localized(false)
@@ -13,6 +14,7 @@ module.exports = async function (migration) {
     .validations([])
     .disabled(false)
     .omitted(false);
+
   cEditorial
     .createField('title')
     .name('Title')
@@ -22,6 +24,7 @@ module.exports = async function (migration) {
     .validations([])
     .disabled(false)
     .omitted(false);
+
   cEditorial
     .createField('subtitle')
     .name('Subtitle')
@@ -90,13 +93,17 @@ module.exports = async function (migration) {
       linkType: 'Entry',
     });
 
-  cEditorial.changeFieldControl('name', 'builtin', 'singleLine', {
-    helpText: "This field is for internal use only. It won't appear on the page.",
+  cEditorial.changeFieldControl('internal_name', 'builtin', 'singleLine', {
+    helpText: 'e.g. "Home page > Editorial > Editorial"',
   });
 
   cEditorial.changeFieldControl('title', 'builtin', 'singleLine', {});
+
   cEditorial.changeFieldControl('subtitle', 'builtin', 'singleLine', {});
+
   cEditorial.changeFieldControl('text', 'builtin', 'richTextEditor', {});
+
   cEditorial.changeFieldControl('media', 'builtin', 'entryLinkEditor', {});
+
   cEditorial.changeFieldControl('links', 'builtin', 'entryLinksEditor', {});
 };

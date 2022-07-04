@@ -3,9 +3,10 @@ module.exports = function (migration) {
     .createContentType('c-menu')
     .name('Component: Menu')
     .description('Content type for specifying menus')
-    .displayField('name');
+    .displayField('internal_name');
+
   cMenu
-    .createField('name')
+    .createField('internal_name')
     .name('Internal name')
     .type('Symbol')
     .localized(false)
@@ -13,6 +14,7 @@ module.exports = function (migration) {
     .validations([])
     .disabled(false)
     .omitted(false);
+
   cMenu
     .createField('title')
     .name('Title')
@@ -42,8 +44,10 @@ module.exports = function (migration) {
       linkType: 'Entry',
     });
 
-  cMenu.changeFieldControl('name', 'builtin', 'singleLine', {});
+  cMenu.changeFieldControl('internal_name', 'builtin', 'singleLine', {});
+
   cMenu.changeFieldControl('title', 'builtin', 'singleLine', {});
+
   cMenu.changeFieldControl('entries', 'builtin', 'entryLinksEditor', {});
 
   const tPage = migration.editContentType('t-page');
@@ -63,6 +67,7 @@ module.exports = function (migration) {
     .linkType('Entry');
 
   tPage.moveField('submenu').afterField('parent_page');
+
   tPage.changeFieldControl('submenu', 'builtin', 'entryLinkEditor', {});
 
   const dSettings = migration.editContentType('d-settings');
@@ -138,8 +143,13 @@ module.exports = function (migration) {
       linkType: 'Entry',
     });
 
-  dSettings.changeFieldControl('main_menu', 'builtin', 'entryLinkEditor', {});
+  dSettings.changeFieldControl('main_menu', 'builtin', 'entryLinkEditor', {
+    helpText: 'e.g. "Global settings > Main menu"',
+  });
+
   dSettings.changeFieldControl('meta_menu', 'builtin', 'entryLinkEditor', {});
+
   dSettings.changeFieldControl('social_menu', 'builtin', 'entryLinkEditor', {});
+
   dSettings.changeFieldControl('footer_menus', 'builtin', 'entryLinksEditor', {});
 };

@@ -10,7 +10,7 @@ const readJsonAsync = async (filepath, options) => {
 };
 
 /**
- * Contentful migration
+ * Contentful migration to configure the the deploy content type
  */
 module.exports = async function (migration, context) {
   const { makeRequest } = context;
@@ -82,7 +82,7 @@ module.exports = async function (migration, context) {
     headers: { 'X-Contentful-Content-Type': 'x-deploy' },
     data: {
       fields: {
-        name: {
+        internal_name: {
           [defaultLocale.code]: 'Deploy to preview',
         },
       },
@@ -94,7 +94,7 @@ module.exports = async function (migration, context) {
     headers: { 'X-Contentful-Content-Type': 'x-deploy' },
     data: {
       fields: {
-        name: {
+        internal_name: {
           [defaultLocale.code]: 'Deploy to staging',
         },
       },
@@ -106,7 +106,7 @@ module.exports = async function (migration, context) {
     headers: { 'X-Contentful-Content-Type': 'x-deploy' },
     data: {
       fields: {
-        name: {
+        internal_name: {
           [defaultLocale.code]: 'Deploy to production',
         },
       },

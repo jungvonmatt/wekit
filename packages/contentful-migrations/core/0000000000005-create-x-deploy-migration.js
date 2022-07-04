@@ -8,9 +8,10 @@ module.exports = function (migration) {
     .createContentType('x-deploy')
     .name('Deploy')
     .description('Depoy trigger')
-    .displayField('name');
+    .displayField('internal_name');
+
   deploy
-    .createField('name')
+    .createField('internal_name')
     .name('Internal name')
     .type('Symbol')
     .localized(false)
@@ -18,5 +19,8 @@ module.exports = function (migration) {
     .validations([])
     .disabled(false)
     .omitted(false);
-  deploy.changeFieldControl('name', 'builtin', 'singleLine', {});
+
+  deploy.changeFieldControl('internal_name', 'builtin', 'singleLine', {
+    helpText: 'e.g. "Deploy to preview"',
+  });
 };

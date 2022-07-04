@@ -11,9 +11,10 @@ module.exports = async function (migration, context) {
     .createContentType('c-media')
     .name('Component: Media')
     .description('Images / loop videos with predefined ratios')
-    .displayField('name');
+    .displayField('internal_name');
+
   cMedia
-    .createField('name')
+    .createField('internal_name')
     .name('Internal name')
     .type('Symbol')
     .localized(false)
@@ -21,6 +22,7 @@ module.exports = async function (migration, context) {
     .validations([])
     .disabled(false)
     .omitted(false);
+
   cMedia
     .createField('alt')
     .name('Alt text')
@@ -30,6 +32,7 @@ module.exports = async function (migration, context) {
     .validations([])
     .disabled(false)
     .omitted(false);
+
   cMedia
     .createField('caption')
     .name('Caption')
@@ -185,11 +188,14 @@ module.exports = async function (migration, context) {
     .disabled(false)
     .omitted(false);
 
-  cMedia.changeFieldControl('name', 'builtin', 'singleLine', {
-    helpText: "This field is for internal use only. It won't appear on the page.",
+  cMedia.changeFieldControl('internal_name', 'builtin', 'singleLine', {
+    helpText: 'e.g. "Home page > Stage > Media"',
   });
+
   cMedia.changeFieldControl('alt', 'builtin', 'singleLine', {});
+
   cMedia.changeFieldControl('caption', 'builtin', 'multipleLine', {});
+
   cMedia.changeFieldControl('media', 'builtin', 'assetLinkEditor', {});
 
   cMedia.changeFieldControl('mobile_ratio', 'builtin', 'dropdown', {

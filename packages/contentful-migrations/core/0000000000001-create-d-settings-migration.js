@@ -3,12 +3,14 @@ module.exports = function (migration) {
     .createContentType('d-settings')
     .name('Data: Settings')
     .description('Global site parameters')
+    .displayField('internal_name');
+
   dSettings
-    .createField('name')
+    .createField('internal_name')
     .name('Internal name')
     .type('Symbol')
     .localized(false)
-    .required(false)
+    .required(true)
     .validations([])
     .disabled(false)
     .omitted(false);
@@ -53,8 +55,8 @@ module.exports = function (migration) {
     .omitted(false)
     .linkType('Entry');
 
-  dSettings.changeFieldControl('name', 'builtin', 'singleLine', {
-    helpText: "This field is for internal use only. It won't appear on the page.",
+  dSettings.changeFieldControl('internal_name', 'builtin', 'singleLine', {
+    helpText: 'e.g. "Global settings"',
   });
 
   dSettings.changeFieldControl('title', 'builtin', 'singleLine', {
