@@ -12,7 +12,7 @@ const readJsonAsync = async (filepath, options) => {
 /**
  * Contentful migration
  */
-module.exports = async function (context) {
+module.exports = async function (_migration, context) {
   const { makeRequest } = context;
   // Check if deploy-with-confirmation extension is installed
   const { items: extensions } = await makeRequest({
