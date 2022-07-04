@@ -109,7 +109,6 @@
 	---------------------------- */}}
 {{ $img := false }}
 
-{{/* TODO: default_image does not exist */}}
 {{ with $config.default_image }}
 	{{ $img = . }}
 {{ end }}
@@ -164,7 +163,6 @@
 {{ end }}
 
 {{/* We check if the page is not set as private */}}
-{{/* TODO: .Params.seo no longer exists */}}
 {{ with $.Params.seo.private }}
 	{{ $s.SetInMap "seo" "private" true }}
 {{ end }}

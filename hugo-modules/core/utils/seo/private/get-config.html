@@ -16,7 +16,6 @@
     {{ end }}
 */}}
 {{ $config := dict }}
-{{/* TODO: .Params.seo no longer exists */}}
 {{ with site.Params.seo }}
   {{ $config = . }}
 {{ end }}
