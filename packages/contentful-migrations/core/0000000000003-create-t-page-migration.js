@@ -158,7 +158,7 @@ module.exports = async function (migration, context) {
       type: 'Link',
       validations: [
         {
-          linkContentType: ['m-columns', 'm-editorial', 'm-list', 'm-section', 'm-text'],
+          linkContentType: ['m-columns', 'm-editorial', 'm-list', 'm-text'],
         },
       ],
       linkType: 'Entry',

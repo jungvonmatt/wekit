@@ -3,7 +3,7 @@
 /**
  * Migration to generate the d-settings object with id 'settings' so it is available in contentful-ssg
  */
-module.exports = async function (migration, context) {
+module.exports = async function (context) {
   const { makeRequest } = context;
 
   // Fetch locale
