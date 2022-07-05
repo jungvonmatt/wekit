@@ -181,8 +181,8 @@ module.exports = withHelpers(async (migration, _context, helpers) => {
     .defaultValue({
       [defaultLocale.code]: true,
     })
-    .disabled(false)
-    .omitted(false);
+    .disabled(true)
+    .omitted(true);
 
   cMedia.changeFieldControl('internal_name', 'builtin', 'singleLine', {
     helpText: 'e.g. "Home page > Stage > Media"',

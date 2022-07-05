@@ -76,11 +76,11 @@ module.exports = withHelpers(async (migration, _context, helpers) => {
     .localized(false)
     .required(false)
     .validations([])
-    .disabled(false)
     .defaultValue({
       [defaultLocale.code]: true,
     })
-    .omitted(false);
+    .disabled(true)
+    .omitted(true);
 
   cImage.changeFieldControl('internal_name', 'builtin', 'singleLine', {
     helpText: 'e.g. "Home page > Stage > Image"',
