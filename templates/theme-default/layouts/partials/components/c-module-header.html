@@ -8,29 +8,29 @@
   "context" $params
 ) . -}}
 
-{{- $title := $params.title -}}
-{{- $subtitle := $params.subtitle -}}
+{{- $headline := $params.headline -}}
+{{- $secondary_headline := $params.secondary_headline -}}
 {{- $text := $params.text -}}
 
 
 <div class="{{- $class_name -}}">
-  {{- with $title -}}
+  {{- with $headline -}}
     {{- partial "components/c-headline" (dict
       "globals" $globals
       "context" (dict
         "tag" "h2"
         "text" .
-        "class_name" "c-module-header__title"
+        "class_name" "c-module-header__headline"
       )
     ) -}}
   {{- end -}}
-  {{- with $subtitle -}}
+  {{- with $secondary_headline -}}
     {{- partial "components/c-headline" (dict
       "globals" $globals
       "context" (dict
         "tag" "h3"
         "text" .
-        "class_name" "c-module-header__subtitle"
+        "class_name" "c-module-header__secondary-headline"
       )
     ) -}}
   {{- end -}}

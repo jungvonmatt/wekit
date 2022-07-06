@@ -20,8 +20,8 @@ module.exports = withHelpers(async (migration, _context, helpers) => {
     .omitted(false);
 
   mStage
-    .createField('title')
-    .name('Title')
+    .createField('headline')
+    .name('Headline')
     .type('Symbol')
     .localized(true)
     .required(false)
@@ -30,8 +30,8 @@ module.exports = withHelpers(async (migration, _context, helpers) => {
     .omitted(false);
 
   mStage
-    .createField('subtitle')
-    .name('Subtitle')
+    .createField('secondaryHeadline')
+    .name('Secondary headline')
     .type('Symbol')
     .localized(true)
     .required(false)
@@ -149,9 +149,9 @@ module.exports = withHelpers(async (migration, _context, helpers) => {
     helpText: 'e.g. "Home page > Stage"',
   });
 
-  mStage.changeFieldControl('title', 'builtin', 'singleLine', {});
+  mStage.changeFieldControl('headline', 'builtin', 'singleLine', {});
 
-  mStage.changeFieldControl('subtitle', 'builtin', 'singleLine', {});
+  mStage.changeFieldControl('secondaryHeadline', 'builtin', 'singleLine', {});
 
   mStage.changeFieldControl('text', 'builtin', 'richTextEditor', {});
 

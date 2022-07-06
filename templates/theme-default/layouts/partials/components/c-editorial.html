@@ -8,13 +8,13 @@
   "context" $params
 ) . -}}
 
-{{- $title := $params.title -}}
-{{- $subtitle := $params.subtitle -}}
+{{- $headline := $params.headline -}}
+{{- $secondary_headline := $params.secondary_headline -}}
 {{- $text := $params.text -}}
 {{- $media := $params.media -}}
 {{- $links := $params.links | default dict -}}
-{{- $title_tag := $params.title_tag | default "h3" -}}
-{{- $subtitle_tag := $params.subtitle_tag | default "h4" -}}
+{{- $headline_tag := $params.headline_tag | default "h3" -}}
+{{- $secondary_headline_tag := $params.secondary_headline_tag | default "h4" -}}
 {{- $layout := $params.layout | default "default" -}}
 
 {{- $partialPath := printf "components/c-editorial/%s.html" $layout -}}
@@ -31,23 +31,23 @@
         ) . -}}
       {{- end -}}
       <div class="c-editorial__body">
-        {{- with $title -}}
+        {{- with $headline -}}
           {{- partial "components/c-headline" (dict
             "globals" $globals
             "context" (dict
               "tag" "h2"
-              "class_name" "c-editorial__title"
+              "class_name" "c-editorial__headline"
               "modifier" ""
               "text" .
             )
           ) -}}
         {{- end -}}
-        {{- with $subtitle -}}
+        {{- with $secondary_headline -}}
           {{- partial "components/c-headline" (dict
             "globals" $globals
             "context" (dict
               "tag" "h3"
-              "class_name" "c-editorial__subtitle"
+              "class_name" "c-editorial__secondary-headline"
               "modifier" ""
               "text" .
             )

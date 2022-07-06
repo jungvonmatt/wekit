@@ -16,8 +16,8 @@ module.exports = async function (migration) {
     .omitted(false);
 
   cEditorial
-    .createField('title')
-    .name('Title')
+    .createField('headline')
+    .name('Headline')
     .type('Symbol')
     .localized(true)
     .required(false)
@@ -26,8 +26,8 @@ module.exports = async function (migration) {
     .omitted(false);
 
   cEditorial
-    .createField('subtitle')
-    .name('Subtitle')
+    .createField('secondaryHeadline')
+    .name('Secondary headline')
     .type('Symbol')
     .localized(true)
     .required(false)
@@ -97,9 +97,9 @@ module.exports = async function (migration) {
     helpText: 'e.g. "Home page > Editorial > Editorial"',
   });
 
-  cEditorial.changeFieldControl('title', 'builtin', 'singleLine', {});
+  cEditorial.changeFieldControl('healine', 'builtin', 'singleLine', {});
 
-  cEditorial.changeFieldControl('subtitle', 'builtin', 'singleLine', {});
+  cEditorial.changeFieldControl('secondaryHealine', 'builtin', 'singleLine', {});
 
   cEditorial.changeFieldControl('text', 'builtin', 'richTextEditor', {});
 
