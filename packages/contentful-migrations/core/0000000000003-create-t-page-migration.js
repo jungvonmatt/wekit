@@ -110,7 +110,7 @@ module.exports = withHelpers(async (migration, _context, helpers) => {
     .disabled(false)
     .omitted(false);
 
-    tPage
+  tPage
     .createField('theme')
     .name('Theme')
     .type('Symbol')
@@ -202,4 +202,44 @@ module.exports = withHelpers(async (migration, _context, helpers) => {
   tPage.changeFieldControl('stage', 'builtin', 'entryLinkEditor', {});
 
   tPage.changeFieldControl('modules', 'builtin', 'entryLinksEditor', {});
+
+  // Create editor layout (Compose only)
+  const editorLayout = tPage.createEditorLayout();
+
+  editorLayout.createFieldGroup('content', {
+    name: 'Content'
+  });
+
+  editorLayout.changeFieldGroupControl('content', 'builtin', 'topLevelTab', {
+    helpText: 'Main content'
+  });
+
+  editorLayout.createFieldGroup('settings').name('Settings');
+
+  editorLayout.changeFieldGroupControl('settings', 'builtin', 'topLevelTab', {
+    helpText: 'Page settings'
+  });
+
+  editorLayout.editFieldGroup('settings').createFieldGroup('seo').name('SEO');
+
+  editorLayout.changeFieldGroupControl('seo', 'builtin', 'fieldset', {
+    helpText: 'Search related fields',
+    collapsedByDefault: false
+  });
+
+  editorLayout.moveField('title').toTheTopOfFieldGroup('settings');
+
+  editorLayout.moveField('slug').afterField('title');
+
+  editorLayout.moveField('parent_page').afterField('slug');
+
+  editorLayout.moveField('seo_title').toTheTopOfFieldGroup('seo');
+
+  editorLayout.moveField('seo_description').afterField('seo_title');
+
+  editorLayout.moveField('share_image').afterField('seo_description');
+
+  editorLayout.moveField('no_index').afterField('share_image');
+
+  editorLayout.moveField('no_follow').afterField('no_index');
 });

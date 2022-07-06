@@ -66,10 +66,6 @@ module.exports = function (migration) {
     .omitted(false)
     .linkType('Entry');
 
-  tPage.moveField('submenu').afterField('parent_page');
-
-  tPage.changeFieldControl('submenu', 'builtin', 'entryLinkEditor', {});
-
   const dSettings = migration.editContentType('d-settings');
   dSettings
     .createField('main_menu')
