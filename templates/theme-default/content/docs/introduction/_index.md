@@ -6,7 +6,7 @@ title: Introduction
 
 # Kon'nichiwa 👋
 
-This is our component library documentation that helps authors create user interfaces faster.
+This is the documentation of our component library.
 
 ## Design System 🎨
 
