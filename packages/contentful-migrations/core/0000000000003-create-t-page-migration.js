@@ -124,8 +124,8 @@ module.exports = withHelpers(async (migration, _context, helpers) => {
     .defaultValue({
       [defaultLocale.code]: 'light',
     })
-    .disabled(false)
-    .omitted(false);
+    .disabled(true)
+    .omitted(true);
 
   tPage
     .createField('stage')
