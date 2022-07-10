@@ -30,9 +30,6 @@ module.exports = withHelpers(async (migration, _context, helpers) => {
         in: ['light', 'dark'],
       },
     ])
-    .defaultValue({
-      [defaultLocale.code]: 'light',
-    })
     .disabled(true)
     .omitted(true);
 
