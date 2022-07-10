@@ -97,9 +97,9 @@ module.exports = async function (migration) {
     helpText: 'e.g. "Home page > Editorial > Editorial"',
   });
 
-  cEditorial.changeFieldControl('healine', 'builtin', 'singleLine', {});
+  cEditorial.changeFieldControl('headline', 'builtin', 'singleLine', {});
 
-  cEditorial.changeFieldControl('secondaryHealine', 'builtin', 'singleLine', {});
+  cEditorial.changeFieldControl('secondary_headline', 'builtin', 'singleLine', {});
 
   cEditorial.changeFieldControl('text', 'builtin', 'richTextEditor', {});
 
