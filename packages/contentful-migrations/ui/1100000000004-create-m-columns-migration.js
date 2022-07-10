@@ -78,32 +78,52 @@ module.exports = withHelpers(async (migration, _context, helpers) => {
   mColumns
     .createField('column_left')
     .name('Column left')
-    .type('Link')
+    .type('Array')
     .localized(false)
     .required(false)
     .validations([
       {
-        linkContentType: ['c-editorial', 'c-image', 'c-media', 'c-video'],
+        size: {
+          max: 1,
+        },
       },
     ])
     .disabled(false)
     .omitted(false)
-    .linkType('Entry');
+    .items({
+      type: 'Link',
+      validations: [
+        {
+          linkContentType: ['c-editorial', 'c-image', 'c-media', 'c-video'],
+        },
+      ],
+      linkType: 'Entry',
+    });
 
   mColumns
     .createField('column_right')
     .name('Column right')
-    .type('Link')
+    .type('Array')
     .localized(false)
     .required(false)
     .validations([
       {
-        linkContentType: ['c-editorial', 'c-image', 'c-media', 'c-video'],
+        size: {
+          max: 1,
+        },
       },
     ])
     .disabled(false)
     .omitted(false)
-    .linkType('Entry');
+    .items({
+      type: 'Link',
+      validations: [
+        {
+          linkContentType: ['c-editorial', 'c-image', 'c-media', 'c-video'],
+        },
+      ],
+      linkType: 'Entry',
+    });
 
   mColumns.changeFieldControl('internal_name', 'builtin', 'singleLine', {
     helpText: 'e.g. "Home page > Columns"',
@@ -115,7 +135,7 @@ module.exports = withHelpers(async (migration, _context, helpers) => {
 
   mColumns.changeFieldControl('layout', 'builtin', 'dropdown', {});
 
-  mColumns.changeFieldControl('column_left', 'builtin', 'entryLinkEditor', {});
+  mColumns.changeFieldControl('column_left', 'builtin', 'entryLinksEditor', {});
 
-  mColumns.changeFieldControl('column_right', 'builtin', 'entryLinkEditor', {});
+  mColumns.changeFieldControl('column_right', 'builtin', 'entryLinksEditor', {});
 });
