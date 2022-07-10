@@ -87,7 +87,7 @@ module.exports = withHelpers(async (migration, _context, helpers) => {
     .omitted(false);
 
   mText
-    .createField('secondaryHeadline')
+    .createField('secondary_headline')
     .name('Secondary headline')
     .type('Symbol')
     .localized(true)
@@ -137,7 +137,7 @@ module.exports = withHelpers(async (migration, _context, helpers) => {
 
   mText.changeFieldControl('headline', 'builtin', 'singleLine', {});
 
-  mText.changeFieldControl('secondaryHeadline', 'builtin', 'singleLine', {});
+  mText.changeFieldControl('secondary_headline', 'builtin', 'singleLine', {});
 
   mText.changeFieldControl('body', 'builtin', 'richTextEditor', {});
 });

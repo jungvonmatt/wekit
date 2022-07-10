@@ -26,7 +26,7 @@ module.exports = async function (migration) {
     .omitted(false);
 
   cEditorial
-    .createField('secondaryHeadline')
+    .createField('secondary_headline')
     .name('Secondary headline')
     .type('Symbol')
     .localized(true)
