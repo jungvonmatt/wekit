@@ -26,8 +26,18 @@ module.exports = async function (migration) {
     .omitted(false);
 
   cEditorial
-    .createField('secondary_headline')
-    .name('Secondary headline')
+    .createField('overline')
+    .name('Overline')
+    .type('Symbol')
+    .localized(true)
+    .required(false)
+    .validations([])
+    .disabled(false)
+    .omitted(false);
+
+  cEditorial
+    .createField('subline')
+    .name('Subline')
     .type('Symbol')
     .localized(true)
     .required(false)
@@ -99,7 +109,9 @@ module.exports = async function (migration) {
 
   cEditorial.changeFieldControl('headline', 'builtin', 'singleLine', {});
 
-  cEditorial.changeFieldControl('secondary_headline', 'builtin', 'singleLine', {});
+  cEditorial.changeFieldControl('overline', 'builtin', 'singleLine', {});
+
+  cEditorial.changeFieldControl('subline', 'builtin', 'singleLine', {});
 
   cEditorial.changeFieldControl('text', 'builtin', 'richTextEditor', {});
 

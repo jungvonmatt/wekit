@@ -10,7 +10,8 @@
 ) . -}}
 
 {{- $headline := $params.headline -}}
-{{- $secondary_headline := $params.secondary_headline -}}
+{{- $overline := $params.overline -}}
+{{- $subline := $params.subline -}}
 {{- $text := $params.text -}}
 {{- $media := $params.media -}}
 {{- $layout := $params.layout | default "split" -}}
@@ -37,16 +38,35 @@
         ) -}}
       {{- end -}}
       <div class="m-stage__content">
+        {{- with $overline -}}
+          {{- partial "components/c-headline" (dict
+            "globals" $globals
+            "context" (dict
+              "tag" "div"
+              "class_name" "m-stage__overline"
+              "text" .
+            )
+          ) -}}
+        {{- end -}}
         {{- with $headline -}}
           {{- partial "components/c-headline" (dict
             "globals" $globals
-            "context" (dict "tag" "h1" "class_name" "m-stage__headline" "text" . )
+            "context" (dict
+              "tag" "h1"
+              "class_name"
+              "m-stage__headline"
+              "text" .
+            )
           ) -}}
         {{- end -}}
-        {{- with $secondary_headline -}}
+        {{- with $subline -}}
           {{- partial "components/c-headline" (dict
             "globals" $globals
-            "context" (dict "tag" "h2" "class_name" "m-stage__secondary-headline" "text" . )
+            "context" (dict
+              "tag" "div"
+              "class_name" "m-stage__subline"
+              "text" .
+            )
           ) -}}
         {{- end -}}
         {{- with $text -}}

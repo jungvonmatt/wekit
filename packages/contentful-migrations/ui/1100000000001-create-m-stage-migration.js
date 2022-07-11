@@ -30,8 +30,18 @@ module.exports = withHelpers(async (migration, _context, helpers) => {
     .omitted(false);
 
   mStage
-    .createField('secondary_headline')
-    .name('Secondary headline')
+    .createField('overline')
+    .name('Overline')
+    .type('Symbol')
+    .localized(true)
+    .required(false)
+    .validations([])
+    .disabled(false)
+    .omitted(false);
+
+  mStage
+    .createField('subline')
+    .name('Subline')
     .type('Symbol')
     .localized(true)
     .required(false)
@@ -151,7 +161,9 @@ module.exports = withHelpers(async (migration, _context, helpers) => {
 
   mStage.changeFieldControl('headline', 'builtin', 'singleLine', {});
 
-  mStage.changeFieldControl('secondary_headline', 'builtin', 'singleLine', {});
+  mStage.changeFieldControl('overline', 'builtin', 'singleLine', {});
+
+  mStage.changeFieldControl('subline', 'builtin', 'singleLine', {});
 
   mStage.changeFieldControl('text', 'builtin', 'richTextEditor', {});
 
