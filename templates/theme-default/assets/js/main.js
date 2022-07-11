@@ -11,6 +11,8 @@ if (params.environment !== 'production') {
 listen();
 
 // Polyfill css container queries
+// Parent classNames starting with `container-` cause errors. 
+// See https://github.com/jungvonmatt/wekit/issues/26
 const supportsContainerQueries = 'container' in document.documentElement.style;
 if (supportsContainerQueries) {
   console.log('CSS Container Queries: Native support');
