@@ -20,8 +20,8 @@ module.exports = withHelpers(async (migration, _context, helpers) => {
     .omitted(false);
 
   mStage
-    .createField('headline')
-    .name('Headline')
+    .createField('overline')
+    .name('Overline')
     .type('Symbol')
     .localized(true)
     .required(false)
@@ -30,8 +30,8 @@ module.exports = withHelpers(async (migration, _context, helpers) => {
     .omitted(false);
 
   mStage
-    .createField('overline')
-    .name('Overline')
+    .createField('headline')
+    .name('Headline')
     .type('Symbol')
     .localized(true)
     .required(false)
@@ -159,9 +159,9 @@ module.exports = withHelpers(async (migration, _context, helpers) => {
     helpText: 'e.g. "Home page > Stage"',
   });
 
-  mStage.changeFieldControl('headline', 'builtin', 'singleLine', {});
-
   mStage.changeFieldControl('overline', 'builtin', 'singleLine', {});
+
+  mStage.changeFieldControl('headline', 'builtin', 'singleLine', {});
 
   mStage.changeFieldControl('subline', 'builtin', 'singleLine', {});
 

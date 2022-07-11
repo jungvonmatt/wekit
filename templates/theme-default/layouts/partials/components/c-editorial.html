@@ -8,14 +8,14 @@
   "context" $params
 ) . -}}
 
-{{- $headline := $params.headline -}}
 {{- $overline := $params.overline -}}
+{{- $headline := $params.headline -}}
 {{- $subline := $params.subline -}}
 {{- $text := $params.text -}}
 {{- $media := $params.media -}}
 {{- $links := $params.links | default dict -}}
-{{- $headline_tag := $params.headline_tag | default "h3" -}}
 {{- $overline_tag := $params.overline_tag | default "div" -}}
+{{- $headline_tag := $params.headline_tag | default "h3" -}}
 {{- $subline_tag := $params.subline_tag | default "div" -}}
 {{- $layout := $params.layout | default "default" -}}
 

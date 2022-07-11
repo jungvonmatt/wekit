@@ -16,8 +16,8 @@ module.exports = async function (migration) {
     .omitted(false);
 
   cEditorial
-    .createField('headline')
-    .name('Headline')
+    .createField('overline')
+    .name('Overline')
     .type('Symbol')
     .localized(true)
     .required(false)
@@ -26,8 +26,8 @@ module.exports = async function (migration) {
     .omitted(false);
 
   cEditorial
-    .createField('overline')
-    .name('Overline')
+    .createField('headline')
+    .name('Headline')
     .type('Symbol')
     .localized(true)
     .required(false)
@@ -107,9 +107,9 @@ module.exports = async function (migration) {
     helpText: 'e.g. "Home page > Editorial > Editorial"',
   });
 
-  cEditorial.changeFieldControl('headline', 'builtin', 'singleLine', {});
-
   cEditorial.changeFieldControl('overline', 'builtin', 'singleLine', {});
+
+  cEditorial.changeFieldControl('headline', 'builtin', 'singleLine', {});
 
   cEditorial.changeFieldControl('subline', 'builtin', 'singleLine', {});
 
