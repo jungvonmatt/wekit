@@ -1,9 +1,7 @@
 /* eslint-env node */
 const { withHelpers } = require('@jungvonmatt/contentful-migrations');
 
-module.exports = withHelpers(async (migration, _context, helpers) => {
-  const defaultLocale = await helpers.locale.getDefaultLocale();
-
+module.exports = withHelpers(async (migration, _context) => {
   const tPage = migration
     .createContentType('t-page')
     .name('Template: Page')
@@ -199,6 +197,11 @@ module.exports = withHelpers(async (migration, _context, helpers) => {
   tPage.changeFieldControl('stage', 'builtin', 'entryLinkEditor', {});
 
   tPage.changeFieldControl('modules', 'builtin', 'entryLinksEditor', {});
+
+  // Define page type and components (Compose only)
+  tPage.setAnnotations(['Contentful:AggregateRoot']);
+  tPage.editField('stage').setAnnotations(['Contentful:AggregateComponent']);
+  tPage.editField('modules').setAnnotations(['Contentful:AggregateComponent']);
 
   // Create editor layout (Compose only)
   const editorLayout = tPage.createEditorLayout();
