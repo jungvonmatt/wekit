@@ -9,7 +9,7 @@
 
 {{- $result := "" -}}
 
-{{- if hasPrefix $content_type "t-" -}}
+{{- if (or (eq $content_type "page") (hasPrefix $content_type "t-")) -}}
   {{- $result = "templates" -}}
 {{- else if hasPrefix $content_type "m-" -}}
   {{- $result = "modules" -}}

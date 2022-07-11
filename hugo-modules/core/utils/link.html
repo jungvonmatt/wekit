@@ -43,7 +43,7 @@
     {{ end }}
 
   {{/* Page content type */}}
-  {{ else if hasPrefix .content_type "t-" }}
+  {{ else if (or (eq .content_type "page") (hasPrefix .content_type "t-")) }}
     {{ with partialCached "utils/get-page" . . }}
       {{ $return = (dict
         "href" (.Permalink | safeURL)

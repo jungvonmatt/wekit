@@ -12,7 +12,7 @@
 {{ $content_type := .content_type }}
 {{ $page := dict }}
 {{ if and $content_type $entry_id }}
-  {{ if hasPrefix $content_type "t-" }}
+  {{ if (or (eq $content_type "page") (hasPrefix $content_type "t-")) }}
     {{ with index (where site.Pages "Params.sys.id" $entry_id) 0 }}
       {{ $page = . }}
     {{ end }}
