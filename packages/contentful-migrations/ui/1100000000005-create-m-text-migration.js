@@ -74,26 +74,6 @@ module.exports = withHelpers(async (migration, _context, helpers) => {
     .omitted(false);
 
   mText
-    .createField('headline')
-    .name('Headline')
-    .type('Symbol')
-    .localized(true)
-    .required(false)
-    .validations([])
-    .disabled(false)
-    .omitted(false);
-
-  mText
-    .createField('overline')
-    .name('Overline')
-    .type('Symbol')
-    .localized(true)
-    .required(false)
-    .validations([])
-    .disabled(false)
-    .omitted(false);
-
-  mText
     .createField('body')
     .name('Text')
     .type('RichText')
@@ -131,10 +111,6 @@ module.exports = withHelpers(async (migration, _context, helpers) => {
   mText.changeFieldControl('spacing', 'builtin', 'dropdown', {});
 
   mText.changeFieldControl('layout', 'builtin', 'dropdown', {});
-
-  mText.changeFieldControl('headline', 'builtin', 'singleLine', {});
-
-  mText.changeFieldControl('overline', 'builtin', 'singleLine', {});
 
   mText.changeFieldControl('body', 'builtin', 'richTextEditor', {});
 });
