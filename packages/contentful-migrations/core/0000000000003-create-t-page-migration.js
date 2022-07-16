@@ -207,24 +207,24 @@ module.exports = withHelpers(async (migration, _context) => {
   const editorLayout = tPage.createEditorLayout();
 
   editorLayout.createFieldGroup('content', {
-    name: 'Content'
+    name: 'Content',
   });
 
   editorLayout.changeFieldGroupControl('content', 'builtin', 'topLevelTab', {
-    helpText: 'Main content'
+    helpText: 'Main content',
   });
 
   editorLayout.createFieldGroup('settings').name('Settings');
 
   editorLayout.changeFieldGroupControl('settings', 'builtin', 'topLevelTab', {
-    helpText: 'Page settings'
+    helpText: 'Page settings',
   });
 
   editorLayout.editFieldGroup('settings').createFieldGroup('seo').name('SEO');
 
   editorLayout.changeFieldGroupControl('seo', 'builtin', 'fieldset', {
     helpText: 'Search related fields',
-    collapsedByDefault: false
+    collapsedByDefault: false,
   });
 
   editorLayout.moveField('title').toTheTopOfFieldGroup('settings');
