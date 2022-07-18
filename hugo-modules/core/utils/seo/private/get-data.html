@@ -121,8 +121,8 @@
 	{{ $img = . }}
 {{ end }}
 
-{{ with .Params.share_image }}
-	{{ $img = . }}
+{{ with $seo_params.share_image }}
+	{{ $img = .url }}
 {{ else }}
 	{{/* If no SEO IMAGE is set, we look for the .Params.images slice
 		and use the first one if it has an `image` key */}}
