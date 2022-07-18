@@ -11,7 +11,7 @@ const readJsonAsync = async (filepath, options) => {
 };
 
 /**
- * Contentful migration to configure the the deploy content type
+ * Contentful migration to configure the deploy content type
  */
 module.exports = withHelpers(async (migration, context, helpers) => {
   const { makeRequest } = context;
