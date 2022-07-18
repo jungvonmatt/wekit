@@ -138,8 +138,8 @@ module.exports = withHelpers(async (migration, _context) => {
     .linkType('Entry');
 
   tPage
-    .createField('modules')
-    .name('Modules')
+    .createField('content')
+    .name('Content')
     .type('Array')
     .localized(true)
     .required(false)
@@ -196,12 +196,12 @@ module.exports = withHelpers(async (migration, _context) => {
 
   tPage.changeFieldControl('stage', 'builtin', 'entryLinkEditor', {});
 
-  tPage.changeFieldControl('modules', 'builtin', 'entryLinksEditor', {});
+  tPage.changeFieldControl('content', 'builtin', 'entryLinksEditor', {});
 
   // Define page type and components (Compose only)
   tPage.setAnnotations(['Contentful:AggregateRoot']);
   tPage.editField('stage').setAnnotations(['Contentful:AggregateComponent']);
-  tPage.editField('modules').setAnnotations(['Contentful:AggregateComponent']);
+  tPage.editField('content').setAnnotations(['Contentful:AggregateComponent']);
 
   // Create editor layout (Compose only)
   const editorLayout = tPage.createEditorLayout();
