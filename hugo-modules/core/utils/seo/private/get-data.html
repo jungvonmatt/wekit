@@ -29,7 +29,13 @@
 {{ $s := newScratch }}
 {{ $s.Set "seo" dict }}
 
-{{ $config := partialCached "utils/seo/private/get-config" "seo/private/get-config" }}
+{{ $seo_params := dict }}
+{{ with .Params.seo }}
+  {{ $seo_params = . }}
+  {{ with partialCached "utils/get-params" . . }}
+    {{ $seo_params = . }}
+  {{ end }}
+{{ end }}
 
 {{/* Dates
 	----------------------------- */}}
@@ -59,8 +65,8 @@
 	4. site description  */}}
 {{ $description := "" }}
 {{/* 1. SEO Description */}}
-{{ if .Params.seo_description }}
-	{{ $description = .Params.seo_description }}
+{{ if $seo_params.description }}
+	{{ $description = $seo_params.description }}
 {{/* 2. Description
 	    As it could potentially contain HTML tags, we strip them with plainify */}}
 {{ else if .Description }}
@@ -86,7 +92,7 @@
 	1. Every pages: `{.Title} | {site.Title}`
 	2. Homepage: , only {site.Title} */}}
 {{ $title := .Title }}
-{{ with .Params.seo_title }}
+{{ with $seo_params.title }}
 	{{ $title = . }}
 {{ end }}
 {{ if not .IsHome }}
@@ -182,10 +188,12 @@
 
 {{/* Robots
 	---------------------------- */}}
-{{ $no_index := .Params.no_index | default false }}
-{{ $no_follow := .Params.no_follow | default false }}
+{{ with $seo_params }}
+   {{ $no_index := .no_index | default false }}
+   {{ $no_follow := .no_follow | default false }}
 {{ $s.SetInMap "seo" "no_index" $no_index }}
 {{ $s.SetInMap "seo" "no_follow" $no_follow }}
+{{ end -}}
 
 {{/* Locale and translations
 	---------------------------- */}}

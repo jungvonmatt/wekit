@@ -54,59 +54,19 @@ module.exports = withHelpers(async (migration, _context) => {
     .linkType('Entry');
 
   tPage
-    .createField('seo_title')
-    .name('SEO title')
-    .type('Symbol')
-    .localized(true)
-    .required(false)
-    .validations([])
-    .disabled(false)
-    .omitted(false);
-
-  tPage
-    .createField('seo_description')
-    .name('SEO description')
-    .type('Symbol')
-    .localized(true)
-    .required(false)
-    .validations([])
-    .disabled(false)
-    .omitted(false);
-
-  tPage
-    .createField('share_image')
-    .name('Share image')
+    .createField('seo')
+    .name('SEO metadata')
     .type('Link')
     .localized(false)
     .required(false)
     .validations([
       {
-        linkMimetypeGroup: ['image'],
+        linkContentType: ['d-seo'],
       },
     ])
     .disabled(false)
     .omitted(false)
-    .linkType('Asset');
-
-  tPage
-    .createField('no_index')
-    .name('Hide page from search engines? (noindex)')
-    .type('Boolean')
-    .localized(false)
-    .required(false)
-    .validations([])
-    .disabled(false)
-    .omitted(false);
-
-  tPage
-    .createField('no_follow')
-    .name('Exclude links from search rankings? (nofollow)')
-    .type('Boolean')
-    .localized(false)
-    .required(false)
-    .validations([])
-    .disabled(false)
-    .omitted(false);
+    .linkType('Entry');
 
   tPage
     .createField('theme')
@@ -162,35 +122,13 @@ module.exports = withHelpers(async (migration, _context) => {
 
   tPage.changeFieldControl('title', 'builtin', 'singleLine', {});
 
-  tPage.changeFieldControl('parent_page', 'builtin', 'entryLinkEditor', {});
-
   tPage.changeFieldControl('slug', 'builtin', 'slugEditor', {
     trackingFieldId: 'title',
   });
 
-  tPage.changeFieldControl('seo_title', 'builtin', 'singleLine', {
-    helpText: 'This will override the page title in search engine results',
-  });
+  tPage.changeFieldControl('parent_page', 'builtin', 'entryLinkEditor', {});
 
-  tPage.changeFieldControl('seo_description', 'builtin', 'singleLine', {
-    helpText: 'This will be displayed in search engine results',
-  });
-
-  tPage.changeFieldControl('share_image', 'builtin', 'assetLinkEditor', {
-    helpText: 'This will be displayed when sharing the page on social media',
-  });
-
-  tPage.changeFieldControl('no_index', 'builtin', 'boolean', {
-    helpText: 'Search engines will not include this page in search results',
-    trueLabel: 'Yes',
-    falseLabel: 'No',
-  });
-
-  tPage.changeFieldControl('no_follow', 'builtin', 'boolean', {
-    helpText: 'Search engines will not follow the links on your page',
-    trueLabel: 'Yes',
-    falseLabel: 'No',
-  });
+  tPage.changeFieldControl('seo', 'builtin', 'entryCardEditor', {});
 
   tPage.changeFieldControl('theme', 'builtin', 'radio', {});
 
@@ -220,26 +158,11 @@ module.exports = withHelpers(async (migration, _context) => {
     helpText: 'Page settings',
   });
 
-  editorLayout.editFieldGroup('settings').createFieldGroup('seo').name('SEO');
-
-  editorLayout.changeFieldGroupControl('seo', 'builtin', 'fieldset', {
-    helpText: 'Search related fields',
-    collapsedByDefault: false,
-  });
-
   editorLayout.moveField('title').toTheTopOfFieldGroup('settings');
 
   editorLayout.moveField('slug').afterField('title');
 
   editorLayout.moveField('parent_page').afterField('slug');
 
-  editorLayout.moveField('seo_title').toTheTopOfFieldGroup('seo');
-
-  editorLayout.moveField('seo_description').afterField('seo_title');
-
-  editorLayout.moveField('share_image').afterField('seo_description');
-
-  editorLayout.moveField('no_index').afterField('share_image');
-
-  editorLayout.moveField('no_follow').afterField('no_index');
+  editorLayout.moveField('seo').afterField('parent_page');
 });
