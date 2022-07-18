@@ -37,6 +37,8 @@
   {{ end }}
 {{ end }}
 
+{{ $config := partialCached "utils/seo/private/get-config" "seo/private/get-config" }}
+
 {{/* Dates
 	----------------------------- */}}
 {{ if not .PublishDate.IsZero }}
