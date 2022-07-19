@@ -69,7 +69,7 @@ module.exports = function (migration) {
   const dSettings = migration.editContentType('d-settings');
   dSettings
     .createField('main_menu')
-    .name('Main menu')
+    .name('Menu > Main')
     .type('Link')
     .localized(false)
     .required(false)
@@ -84,7 +84,7 @@ module.exports = function (migration) {
 
   dSettings
     .createField('meta_menu')
-    .name('Meta menu')
+    .name('Menu > Meta')
     .type('Link')
     .localized(false)
     .required(false)
@@ -99,7 +99,7 @@ module.exports = function (migration) {
 
   dSettings
     .createField('social_menu')
-    .name('Social menu')
+    .name('Menu > Social')
     .type('Link')
     .localized(false)
     .required(false)
@@ -114,7 +114,7 @@ module.exports = function (migration) {
 
   dSettings
     .createField('footer_menus')
-    .name('Footer menus')
+    .name('Menu > Footer')
     .type('Array')
     .localized(false)
     .required(false)
@@ -139,9 +139,7 @@ module.exports = function (migration) {
       linkType: 'Entry',
     });
 
-  dSettings.changeFieldControl('main_menu', 'builtin', 'entryLinkEditor', {
-    helpText: 'e.g. "Global settings > Main menu"',
-  });
+  dSettings.changeFieldControl('main_menu', 'builtin', 'entryLinkEditor', {});
 
   dSettings.changeFieldControl('meta_menu', 'builtin', 'entryLinkEditor', {});
 
