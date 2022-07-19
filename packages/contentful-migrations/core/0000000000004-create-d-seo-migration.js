@@ -17,7 +17,7 @@ module.exports = function (migration) {
 
   dSeo
     .createField('title')
-    .name('SEO title')
+    .name('Title')
     .type('Symbol')
     .localized(true)
     .required(false)

@@ -2,10 +2,13 @@
 {{- $context := .context | default dict -}}
 {{- $options := .options | default dict -}}
 {{- $params := (merge $context $options) -}}
+{{- $settings := partial "utils/get-settings" . -}}
+
+{{.Title}}
 
 <header class="m-header">
   <div class="o-wrapper m-header__wrapper">
-    <a class="m-header__logo" href="{{ $globals.Site.Home.Permalink }}" title="{{ $globals.Site.Title }}">
+    <a class="m-header__logo" href="{{ $globals.Site.Home.Permalink }}" title="{{ $settings.title }}">
       {{- if os.FileExists "/static/img/logo.svg" -}}
         {{- readFile "/static/img/logo.svg" | safeHTML -}}
       {{- end -}}
