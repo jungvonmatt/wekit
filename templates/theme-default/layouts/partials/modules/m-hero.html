@@ -1,0 +1,20 @@
+{{- $globals := .globals -}}
+{{- $context := .context | default dict -}}
+{{- $options := .options | default dict -}}
+{{- $params := (merge $context $options) -}}
+
+{{- $class_name := partialCached "utils/get-class-names" (dict
+  "class" "m-hero"
+  "context" $params
+) . -}}
+
+<section class="o-module{{ with $class_name }} {{ . }}{{ end }}">
+  <div class="o-wrapper">
+    {{ with $params }}
+      {{ partial "components/c-editorial" (dict
+        "context" .
+        "globals" $globals
+      ) }}
+    {{ end }}
+  </div>
+</section>
