@@ -1,10 +1,12 @@
 /* pw-image-text */
 .m-image-text {
-  display: flex;
-  flex-direction: column;
-
-  @include respond-above("md") {
-    flex-direction: row;
+  .m-section {
+    display: flex;
+    flex-direction: column;
+  
+    @include respond-above("md") {
+      flex-direction: row;
+    }
   }
 
   &-image {

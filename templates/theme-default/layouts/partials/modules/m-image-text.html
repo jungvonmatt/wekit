@@ -14,16 +14,18 @@
 {{- $image := $params.image -}}
 
 <div class="m-image-text">
-  {{ if $content.image   }}
-  <div class="m-image-text-image">
-    <img src="{{ .url }}" alt="">
-  </div>
-  {{ end }}
+  <section class="m-section">
+    {{ if $image   }}
+    <div class="m-image-text-image">
+      <img src="{{ $image }}" alt="">
+    </div>
+    {{ end }}
 
-  {{ if or $title  $subtitle }}
-  <div class="m-image-text-text">
-    {{ if $title }}<h1>{{ $title }}</h1>{{ end }}
-    {{ if $subtitle }}<p>{{ $subtitle }}</p>{{ end }}
-  </div>
-  {{ end }}
+    {{ if or $title  $subtitle }}
+    <div class="m-image-text-text">
+      {{ if $title }}<h1>{{ $title }}</h1>{{ end }}
+      {{ if $subtitle }}<p>{{ $subtitle }}</p>{{ end }}
+    </div>
+    {{ end }}
+  </section>
 </div>
