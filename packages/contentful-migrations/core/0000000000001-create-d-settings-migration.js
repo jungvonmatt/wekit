@@ -26,21 +26,6 @@ module.exports = function (migration) {
     .omitted(false);
 
   dSettings
-    .createField('logo')
-    .name('Logo')
-    .type('Link')
-    .localized(false)
-    .required(false)
-    .validations([
-      {
-        linkMimetypeGroup: ['image'],
-      },
-    ])
-    .disabled(false)
-    .omitted(false)
-    .linkType('Asset');
-
-  dSettings
     .createField('home')
     .name('Home page')
     .type('Link')
