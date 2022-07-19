@@ -1,0 +1,29 @@
+{{- $globals := .globals -}}
+{{- $context := .context | default dict -}}
+{{- $options := .options | default dict -}}
+{{- $params := (merge $context $options) -}}
+
+{{- $class_name := partialCached "utils/get-class-names" (dict
+  "class" "m-image-text"
+  "context" $params
+) . -}}
+
+<!-- Dummy content -->
+{{- $title := $params.title -}}
+{{- $subtitle := $params.subtitle -}}
+{{- $image := $params.image -}}
+
+<div class="m-image-text">
+  {{ if $content.image   }}
+  <div class="m-image-text-image">
+    <img src="{{ .url }}" alt="">
+  </div>
+  {{ end }}
+
+  {{ if or $title  $subtitle }}
+  <div class="m-image-text-text">
+    {{ if $title }}<h1>{{ $title }}</h1>{{ end }}
+    {{ if $subtitle }}<p>{{ $subtitle }}</p>{{ end }}
+  </div>
+  {{ end }}
+</div>
