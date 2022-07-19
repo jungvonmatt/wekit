@@ -1,16 +1,8 @@
 {{- $globals := .globals -}}
 {{- $context := .context | default dict -}}
-{{- $content := $context.content -}}
-
-{{- $theme := "" -}}
-{{- with $content -}}
-  {{- with partial "utils/get-data" . -}}
-    {{- $theme = .theme -}}
-  {{- end -}}
-{{- end -}}
 
 {{/* {{ partial "utils/dump" $context }} */}}
-<footer class="m-footer{{ with $theme }} u-theme--{{ . }}{{ end }}">
+<footer class="m-footer">
   <div class="o-wrapper">
     <p class="c-paragraph">
       {{ i18n "pages" }}:
