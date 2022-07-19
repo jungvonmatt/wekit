@@ -1,6 +1,6 @@
 {{/*
   utils/get-data
-  Get data from contentful data types.
+  Get data from Contentful data types.
 
   @example - Go Template
     {{ partial "utils/get-data" (dict
@@ -23,8 +23,6 @@
       {{ $result = or (index $contents (string $entry_id)) (index $contents (print (string $entry_id) "." $folder)) dict }}
     {{ end }}
   {{ end }}
-
-
 {{ end }}
 
 {{ return $result }}
