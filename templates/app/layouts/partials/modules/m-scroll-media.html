@@ -1,0 +1,14 @@
+{{- $globals := .globals -}}
+{{- $context := .context | default dict -}}
+{{- $options := .options | default dict -}}
+{{- $params := (merge $context $options) -}}
+
+{{- $class_name := partialCached "utils/get-class-names" (dict
+  "class" "m-scroll-media"
+  "context" $params
+) . -}}
+
+<div class="{{- $class_name -}}">
+    <!-- Put your partial code here -->
+</div>
+

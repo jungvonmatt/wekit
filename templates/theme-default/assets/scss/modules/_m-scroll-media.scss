@@ -1,0 +1,35 @@
+/* pw-scroll-media */
+.m-scroll-media {
+  &-section {
+    width: 100vw;
+    height: 100vh; 
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+    clip: rect(0, auto, auto, 0);
+  }
+
+  &-content {
+    position: fixed;
+    top: 0;
+    left: 0;
+    transform: translateZ(0);
+    width: 100%;
+    height: 100%;
+
+    &-media {
+      img {
+        object-fit: cover;
+        object-position: center;
+        width: 100%;
+        height: 100%;
+      }
+    }
+
+    &-text {
+      position: absolute;
+      top: 100px;
+      z-index: 2;
+      padding: 10%;
+      color: yellow;
+    }
+  }
+}

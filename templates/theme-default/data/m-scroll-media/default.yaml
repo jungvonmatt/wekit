@@ -1,0 +1,9 @@
+ content:
+  - url: 'https://images.pexels.com/photos/192136/pexels-photo-192136.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940'
+    title: 'Forest'
+    subtitle: 'Lorem 1 ipsum dolor sit amet consectetur, adipisicing elit. Temporibus earum cumque officiis porro nobis nostrum hic suscipit, nulla error molestias eligendi atque explicabo quam saepe assumenda voluptatibus consequatur culpa repudiandae?'
+  - url: 'https://images.pexels.com/photos/3369569/pexels-photo-3369569.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940'
+    title:  'Beach'
+    subtitle: 'Lorem 2 ipsum dolor sit amet consectetur, adipisicing elit. Temporibus earum cumque officiis porro nobis nostrum hic suscipit, nulla error molestias eligendi atque explicabo quam saepe assumenda voluptatibus consequatur culpa repudiandae?'
+  - url: 'https://images.pexels.com/photos/417173/pexels-photo-417173.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940'
+    title:  'Mountains'

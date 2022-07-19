@@ -1,0 +1,36 @@
+{{- $globals := .globals -}}
+{{- $context := .context | default dict -}}
+{{- $options := .options | default dict -}}
+{{- $params := (merge $context $options) -}}
+
+{{- $class_name := partialCached "utils/get-class-names" (dict
+  "class" "m-scroll-media"
+  "context" $params
+) . -}}
+
+<!-- Dummy content -->
+{{- $content := $params.content -}}
+
+
+<div class="m-scroll-media">
+  {{ range $content }}
+  <section class="m-scroll-media-section">
+    <div class="m-scroll-media-content">
+      <div class="m-scroll-media-content-media">
+        <img src="{{ .url }}" alt="">
+      </div>
+
+      {{ if or .title  .subtitle }}
+      <div class="m-scroll-media-content-text">
+        {{ if .title }}<h1>{{ .title }}</h1>{{ end }}
+        {{ if .subtitle }}<p>{{ .subtitle }}</p>{{ end }}
+      </div>
+      {{ end }}
+    </div>
+  </section>
+  {{ end }}
+</div>
+
+
+
+
