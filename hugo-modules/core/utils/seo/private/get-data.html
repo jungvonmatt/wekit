@@ -14,7 +14,7 @@
 
   TODO:
     - [ ] Improve type test on "events", `article` seems very opinated.
-		- [ ] Find a reasonable default image when `site.Params.share_image` is not set.
+		- [ ] Find a reasonable default image when `$settings.default_share_image` is not set.
 		- [ ] Twitter can sport "author" handle on top of the site's. Devise a test for author?
 		- [ ] Maybe consider another approach to set the twitter_card (summary, etc...)
 		- [ ] Not sure about image size. Following https://docs.imgix.com/best-practices/improving-seo-traffic, we have a
@@ -37,7 +37,7 @@
   {{ end }}
 {{ end }}
 
-{{ $config := partialCached "utils/seo/private/get-config" "seo/private/get-config" }}
+{{ $settings := partialCached "utils/get-settings" . }}
 
 {{/* Dates
 	----------------------------- */}}
@@ -91,34 +91,34 @@
 {{/* Title
   ----------------------------
 	We use the following logic
-	1. Every pages: `{.Title} | {site.Title}`
-	2. Homepage: , only {site.Title} */}}
-{{ $title := .Title }}
+	1. Every pages: `Page title | Global site title`
+	2. Homepage: only `Global site title` */}}
+{{ $title := "" }}
 {{ with $seo_params.title }}
 	{{ $title = . }}
 {{ end }}
 {{ if not .IsHome }}
-	{{/* 1. `{.Title} | {.Site.Title}` */}}
-	{{ $s.SetInMap "seo" "title" (printf "%s | %s" $title site.Title) }}
+	{{/* 1. `Page title | Global site title` */}}
+	{{ $s.SetInMap "seo" "title" (printf "%s | %s" $title $settings.title) }}
 {{ else }}
-	{{/* 2. `{.Site.Title}` */}}
-	{{ $s.SetInMap "seo" "title" site.Title }}
+	{{/* 2. `Global site title` */}}
+	{{ $s.SetInMap "seo" "title" $settings.title }}
 {{ end }}
 
 {{/* Site Name
 	---------------------------- */}}
-{{ with $config.site_name }}
-	{{ $s.SetInMap "seo" "site_name" . }}
+{{ with $settings.site_name }}
+	{{ $s.SetInMap "seo" "site_name" $settings.site_name }}
 {{ else }}
-	{{ $s.SetInMap "seo" "site_name" site.Title }}
+	{{ $s.SetInMap "seo" "site_name" $settings.title }}
 {{ end }}
 
 {{/* Image
 	---------------------------- */}}
 {{ $img := false }}
 
-{{ with $config.default_image }}
-	{{ $img = . }}
+{{ with $settings.default_share_image }}
+	{{ $img = .url }}
 {{ end }}
 
 {{ with $seo_params.share_image }}
@@ -130,10 +130,10 @@
 		{{ with index . 0 }}
 			{{ if reflect.IsMap . }}
 				{{ with .image }}
-					{{ $img = . }}
+					{{ $img = .url }}
 				{{ end }}
 			{{ else }}
-				{{ $img = . }}
+				{{ $img = .url }}
 			{{ end }}
 		{{ end }}
 	{{ end }}

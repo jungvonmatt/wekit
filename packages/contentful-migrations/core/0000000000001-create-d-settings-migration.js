@@ -17,13 +17,38 @@ module.exports = function (migration) {
 
   dSettings
     .createField('title')
-    .name('Page title')
+    .name('SEO > Page title')
     .type('Symbol')
     .localized(true)
     .required(false)
     .validations([])
     .disabled(false)
     .omitted(false);
+
+  dSettings
+    .createField('site_name')
+    .name('SEO > Site name')
+    .type('Symbol')
+    .localized(true)
+    .required(false)
+    .validations([])
+    .disabled(false)
+    .omitted(false);
+
+  dSettings
+    .createField('default_share_image')
+    .name('SEO > Default share image')
+    .type('Link')
+    .localized(false)
+    .required(false)
+    .validations([
+      {
+        linkMimetypeGroup: ['image'],
+      },
+    ])
+    .disabled(false)
+    .omitted(false)
+    .linkType('Asset');
 
   dSettings
     .createField('home')
@@ -46,6 +71,14 @@ module.exports = function (migration) {
 
   dSettings.changeFieldControl('title', 'builtin', 'singleLine', {
     helpText: 'The title in the browser tab',
+  });
+
+  dSettings.changeFieldControl('site_name', 'builtin', 'singleLine', {
+    helpText: 'Used for the Open Graph meta tag og:site_name',
+  });
+
+  dSettings.changeFieldControl('default_share_image', 'builtin', 'assetLinkEditor', {
+    helpText: 'This will be displayed when you share a page on social media, unless you have explicitly set your own in the page',
   });
 
   dSettings.changeFieldControl('home', 'builtin', 'entryLinkEditor', {});
