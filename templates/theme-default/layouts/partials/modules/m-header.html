@@ -4,8 +4,6 @@
 {{- $params := (merge $context $options) -}}
 {{- $settings := partial "utils/get-settings" . -}}
 
-{{.Title}}
-
 <header class="m-header">
   <div class="o-wrapper m-header__wrapper">
     <a class="m-header__logo" href="{{ $globals.Site.Home.Permalink }}" title="{{ $settings.title }}">
