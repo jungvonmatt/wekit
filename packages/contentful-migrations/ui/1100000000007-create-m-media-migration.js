@@ -64,8 +64,8 @@ module.exports = withHelpers(async (migration, _context, helpers) => {
     .defaultValue({
       [defaultLocale.code]: 'default',
     })
-    .disabled(false)
-    .omitted(false);
+    .disabled(true)
+    .omitted(true);
 
   mMedia
     .createField('body')
