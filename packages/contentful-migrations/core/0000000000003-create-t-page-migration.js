@@ -110,7 +110,7 @@ module.exports = withHelpers(async (migration, _context) => {
       type: 'Link',
       validations: [
         {
-          linkContentType: ['m-text', 'm-hero', 'm-list', 'm-columns'],
+          linkContentType: ['m-text', 'm-hero', 'm-media', 'm-list', 'm-columns'],
         },
       ],
       linkType: 'Entry',
