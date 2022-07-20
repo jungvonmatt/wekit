@@ -78,13 +78,11 @@ module.exports = withHelpers(async (migration, _context, helpers) => {
     .omitted(false)
     .items({
       type: 'Link',
-
       validations: [
         {
           linkContentType: ['c-editorial', 'c-image', 'c-media', 'c-video'],
         },
       ],
-
       linkType: 'Entry',
     });
 
