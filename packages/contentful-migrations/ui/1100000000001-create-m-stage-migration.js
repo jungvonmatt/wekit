@@ -143,8 +143,8 @@ module.exports = withHelpers(async (migration, _context, helpers) => {
     .localized(true)
     .required(false)
     .validations([])
-    .disabled(false)
-    .omitted(false)
+    .disabled(true)
+    .omitted(true)
     .items({
       type: 'Link',
       validations: [

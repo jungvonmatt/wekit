@@ -16,8 +16,14 @@
 {{- $media := $params.media -}}
 {{- $layout := $params.layout | default "split" -}}
 {{- $links := $params.links | default dict -}}
-{{- $content := $params.content -}}
 {{- $layout := $params.layout | default "default" -}}
+
+{{/*
+  The hero content is deactivated by default in the content type.
+  You can remove this block and also lines 98-108 completely
+  if you do not want to include any additional components in the stage.
+{{- $content := $params.content -}}
+*/}}
 
 {{- $partialPath := printf "modules/m-stage/%s.html" $layout -}}
 {{- if and (ne $layout "default") (templates.Exists ( printf "partials/%s" $partialPath )) -}}
@@ -76,16 +82,17 @@
           ) -}}
         {{- end -}}
         <div class="m-stage__links">
-        {{- range $links -}}
-          {{- with partialCached "utils/get-params" . . -}}
-            {{- partial "components/c-link" (dict
-              "context" .
-              "globals" $globals
-              "options" (dict "class_name" "m-stage__link" "appearance" "button" "modifier" "solid")
-            ) -}}
+          {{- range $links -}}
+            {{- with partialCached "utils/get-params" . . -}}
+              {{- partial "components/c-link" (dict
+                "context" .
+                "globals" $globals
+                "options" (dict "class_name" "m-stage__link" "appearance" "button" "modifier" "solid")
+              ) -}}
+            {{- end -}}
           {{- end -}}
-        {{- end -}}
         </div>
+        {{/*
         {{ range $content }}
           {{ partialCached "utils/get-partial" (dict
             "context" .
@@ -95,6 +102,7 @@
             )
           ) . }}
         {{ end }}
+        */}}
       </div>
     </div>
   </section>
