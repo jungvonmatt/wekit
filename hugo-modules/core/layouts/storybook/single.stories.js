@@ -109,7 +109,7 @@
 {{- $combinations := partial "combinations" (dict "list" $templateParams) }}
 
 {{ $params := merge site.Params (dict
-  "environment" (or (getenv "HUGO_ENVIRONMENT") hugo.Environment)
+  "environment" (or (getenv "HUGO_ENV") hugo.Environment)
 ) }}
 {{- $js := resources.Get "js/main.js" | js.Build (dict
   "format" "esm"

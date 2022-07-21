@@ -27,12 +27,12 @@
 {{- end -}}
 
 {{- with $params.content_type -}}
-  {{- if eq . "page" }}
+  {{- if hasPrefix . "t-" }}
     {{- $link = partial "utils/link" $params -}}
   {{- end -}}
 {{- end -}}
 {{- with $params.sys -}}
-  {{- if eq .content_type "page" }}
+  {{- if hasPrefix .content_type "t-" }}
     {{- $link = partial "utils/link" . -}}
   {{- end -}}
 {{- end -}}

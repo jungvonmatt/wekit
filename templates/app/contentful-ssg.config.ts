@@ -5,7 +5,15 @@ const config: Config = {
   richTextRenderer: false,
   preview: process.env.CONTENTFUL_USE_PREVIEW === 'true',
   plugins: [
-    '@jungvonmatt/cssg-plugin-hugo',
+    [
+      '@jungvonmatt/cssg-plugin-hugo',
+      {
+        menuRootTypes: ['page', 't-page'],
+        typeConfig: {
+          content: ['page', 't-*'],
+        },
+      },
+    ],
     [
       '@jungvonmatt/cssg-plugin-assets',
       {

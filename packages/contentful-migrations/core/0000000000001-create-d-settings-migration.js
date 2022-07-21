@@ -2,21 +2,22 @@ module.exports = function (migration) {
   const dSettings = migration
     .createContentType('d-settings')
     .name('Data: Settings')
-    .description('')
-    .displayField('name');
+    .description('Global site parameters')
+    .displayField('internal_name');
+
   dSettings
-    .createField('name')
+    .createField('internal_name')
     .name('Internal name')
     .type('Symbol')
     .localized(false)
-    .required(false)
+    .required(true)
     .validations([])
     .disabled(false)
     .omitted(false);
 
   dSettings
     .createField('title')
-    .name('Page title')
+    .name('SEO > Page title')
     .type('Symbol')
     .localized(true)
     .required(false)
@@ -25,8 +26,18 @@ module.exports = function (migration) {
     .omitted(false);
 
   dSettings
-    .createField('logo')
-    .name('Logo')
+    .createField('site_name')
+    .name('SEO > Site name')
+    .type('Symbol')
+    .localized(true)
+    .required(false)
+    .validations([])
+    .disabled(false)
+    .omitted(false);
+
+  dSettings
+    .createField('default_share_image')
+    .name('SEO > Default share image')
     .type('Link')
     .localized(false)
     .required(false)
@@ -47,19 +58,27 @@ module.exports = function (migration) {
     .required(true)
     .validations([
       {
-        linkContentType: ['page'],
+        linkContentType: ['t-page'],
       },
     ])
     .disabled(false)
     .omitted(false)
     .linkType('Entry');
 
-  dSettings.changeFieldControl('name', 'builtin', 'singleLine', {
-    helpText: "This field is for internal use only. It won't appear on the page.",
+  dSettings.changeFieldControl('internal_name', 'builtin', 'singleLine', {
+    helpText: 'e.g. "Global settings"',
   });
 
   dSettings.changeFieldControl('title', 'builtin', 'singleLine', {
     helpText: 'The title in the browser tab',
+  });
+
+  dSettings.changeFieldControl('site_name', 'builtin', 'singleLine', {
+    helpText: 'Used for the Open Graph meta tag og:site_name',
+  });
+
+  dSettings.changeFieldControl('default_share_image', 'builtin', 'assetLinkEditor', {
+    helpText: 'This will be displayed when you share a page on social media, unless you have explicitly set your own in the page',
   });
 
   dSettings.changeFieldControl('home', 'builtin', 'entryLinkEditor', {});

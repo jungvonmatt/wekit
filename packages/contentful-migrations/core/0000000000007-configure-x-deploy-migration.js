@@ -1,4 +1,5 @@
 /* eslint-env node */
+const { withHelpers } = require('@jungvonmatt/contentful-migrations');
 const path = require('path');
 const fs = require('fs');
 const { promisify } = require('util');
@@ -10,11 +11,12 @@ const readJsonAsync = async (filepath, options) => {
 };
 
 /**
- * Contentful migration
+ * Contentful migration to configure the deploy content type
  */
-module.exports = async function (migration, context) {
+module.exports = withHelpers(async (migration, context, helpers) => {
   const { makeRequest } = context;
   const deploy = migration.editContentType('x-deploy');
+  const defaultLocale = await helpers.locale.getDefaultLocale();
 
   // Remove default sidebar widgets
   const defaultWidgets = [
@@ -70,19 +72,13 @@ module.exports = async function (migration, context) {
   // Add deploy-with-confirmation sidebar widget
   deploy.addSidebarWidget('extension', 'deploy-with-confirmation');
 
-  // Add Deploy objects
-  const { items: locales } = await makeRequest({
-    method: 'GET',
-    url: '/locales',
-  });
-  const defaultLocale = locales.find((locale) => locale.default);
   await makeRequest({
     method: 'PUT',
     url: `/entries/deploy-to-preview`,
     headers: { 'X-Contentful-Content-Type': 'x-deploy' },
     data: {
       fields: {
-        name: {
+        internal_name: {
           [defaultLocale.code]: 'Deploy to preview',
         },
       },
@@ -94,7 +90,7 @@ module.exports = async function (migration, context) {
     headers: { 'X-Contentful-Content-Type': 'x-deploy' },
     data: {
       fields: {
-        name: {
+        internal_name: {
           [defaultLocale.code]: 'Deploy to staging',
         },
       },
@@ -106,10 +102,10 @@ module.exports = async function (migration, context) {
     headers: { 'X-Contentful-Content-Type': 'x-deploy' },
     data: {
       fields: {
-        name: {
+        internal_name: {
           [defaultLocale.code]: 'Deploy to production',
         },
       },
     },
   });
-};
+});

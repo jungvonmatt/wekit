@@ -1,19 +1,11 @@
 {{- $globals := .globals -}}
 {{- $context := .context | default dict -}}
-{{- $content := $context.content -}}
-
-{{- $theme := "" -}}
-{{- with $content -}}
-  {{- with partial "utils/get-data" . -}}
-    {{- $theme = .theme -}}
-  {{- end -}}
-{{- end -}}
 
 {{/* {{ partial "utils/dump" $context }} */}}
-<footer class="m-footer{{ with $theme }} u-theme--{{ . }}{{ end }}">
+<footer class="m-footer">
   <div class="o-wrapper">
     <p class="c-paragraph">
-      {{ i18n "pages" }}:
+      {{ i18n "pages" | default "Pages" }}:
       {{ range $globals.Site.Pages.ByParam "url" }}
         <a class="m-footer__link" href="{{ .Permalink }}">
           {{ .Params.title | default "Page" }}
@@ -21,7 +13,7 @@
       {{ end }}
     </p>
     <p>
-      {{ i18n "translations" }}:
+      {{ i18n "translations" | default "Translations" }}:
       {{- $siteLanguages := $globals.Site.Languages }}
       {{- $pageLang := $globals.Page.Lang }}
       {{- range $globals.Page.AllTranslations }}

@@ -1,23 +1,20 @@
-module.exports = async function (migration, context) {
-  const { makeRequest } = context;
-  // Fetch locale
-  const { items: locales } = await makeRequest({
-    method: 'GET',
-    url: '/locales',
-  });
-  const defaultLocale = locales.find((locale) => locale.default);
+const { withHelpers } = require('@jungvonmatt/contentful-migrations');
+
+module.exports = withHelpers(async (migration, _context, helpers) => {
+  const defaultLocale = await helpers.locale.getDefaultLocale();
 
   const mText = migration
     .createContentType('m-text')
     .name('Module: Text')
     .description('Content type for placing richtext')
-    .displayField('name');
+    .displayField('internal_name');
+
   mText
-    .createField('name')
+    .createField('internal_name')
     .name('Internal name')
     .type('Symbol')
     .localized(false)
-    .required(false)
+    .required(true)
     .validations([])
     .disabled(false)
     .omitted(false);
@@ -33,11 +30,8 @@ module.exports = async function (migration, context) {
         in: ['light', 'dark'],
       },
     ])
-    .defaultValue({
-      [defaultLocale.code]: 'light',
-    })
-    .disabled(false)
-    .omitted(false);
+    .disabled(true)
+    .omitted(true);
 
   mText
     .createField('spacing')
@@ -59,6 +53,7 @@ module.exports = async function (migration, context) {
   mText.changeFieldControl('theme', 'builtin', 'dropdown', {
     helpText: 'light: Light background, dark text; dark: Dark background, light text.',
   });
+
   mText.changeFieldControl('spacing', 'builtin', 'dropdown', {});
 
   mText
@@ -75,26 +70,6 @@ module.exports = async function (migration, context) {
     .defaultValue({
       [defaultLocale.code]: 'align-left',
     })
-    .disabled(false)
-    .omitted(false);
-
-  mText
-    .createField('headline')
-    .name('Headline')
-    .type('Symbol')
-    .localized(true)
-    .required(false)
-    .validations([])
-    .disabled(false)
-    .omitted(false);
-
-  mText
-    .createField('subline')
-    .name('Subline')
-    .type('Symbol')
-    .localized(true)
-    .required(false)
-    .validations([])
     .disabled(false)
     .omitted(false);
 
@@ -117,7 +92,7 @@ module.exports = async function (migration, context) {
         nodes: {
           'entry-hyperlink': [
             {
-              linkContentType: ['page'],
+              linkContentType: ['t-page'],
               message: null,
             },
           ],
@@ -127,12 +102,15 @@ module.exports = async function (migration, context) {
     .disabled(false)
     .omitted(false);
 
-  mText.changeFieldControl('name', 'builtin', 'singleLine', {});
+  mText.changeFieldControl('internal_name', 'builtin', 'singleLine', {
+    helpText: 'e.g. "Home page > Text"',
+  });
+
   mText.changeFieldControl('theme', 'builtin', 'dropdown', {});
+
   mText.changeFieldControl('spacing', 'builtin', 'dropdown', {});
+
   mText.changeFieldControl('layout', 'builtin', 'dropdown', {});
 
-  mText.changeFieldControl('headline', 'builtin', 'singleLine', {});
-  mText.changeFieldControl('subline', 'builtin', 'singleLine', {});
   mText.changeFieldControl('body', 'builtin', 'richTextEditor', {});
-};
+});

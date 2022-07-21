@@ -1,6 +1,6 @@
 {{ define "main" }}
   {{- $pages := .Pages -}}
-  {{ with .Params.content }}
+  {{ with .Params.sys }}
     {{ partialCached "utils/get-partial" (dict
       "context" .
       "globals" $

@@ -5,7 +5,7 @@
 
 {{ define "main" }}
   {{- $pages := .Pages -}}
-  {{ with .Params.content }}
+  {{ with .Params.sys }}
     {{ partial "utils/get-partial" (dict
       "context" .
       "globals" $

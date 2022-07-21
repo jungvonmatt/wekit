@@ -1,23 +1,20 @@
-module.exports = async function (migration, context) {
-  const { makeRequest } = context;
-  // Fetch locale
-  const { items: locales } = await makeRequest({
-    method: 'GET',
-    url: '/locales',
-  });
-  const defaultLocale = locales.find((locale) => locale.default);
+const { withHelpers } = require('@jungvonmatt/contentful-migrations');
+
+module.exports = withHelpers(async (migration, _context, helpers) => {
+  const defaultLocale = await helpers.locale.getDefaultLocale();
 
   const mList = migration
     .createContentType('m-list')
     .name('Module: List')
     .description('Allows placing multiple components in a slider or grid')
-    .displayField('name');
+    .displayField('internal_name');
+
   mList
-    .createField('name')
+    .createField('internal_name')
     .name('Internal name')
     .type('Symbol')
     .localized(false)
-    .required(false)
+    .required(true)
     .validations([])
     .disabled(false)
     .omitted(false);
@@ -33,11 +30,8 @@ module.exports = async function (migration, context) {
         in: ['light', 'dark'],
       },
     ])
-    .defaultValue({
-      [defaultLocale.code]: 'light',
-    })
-    .disabled(false)
-    .omitted(false);
+    .disabled(true)
+    .omitted(true);
 
   mList
     .createField('spacing')
@@ -84,19 +78,23 @@ module.exports = async function (migration, context) {
     .omitted(false)
     .items({
       type: 'Link',
-
       validations: [
         {
           linkContentType: ['c-editorial', 'c-image', 'c-media', 'c-video'],
         },
       ],
-
       linkType: 'Entry',
     });
 
-  mList.changeFieldControl('name', 'builtin', 'singleLine', {});
+  mList.changeFieldControl('internal_name', 'builtin', 'singleLine', {
+    helpText: 'e.g. "Home page > List"',
+  });
+
   mList.changeFieldControl('layout', 'builtin', 'dropdown', {});
+
   mList.changeFieldControl('theme', 'builtin', 'dropdown', {});
+
   mList.changeFieldControl('spacing', 'builtin', 'dropdown', {});
+
   mList.changeFieldControl('body', 'builtin', 'entryLinksEditor', {});
-};
+});

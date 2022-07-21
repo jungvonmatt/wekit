@@ -1,38 +1,47 @@
-module.exports = async function (migration, context) {
-  const { makeRequest } = context;
-  // Fetch locale
-  const { items: locales } = await makeRequest({
-    method: 'GET',
-    url: '/locales',
-  });
-  const defaultLocale = locales.find((locale) => locale.default);
+const { withHelpers } = require('@jungvonmatt/contentful-migrations');
+
+module.exports = withHelpers(async (migration, _context, helpers) => {
+  const defaultLocale = await helpers.locale.getDefaultLocale();
 
   const mStage = migration
     .createContentType('m-stage')
     .name('Module: Stage')
     .description('Stage module is the very first element on every page.')
-    .displayField('name');
+    .displayField('internal_name');
+
   mStage
-    .createField('name')
+    .createField('internal_name')
     .name('Internal name')
     .type('Symbol')
     .localized(false)
-    .required(false)
+    .required(true)
     .validations([])
     .disabled(false)
     .omitted(false);
+
   mStage
-    .createField('title')
-    .name('Title')
+    .createField('overline')
+    .name('Overline')
     .type('Symbol')
     .localized(true)
     .required(false)
     .validations([])
     .disabled(false)
     .omitted(false);
+
   mStage
-    .createField('subtitle')
-    .name('Subtitle')
+    .createField('headline')
+    .name('Headline')
+    .type('Symbol')
+    .localized(true)
+    .required(false)
+    .validations([])
+    .disabled(false)
+    .omitted(false);
+
+  mStage
+    .createField('subline')
+    .name('Subline')
     .type('Symbol')
     .localized(true)
     .required(false)
@@ -103,7 +112,7 @@ module.exports = async function (migration, context) {
 
       validations: [
         {
-          linkContentType: ['c-link', 'page'],
+          linkContentType: ['c-link', 't-page'],
         },
       ],
 
@@ -134,8 +143,8 @@ module.exports = async function (migration, context) {
     .localized(true)
     .required(false)
     .validations([])
-    .disabled(false)
-    .omitted(false)
+    .disabled(true)
+    .omitted(true)
     .items({
       type: 'Link',
       validations: [
@@ -146,12 +155,23 @@ module.exports = async function (migration, context) {
       linkType: 'Entry',
     });
 
-  mStage.changeFieldControl('name', 'builtin', 'singleLine', {});
-  mStage.changeFieldControl('title', 'builtin', 'singleLine', {});
-  mStage.changeFieldControl('subtitle', 'builtin', 'singleLine', {});
+  mStage.changeFieldControl('internal_name', 'builtin', 'singleLine', {
+    helpText: 'e.g. "Home page > Stage"',
+  });
+
+  mStage.changeFieldControl('overline', 'builtin', 'singleLine', {});
+
+  mStage.changeFieldControl('headline', 'builtin', 'singleLine', {});
+
+  mStage.changeFieldControl('subline', 'builtin', 'singleLine', {});
+
   mStage.changeFieldControl('text', 'builtin', 'richTextEditor', {});
+
   mStage.changeFieldControl('media', 'builtin', 'entryLinkEditor', {});
+
   mStage.changeFieldControl('links', 'builtin', 'entryLinksEditor', {});
+
   mStage.changeFieldControl('layout', 'builtin', 'dropdown', {});
+
   mStage.changeFieldControl('content', 'builtin', 'entryLinksEditor', {});
-};
+});

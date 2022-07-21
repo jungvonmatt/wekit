@@ -209,7 +209,7 @@ export async function createApp({ appPath }: { appPath: string }): Promise<void>
       start: 'hugo server --disableFastRender',
       prebuild: 'npm run content',
       build: 'hugo --gc --minify --environment production',
-      'watch:hugo': 'hugo server --watch  --noHTTPCache',
+      'watch:hugo': 'hugo server --watch --noHTTPCache',
       'watch:content': 'cssg watch',
       watch: 'run-p watch:content watch:hugo',
       scaffold: 'node tools/hygen scaffold new',
@@ -501,7 +501,9 @@ export async function createApp({ appPath }: { appPath: string }): Promise<void>
     stripIndents`
     module github.com/jungvonmatt/${appName}
 
-    go 1.17`
+    go 1.17
+
+    require github.com/jungvonmatt/wekit/hugo-modules/core v0.7.5`
   );
 
   await outputFile(

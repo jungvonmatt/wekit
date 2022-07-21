@@ -40,7 +40,9 @@ module.exports = function (migration) {
     .omitted(false);
 
   dI18n.changeFieldControl('key', 'builtin', 'singleLine', {});
+
   dI18n.changeFieldControl('other', 'builtin', 'singleLine', {});
+
   dI18n.changeFieldControl('one', 'builtin', 'singleLine', {
     helpText: 'Optionally pass a dedicated singular value',
   });
