@@ -16,6 +16,16 @@ module.exports = function (migration) {
     .omitted(false);
 
   cMenu
+    .createField('name')
+    .name('Name')
+    .type('Symbol')
+    .localized(false)
+    .required(true)
+    .validations([])
+    .disabled(false)
+    .omitted(false);
+
+  cMenu
     .createField('title')
     .name('Title')
     .type('Symbol')
@@ -44,7 +54,13 @@ module.exports = function (migration) {
       linkType: 'Entry',
     });
 
-  cMenu.changeFieldControl('internal_name', 'builtin', 'singleLine', {});
+  cMenu.changeFieldControl('internal_name', 'builtin', 'singleLine', {
+    helpText: 'e.g. "Menu > Main"',
+  });
+
+  cMenu.changeFieldControl('name', 'builtin', 'singleLine', {
+    helpText: 'Used as menu identifier',
+  });
 
   cMenu.changeFieldControl('title', 'builtin', 'singleLine', {});
 
