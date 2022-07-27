@@ -501,9 +501,7 @@ export async function createApp({ appPath }: { appPath: string }): Promise<void>
     stripIndents`
     module github.com/jungvonmatt/${appName}
 
-    go 1.17
-
-    require github.com/jungvonmatt/wekit/hugo-modules/core v0.7.5`
+    go 1.17`
   );
 
   await outputFile(
