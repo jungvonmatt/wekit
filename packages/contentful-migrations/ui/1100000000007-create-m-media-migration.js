@@ -1,19 +1,16 @@
-module.exports = async function (migration, context) {
-  const { makeRequest } = context;
-  // Fetch locale
-  const { items: locales } = await makeRequest({
-    method: 'GET',
-    url: '/locales',
-  });
-  const defaultLocale = locales.find((locale) => locale.default);
+const { withHelpers } = require('@jungvonmatt/contentful-migrations');
+
+module.exports = withHelpers(async (migration, _context, helpers) => {
+  const defaultLocale = await helpers.locale.getDefaultLocale();
 
   const mMedia = migration
     .createContentType('m-media')
     .name('Module: Media')
     .description('Module wrapper for media component')
-    .displayField('name');
+    .displayField('internal_name');
+
   mMedia
-    .createField('name')
+    .createField('internal_name')
     .name('Internal name')
     .type('Symbol')
     .localized(false)
@@ -33,11 +30,8 @@ module.exports = async function (migration, context) {
         in: ['light', 'dark'],
       },
     ])
-    .defaultValue({
-      [defaultLocale.code]: 'light',
-    })
-    .disabled(false)
-    .omitted(false);
+    .disabled(true)
+    .omitted(true);
 
   mMedia
     .createField('spacing')
@@ -70,8 +64,8 @@ module.exports = async function (migration, context) {
     .defaultValue({
       [defaultLocale.code]: 'default',
     })
-    .disabled(false)
-    .omitted(false);
+    .disabled(true)
+    .omitted(true);
 
   mMedia
     .createField('body')
@@ -88,9 +82,15 @@ module.exports = async function (migration, context) {
     .omitted(false)
     .linkType('Entry');
 
-  mMedia.changeFieldControl('name', 'builtin', 'singleLine', {});
+  mMedia.changeFieldControl('internal_name', 'builtin', 'singleLine', {
+    helpText: 'e.g. "Home page > Media"',
+  });
+
   mMedia.changeFieldControl('theme', 'builtin', 'dropdown', {});
+
   mMedia.changeFieldControl('spacing', 'builtin', 'dropdown', {});
+
   mMedia.changeFieldControl('layout', 'builtin', 'dropdown', {});
+
   mMedia.changeFieldControl('body', 'builtin', 'entryLinkEditor', {});
-};
+});

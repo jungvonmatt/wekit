@@ -24,11 +24,9 @@
     padding: var(--#{$spacing}-md) var(--#{$spacing}-md);
   }
 
-  &__title {
-    margin-top: 0;
-  }
-
-  &__subtitle {
+  &__headline,
+  &__overline,
+  &__subline {
     margin-top: 0;
   }
 

@@ -1,11 +1,12 @@
 module.exports = function (migration) {
-  const seo = migration
-    .createContentType('seo')
-    .name('Compose: SEO')
-    .description('SEO Metadata for web pages in Compose. DO NOT DELETE')
-    .displayField('name');
-  seo
-    .createField('name')
+  const dSeo = migration
+    .createContentType('d-seo')
+    .name('Data: SEO')
+    .description('SEO metadata for web pages')
+    .displayField('internal_name');
+
+  dSeo
+    .createField('internal_name')
     .name('Internal name')
     .type('Symbol')
     .localized(false)
@@ -13,16 +14,18 @@ module.exports = function (migration) {
     .validations([])
     .disabled(false)
     .omitted(false);
-  seo
+
+  dSeo
     .createField('title')
-    .name('SEO title')
+    .name('Title')
     .type('Symbol')
     .localized(true)
     .required(false)
     .validations([])
     .disabled(false)
     .omitted(false);
-  seo
+
+  dSeo
     .createField('description')
     .name('Description')
     .type('Symbol')
@@ -31,8 +34,9 @@ module.exports = function (migration) {
     .validations([])
     .disabled(false)
     .omitted(false);
-  seo
-    .createField('image')
+
+  dSeo
+    .createField('share_image')
     .name('Share image')
     .type('Link')
     .localized(false)
@@ -45,16 +49,8 @@ module.exports = function (migration) {
     .disabled(false)
     .omitted(false)
     .linkType('Asset');
-  seo
-    .createField('keywords')
-    .name('Keywords')
-    .type('Symbol')
-    .localized(false)
-    .required(false)
-    .validations([])
-    .disabled(true)
-    .omitted(false);
-  seo
+
+  dSeo
     .createField('no_index')
     .name('Hide page from search engines? (noindex)')
     .type('Boolean')
@@ -63,7 +59,8 @@ module.exports = function (migration) {
     .validations([])
     .disabled(false)
     .omitted(false);
-  seo
+
+  dSeo
     .createField('no_follow')
     .name('Exclude links from search rankings? (nofollow)')
     .type('Boolean')
@@ -73,31 +70,29 @@ module.exports = function (migration) {
     .disabled(false)
     .omitted(false);
 
-  seo.changeFieldControl('name', 'builtin', 'singleLine', {
-    helpText: "⚠️ Don't edit this field! The Compose will fill it for you.",
+  dSeo.changeFieldControl('internal_name', 'builtin', 'singleLine', {
+    helpText: 'e.g. "Home page > SEO"',
   });
 
-  seo.changeFieldControl('title', 'builtin', 'singleLine', {
+  dSeo.changeFieldControl('title', 'builtin', 'singleLine', {
     helpText: 'This will override the page title in search engine results',
   });
 
-  seo.changeFieldControl('description', 'builtin', 'singleLine', {
+  dSeo.changeFieldControl('description', 'builtin', 'singleLine', {
     helpText: 'This will be displayed in search engine results',
   });
 
-  seo.changeFieldControl('image', 'builtin', 'assetLinkEditor', {
+  dSeo.changeFieldControl('share_image', 'builtin', 'assetLinkEditor', {
     helpText: 'This will be displayed when sharing the page on social media',
   });
 
-  seo.changeFieldControl('keywords', 'builtin', 'singleLine', {});
-
-  seo.changeFieldControl('no_index', 'builtin', 'boolean', {
+  dSeo.changeFieldControl('no_index', 'builtin', 'boolean', {
     helpText: 'Search engines will not include this page in search results',
     trueLabel: 'Yes',
     falseLabel: 'No',
   });
 
-  seo.changeFieldControl('no_follow', 'builtin', 'boolean', {
+  dSeo.changeFieldControl('no_follow', 'builtin', 'boolean', {
     helpText: 'Search engines will not follow the links on your page',
     trueLabel: 'Yes',
     falseLabel: 'No',

@@ -1,10 +1,10 @@
 {{- $settings := partial "utils/get-settings" . -}}
 
 {{- $params := merge site.Params (dict
-  "environment" (or (getenv "HUGO_ENVIRONMENT") hugo.Environment)
+  "environment" (or (getenv "HUGO_ENV") hugo.Environment)
 ) -}}
 
-{{- with .Params.content -}}
+{{- with .Params.sys -}}
   {{/* Prerender the page so we have the Scratch object available in "structure/head" to apply preload hints */}}
   {{/* Stored in a variable so we don't render the content to screen */}}
   {{ $tmp := partialCached "utils/get-partial.html" (dict

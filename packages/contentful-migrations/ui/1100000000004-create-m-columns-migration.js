@@ -1,24 +1,20 @@
-module.exports = async function (migration, context) {
-  const { makeRequest } = context;
-  // Fetch locale
-  const { items: locales } = await makeRequest({
-    method: 'GET',
-    url: '/locales',
-  });
-  const defaultLocale = locales.find((locale) => locale.default);
+const { withHelpers } = require('@jungvonmatt/contentful-migrations');
+
+module.exports = withHelpers(async (migration, _context, helpers) => {
+  const defaultLocale = await helpers.locale.getDefaultLocale();
 
   const mColumns = migration
     .createContentType('m-columns')
     .name('Module: Columns')
     .description('Helper for two column layouts')
-    .displayField('name');
+    .displayField('internal_name');
 
   mColumns
-    .createField('name')
+    .createField('internal_name')
     .name('Internal name')
     .type('Symbol')
     .localized(false)
-    .required(false)
+    .required(true)
     .validations([])
     .disabled(false)
     .omitted(false);
@@ -34,11 +30,8 @@ module.exports = async function (migration, context) {
         in: ['light', 'dark'],
       },
     ])
-    .defaultValue({
-      [defaultLocale.code]: 'light',
-    })
-    .disabled(false)
-    .omitted(false);
+    .disabled(true)
+    .omitted(true);
 
   mColumns
     .createField('spacing')
@@ -76,8 +69,8 @@ module.exports = async function (migration, context) {
     .defaultValue({
       [defaultLocale.code]: 'default',
     })
-    .disabled(false)
-    .omitted(false);
+    .disabled(true)
+    .omitted(true);
 
   mColumns
     .createField('column_left')
@@ -85,14 +78,20 @@ module.exports = async function (migration, context) {
     .type('Array')
     .localized(false)
     .required(false)
-    .validations([])
+    .validations([
+      {
+        size: {
+          max: 1,
+        },
+      },
+    ])
     .disabled(false)
     .omitted(false)
     .items({
       type: 'Link',
       validations: [
         {
-          linkContentType: ['c-link', 'c-editorial', 'c-image', 'c-media', 'c-video'],
+          linkContentType: ['c-editorial', 'c-image', 'c-media', 'c-video'],
         },
       ],
       linkType: 'Entry',
@@ -104,23 +103,36 @@ module.exports = async function (migration, context) {
     .type('Array')
     .localized(false)
     .required(false)
-    .validations([])
+    .validations([
+      {
+        size: {
+          max: 1,
+        },
+      },
+    ])
     .disabled(false)
     .omitted(false)
     .items({
       type: 'Link',
       validations: [
         {
-          linkContentType: ['c-link', 'c-editorial', 'c-image', 'c-media', 'c-video'],
+          linkContentType: ['c-editorial', 'c-image', 'c-media', 'c-video'],
         },
       ],
       linkType: 'Entry',
     });
 
-  mColumns.changeFieldControl('name', 'builtin', 'singleLine', {});
+  mColumns.changeFieldControl('internal_name', 'builtin', 'singleLine', {
+    helpText: 'e.g. "Home page > Columns"',
+  });
+
   mColumns.changeFieldControl('theme', 'builtin', 'dropdown', {});
+
   mColumns.changeFieldControl('spacing', 'builtin', 'dropdown', {});
+
   mColumns.changeFieldControl('layout', 'builtin', 'dropdown', {});
+
   mColumns.changeFieldControl('column_left', 'builtin', 'entryLinksEditor', {});
+
   mColumns.changeFieldControl('column_right', 'builtin', 'entryLinksEditor', {});
-};
+});

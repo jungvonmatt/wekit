@@ -9,14 +9,21 @@
   "context" $params
 ) . -}}
 
-{{- $title := $params.title -}}
-{{- $subtitle := $params.subtitle -}}
+{{- $overline := $params.overline -}}
+{{- $headline := $params.headline -}}
+{{- $subline := $params.subline -}}
 {{- $text := $params.text -}}
 {{- $media := $params.media -}}
 {{- $layout := $params.layout | default "split" -}}
 {{- $links := $params.links | default dict -}}
-{{- $content := $params.content -}}
 {{- $layout := $params.layout | default "default" -}}
+
+{{/*
+  The hero content is deactivated by default in the content type.
+  You can remove this block and also lines 98-108 completely
+  if you do not want to include any additional components in the stage.
+{{- $content := $params.content -}}
+*/}}
 
 {{- $partialPath := printf "modules/m-stage/%s.html" $layout -}}
 {{- if and (ne $layout "default") (templates.Exists ( printf "partials/%s" $partialPath )) -}}
@@ -37,16 +44,35 @@
         ) -}}
       {{- end -}}
       <div class="m-stage__content">
-        {{- with $title -}}
+        {{- with $overline -}}
           {{- partial "components/c-headline" (dict
             "globals" $globals
-            "context" (dict "tag" "h1" "class_name" "m-stage__title" "text" . )
+            "context" (dict
+              "tag" "div"
+              "class_name" "m-stage__overline"
+              "text" .
+            )
           ) -}}
         {{- end -}}
-        {{- with $subtitle -}}
+        {{- with $headline -}}
           {{- partial "components/c-headline" (dict
             "globals" $globals
-            "context" (dict "tag" "h2" "class_name" "m-stage__subtitle" "text" . )
+            "context" (dict
+              "tag" "h1"
+              "class_name"
+              "m-stage__headline"
+              "text" .
+            )
+          ) -}}
+        {{- end -}}
+        {{- with $subline -}}
+          {{- partial "components/c-headline" (dict
+            "globals" $globals
+            "context" (dict
+              "tag" "div"
+              "class_name" "m-stage__subline"
+              "text" .
+            )
           ) -}}
         {{- end -}}
         {{- with $text -}}
@@ -56,16 +82,17 @@
           ) -}}
         {{- end -}}
         <div class="m-stage__links">
-        {{- range $links -}}
-          {{- with partialCached "utils/get-params" . . -}}
-            {{- partial "components/c-link" (dict
-              "context" .
-              "globals" $globals
-              "options" (dict "class_name" "m-stage__link" "appearance" "button" "modifier" "solid")
-            ) -}}
+          {{- range $links -}}
+            {{- with partialCached "utils/get-params" . . -}}
+              {{- partial "components/c-link" (dict
+                "context" .
+                "globals" $globals
+                "options" (dict "class_name" "m-stage__link" "appearance" "button" "modifier" "solid")
+              ) -}}
+            {{- end -}}
           {{- end -}}
-        {{- end -}}
         </div>
+        {{/*
         {{ range $content }}
           {{ partialCached "utils/get-partial" (dict
             "context" .
@@ -75,6 +102,7 @@
             )
           ) . }}
         {{ end }}
+        */}}
       </div>
     </div>
   </section>
