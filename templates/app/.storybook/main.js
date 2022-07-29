@@ -33,6 +33,7 @@ module.exports = {
       ...(resolve.alias || {}),
       '@public': path.resolve(__dirname, '../public'),
       '@docs': path.resolve(__dirname, '../docs/contentful'),
+      '/fonts': path.resolve(__dirname, '../public/fonts'),
     };
     config.plugins.push(
       new CopyWebpackPlugin({
