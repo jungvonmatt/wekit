@@ -17,7 +17,7 @@
     "start": "hugo server --disableFastRender --log",
     "prebuild": "npm run content",
     "build": "hugo --gc --minify --environment production",
-    "scaffold": "node tools/hygen scaffold new",
+    "create": "node tools/hygen create new",
     "storybook:build": "hugo --gc --environment storybook --watch --log",
     "storybook:run": "start-storybook -p 6006",
     "prestorybook": "run-s clean cf:docs cf:argtypes",

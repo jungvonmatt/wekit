@@ -31,7 +31,6 @@ dotenv.config();
     return;
   }
 
-  console.log();
   const prompt = new Confirm({
     name: 'addFakes',
     message: `Do you want to generate storybook fake data based on your contentful model`,
@@ -42,11 +41,10 @@ dotenv.config();
     return;
   }
 
-  console.log();
-
   const { createFakes } = await import('@jungvonmatt/contentful-fakes');
   const { stringify } = await import('@jungvonmatt/contentful-ssg/converter');
   const fakes = await createFakes([contentType]);
+
   if (!Object.keys(fakes).length) {
     console.log(`${pc.red(0)} files generated!`);
     console.log(`No content model found for: ${pc.cyan(contentType)}`);
