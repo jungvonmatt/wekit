@@ -1,18 +1,14 @@
 {
   "name": "@jungvonmatt/wekit-project",
   "private": true,
-  "description": "A monorepo WEKit",
+  "description": "Wekit is the enterprise website toolkit",
   "author": "Jung von Matt TECH GmbH",
   "license": "MIT",
   "workspaces": [
     "packages/*",
     "templates/*"
   ],
-  "scripts": {
-    "test-doc": "alex"
-  },
   "devDependencies": {
-    "alex": "^10.0.0",
     "eslint-config-prettier": "^8.4.0",
     "eslint-config-xo": "^0.40.0",
     "eslint-config-xo-space": "^0.32.0",
