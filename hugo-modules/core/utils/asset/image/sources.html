@@ -1,0 +1,70 @@
+{{/*
+  utils/asset/image
+  Render Contentful asset (image/...). Uses data from cssg-plugin-assets if available.
+
+  @example - Go Template
+    {{- partial "utils/asset/image" (dict
+      "context" $image
+      "options" (dict
+        "sizes" "(max-width: 768px) 100vw, 768px"
+        "alt" "Alt text"
+        "class_name" "c-image"
+        "decoding" "auto"
+        "lazy" true
+      )
+    ) -}}
+*/}}
+{{- $globals := .globals -}}
+{{- $context := .context | default dict -}}
+{{- $options := .options | default dict -}}
+{{- $params := (merge $context $options) -}}
+{{- $mime_type := $params.mime_type -}}
+{{- $title := $params.title -}}
+{{- $url := $params.url -}}
+{{- $width := $params.width -}}
+{{- $height := $params.height -}}
+{{- $derivatives := $params.derivatives -}}
+{{- $alt := (or $params.alt $params.description) | default "" -}}
+{{- $class_name := $params.class_name -}}
+{{- $decoding := $params.decoding | default "async" -}}
+{{- $loading :=  cond (eq $params.lazy true) "lazy" ($params.loading | default false) -}}
+{{- $ratio := $params.ratio -}}
+{{- $sizes := $params.sizes -}}
+{{- $media := $params.media -}}
+{{- $preload := $params.preload  | default false -}}
+
+{{- $image_attributes := partialCached "utils/html/attribute" (dict
+  "loading" $loading
+  "decoding" $decoding
+) $params -}}
+
+{{- if in $mime_type "image" -}}
+  {{- with $derivatives -}}
+    {{- $data := (index $derivatives "original") -}}
+    {{- with $ratio -}}
+      {{- $data =  (or (index $derivatives $ratio) (index $derivatives "original")) -}}
+    {{- end -}}
+    {{- with $data -}}
+      {{- $srcsets := .srcsets -}}
+      {{- $local_sizes := (or $sizes .sizes) -}}
+      {{- $src := .src -}}
+      {{- $width := .width -}}
+      {{- $height := .height -}}
+      {{- range $srcsets -}}
+        {{ $srcset := .srcset | default "" }}
+        {{ $type := .type | default ""}}
+        <source sizes="{{- $local_sizes -}}" srcset="{{- $srcset -}}" type="{{- $type -}}"{{ with $media}}media="{{ . }}"{{ end }}>
+        {{- $preload_attr := (dict
+          "as" "image"
+          "imagesizes" $local_sizes
+          "imagesrcset" $srcset
+          "type" $type
+          "media" $media
+        ) -}}
+        {{- if and $preload (eq $type "image/avif") (not (in ($globals.Scratch.Get "preload") $preload_attr)) -}}
+          {{- $globals.Scratch.Add "preload" (slice $preload_attr) -}}
+        {{- end -}}
+      {{- end -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}

@@ -14,26 +14,57 @@
 {{- $media_desktop := or (index $params  (print "media_" $desktop_ratio)) $media -}}
 
 {{- $different_ratios := (ne $mobile_ratio $desktop_ratio) -}}
+{{- $only_img := and (hasPrefix ($media_mobile.mime_type | default "") "image") (hasPrefix ($media_desktop.mime_type | default "") "image") -}}
 
 {{- with $media -}}
   <figure class="c-media{{ with $focus_area }} c-media-{{ . }}{{ end }}{{ range $modifier }} c-media--{{ . }}{{ end }}{{ with $class_name }} {{ . }}{{end}}">
-    {{- partial "utils/asset" (dict
-      "globals" $globals
-      "context" $media_mobile
-      "options" (merge $params (dict
-        "class_name" (print "c-media__asset" (cond $different_ratios " md:u-hidden" "") )
-        "ratio" $mobile_ratio
-      ))
-    ) -}}
-    {{- if $different_ratios -}}
+    {{- if or (not $only_img) (not $different_ratios) -}}
       {{- partial "utils/asset" (dict
         "globals" $globals
-        "context" $media_desktop
+        "context" $media_mobile
         "options" (merge $params (dict
-          "class_name" (print "c-media__asset" (cond $different_ratios " -md:u-hidden" "") )
-          "ratio" $desktop_ratio
+          "class_name" (print "c-media__asset" (cond $different_ratios " md:u-hidden" "") )
+          "ratio" $mobile_ratio
+          "media" (cond $different_ratios "(max-width: 767px)" "")
         ))
       ) -}}
+    {{- end -}}
+    {{- if $different_ratios -}}
+      {{- if  $only_img -}}
+        <picture class="c-media__asset{{ with $class_name }} {{ . }}{{ end }}">
+          {{- partial "utils/asset/image/sources" (dict
+            "globals" $globals
+            "context" $media_mobile
+            "options" (merge $params (dict
+              "ratio" $mobile_ratio
+              "media" "(max-width: 767px)"
+            ))
+          ) -}}
+          {{- partial "utils/asset/image/sources" (dict
+            "globals" $globals
+            "context" $media_desktop
+            "options" (merge $params (dict
+              "ratio" $desktop_ratio
+              "media" "(min-width: 768px)"
+            ))
+          ) -}}
+          {{- partial "utils/asset/image/img" (dict
+            "globals" $globals
+            "context" $media_desktop
+            "options" (merge $params (dict "ratio" $desktop_ratio))
+          ) -}}
+        </picture>
+      {{- else -}}
+        {{- partial "utils/asset" (dict
+          "globals" $globals
+          "context" $media_desktop
+          "options" (merge $params (dict
+            "class_name" "c-media__asset -md:u-hidden" ""
+            "ratio" $desktop_ratio
+            "media" "(min-width: 768px)"
+          ))
+        ) -}}
+      {{- end -}}
     {{- end -}}
     {{- with $caption -}}
       <figcaption>{{ . }}</figcaption>

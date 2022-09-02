@@ -30,6 +30,7 @@
 {{- $muted := (or $autoplay $params.muted) -}}
 {{- $loading :=  cond (eq $params.lazy true) "lazy" ($params.loading | default false) -}}
 {{- $preload := $params.preload  | default false -}}
+{{- $media := $params.media -}}
 
 {{- $attributes := partialCached "utils/html/attribute" (dict
   "loop" $loop
@@ -44,6 +45,7 @@
   {{- $preload_attr := (dict
     "as" "image"
     "href" $poster
+    "media" $media
   ) -}}
   {{- if and $preload $poster (not (in ($globals.Scratch.Get "preload") $preload)) -}}
     {{- $globals.Scratch.Add "preload" (slice $preload) -}}
