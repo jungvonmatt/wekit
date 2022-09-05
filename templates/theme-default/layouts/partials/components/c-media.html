@@ -10,8 +10,8 @@
 {{- $media := $params.media -}}
 {{- $caption := $params.caption -}}
 
-{{- $media_mobile := or (index $params  (print "media_" $mobile_ratio)) $media -}}
-{{- $media_desktop := or (index $params  (print "media_" $desktop_ratio)) $media -}}
+{{- $media_mobile := or (index $params (print "media_" $mobile_ratio)) $media -}}
+{{- $media_desktop := or (index $params (print "media_" $desktop_ratio)) $media -}}
 
 {{- $different_ratios := (ne $mobile_ratio $desktop_ratio) -}}
 {{- $only_img := and (hasPrefix ($media_mobile.mime_type | default "") "image") (hasPrefix ($media_desktop.mime_type | default "") "image") -}}
@@ -30,7 +30,7 @@
       ) -}}
     {{- end -}}
     {{- if $different_ratios -}}
-      {{- if  $only_img -}}
+      {{- if $only_img -}}
         <picture class="c-media__asset{{ with $class_name }} {{ . }}{{ end }}">
           {{- partial "utils/asset/image/sources" (dict
             "globals" $globals

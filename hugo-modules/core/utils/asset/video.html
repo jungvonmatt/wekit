@@ -28,8 +28,8 @@
 {{- $controls := $params.controls | default false -}}
 {{- $poster := $params.poster | default false -}}
 {{- $muted := (or $autoplay $params.muted) -}}
-{{- $loading :=  cond (eq $params.lazy true) "lazy" ($params.loading | default false) -}}
-{{- $preload := $params.preload  | default false -}}
+{{- $loading := cond (eq $params.lazy true) "lazy" ($params.loading | default false) -}}
+{{- $preload := $params.preload | default false -}}
 {{- $media := $params.media -}}
 
 {{- $attributes := partialCached "utils/html/attribute" (dict

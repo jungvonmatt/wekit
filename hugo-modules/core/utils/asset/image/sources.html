@@ -27,11 +27,11 @@
 {{- $alt := (or $params.alt $params.description) | default "" -}}
 {{- $class_name := $params.class_name -}}
 {{- $decoding := $params.decoding | default "async" -}}
-{{- $loading :=  cond (eq $params.lazy true) "lazy" ($params.loading | default false) -}}
+{{- $loading := cond (eq $params.lazy true) "lazy" ($params.loading | default false) -}}
 {{- $ratio := $params.ratio -}}
 {{- $sizes := $params.sizes -}}
 {{- $media := $params.media -}}
-{{- $preload := $params.preload  | default false -}}
+{{- $preload := $params.preload | default false -}}
 
 {{- $image_attributes := partialCached "utils/html/attribute" (dict
   "loading" $loading
@@ -42,7 +42,7 @@
   {{- with $derivatives -}}
     {{- $data := (index $derivatives "original") -}}
     {{- with $ratio -}}
-      {{- $data =  (or (index $derivatives $ratio) (index $derivatives "original")) -}}
+      {{- $data = (or (index $derivatives $ratio) (index $derivatives "original")) -}}
     {{- end -}}
     {{- with $data -}}
       {{- $srcsets := .srcsets -}}
