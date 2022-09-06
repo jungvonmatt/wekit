@@ -21,24 +21,51 @@
   {{- end -}}
 {{- end -}}
 
+{{- $different_ratios := and $has_mobile $has_desktop -}}
+
+
 <figure class="c-image{{ range $modifier }} c-image--{{ . }}{{ end }}{{ with $class_name }} {{ . }}{{end}}">
-  {{- with $image_mobile -}}
-    {{- partial "utils/asset" (dict
-      "globals" $globals
-      "context" .
-      "options" (merge $params (dict
-        "class_name" (print "c-image__asset" (cond $has_desktop " md:u-hidden" "") )
-      ))
-    ) -}}
-  {{- end -}}
-  {{- with $image_desktop -}}
-    {{- partial "utils/asset" (dict
-      "globals" $globals
-      "context" .
-      "options" (merge $params (dict
-        "class_name" (print "c-image__asset" (cond $has_mobile " -md:u-hidden" "") )
-      ))
-    ) -}}
+  {{ if $different_ratios }}
+    <picture class="c-image__asset">
+      {{- partial "utils/asset/image/sources" (dict
+        "globals" $globals
+        "context" $image_mobile
+        "options" (merge $params (dict
+          "media" "(max-width: 767px)"
+        ))
+      ) -}}
+      {{- partial "utils/asset/image/sources" (dict
+        "globals" $globals
+        "context" $image_desktop
+        "options" (merge $params (dict
+          "media" "(min-width: 768px)"
+        ))
+      ) -}}
+      {{- partial "utils/asset/image/img" (dict
+        "globals" $globals
+        "context" $image_desktop
+        "options" $params
+      ) -}}
+    </picture>
+  {{ else }}
+    {{- with $image_mobile -}}
+      {{- partial "utils/asset" (dict
+        "globals" $globals
+        "context" .
+        "options" (merge $params (dict
+          "class_name" (print "c-image__asset" (cond $has_desktop " md:u-hidden" "") )
+        ))
+      ) -}}
+    {{- end -}}
+    {{- with $image_desktop -}}
+      {{- partial "utils/asset" (dict
+        "globals" $globals
+        "context" .
+        "options" (merge $params (dict
+          "class_name" (print "c-image__asset" (cond $has_mobile " -md:u-hidden" "") )
+        ))
+      ) -}}
+    {{- end -}}
   {{- end -}}
   {{- with $caption -}}
     <figcaption>{{ . }}</figcaption>

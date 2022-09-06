@@ -31,7 +31,7 @@
     {{- end -}}
     {{- if $different_ratios -}}
       {{- if $only_img -}}
-        <picture class="c-media__asset{{ with $class_name }} {{ . }}{{ end }}">
+        <picture class="c-media__asset">
           {{- partial "utils/asset/image/sources" (dict
             "globals" $globals
             "context" $media_mobile
