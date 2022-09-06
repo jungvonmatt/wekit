@@ -21,11 +21,11 @@
   {{- end -}}
 {{- end -}}
 
-{{- $different_ratios := and $has_mobile $has_desktop -}}
+{{- $different_images := and $has_mobile $has_desktop -}}
 
 
 <figure class="c-image{{ range $modifier }} c-image--{{ . }}{{ end }}{{ with $class_name }} {{ . }}{{end}}">
-  {{ if $different_ratios }}
+  {{ if $different_images }}
     <picture class="c-image__asset">
       {{- partial "utils/asset/image/sources" (dict
         "globals" $globals
