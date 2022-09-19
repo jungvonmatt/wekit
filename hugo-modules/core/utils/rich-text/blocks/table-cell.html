@@ -1,0 +1,9 @@
+{{- $globals := .globals -}}
+{{- $context := .context -}}
+
+<td>
+  {{- partial "utils/rich-text/get-block" (dict
+    "context" $context
+    "globals" $globals
+  ) -}}
+</td>
