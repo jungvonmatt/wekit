@@ -89,7 +89,7 @@
       </div>
     {{- end -}}
     {{- with $desktop_video -}}
-      <div class="c-responsive-media__video{{ if $desktop_video }} -md:u-hidden{{ end }}">
+      <div class="c-responsive-media__video{{ if $mobile_video }} -md:u-hidden{{ end }}">
         {{- partial "utils/asset" (dict
           "globals" $globals
           "context" .
