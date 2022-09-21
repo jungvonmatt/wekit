@@ -1,4 +1,7 @@
 contentDir: content/storybook
+staticDir:
+  - static
+  - static-storybook
 ignoreFiles: []
 disableKinds:
   - taxonomy
