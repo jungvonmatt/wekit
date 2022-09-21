@@ -1,66 +1,74 @@
+import isHidden from '../utils/visibility';
+
 /**
- * Initialize video player
+ * Initialize video
  *
  * @param {HTMLElement} root
  */
-const init = (root) => {
-  const video = root.querySelector('video');
-  root.classList.add('initialized');
+const init = (element) => {
+  element.dataset.video = 'initialized';
 
-  const showButton = () => root.classList.remove('is-playing');
-  const hideButton = () => root.classList.add('is-playing');
+  const video = element.querySelector('video');
 
-  if (video) {
-    video.addEventListener('playing', () => hideButton());
-    video.addEventListener('pause', () => showButton());
-    video.addEventListener('ended', () => showButton());
+  let loaded = false;
 
-    if (video.controls === false) {
-      root.addEventListener('click', () => {
-        if (video.paused) {
-          video.play();
-        } else {
-          video.pause();
-        }
-      });
-    }
+  function loadVideoSources() {
+    Array.from(video.children).forEach((videoSource) => {
+      if (typeof videoSource.tagName === 'string' && videoSource.tagName === 'SOURCE') {
+        videoSource.src = videoSource.dataset.src;
+      }
+    });
 
-    if (video.paused) {
-      root.classList.remove('is-playing');
-    } else {
-      root.classList.add('is-playing');
+    video.load();
+  }
+
+  function isPlaying() {
+    return Boolean(video.currentTime > 0 && !video.paused && !video.ended && video.readyState > 2);
+  }
+
+  function playVideo() {
+    if (!isPlaying()) {
+      video.play();
     }
   }
+
+  function pauseVideo() {
+    if (isPlaying()) {
+      video.pause();
+    }
+  }
+
+  function observerCallback(entries) {
+    entries.forEach((entry) => {
+      // Break if video is hidden
+      if (isHidden()) {
+        return;
+      }
+
+      // Load sources
+      if (!loaded && entry.isIntersecting) {
+        loadVideoSources();
+        loaded = true;
+      }
+
+      // Start or pause playback depending on the visibility
+      if (entry.intersectionRatio === 0) {
+        pauseVideo();
+      } else {
+        playVideo();
+      }
+    });
+  }
+
+  // Observe the visiblity of the video element
+  const observer = new IntersectionObserver(observerCallback, { threshold: [0, 0.01] });
+  observer.observe(video);
 };
 
 export const initVideo = (root = document) => {
-  const videos = root.querySelectorAll('.js-video:not(.initialized)');
+  const videos = root.querySelectorAll('[data-video]:not([data-video="initialized"])');
 
   Array.from(videos).forEach((root) => {
     init(root);
   });
-
-  // Lazy loading videos
-  if ('IntersectionObserver' in window) {
-    const lazyVideos = Array.from(document.querySelectorAll('video[loading="lazy"]'));
-    const lazyVideoObserver = new IntersectionObserver(function (entries) {
-      entries.forEach(function (video) {
-        if (video.isIntersecting) {
-          for (const videoSource of video.target.children) {
-            if (typeof videoSource?.tagName === 'string' && videoSource?.tagName === 'SOURCE') {
-              videoSource.src = videoSource.dataset.src;
-            }
-          }
-
-          video.target.load();
-          video.target.removeAttribute('loading');
-          lazyVideoObserver.unobserve(video.target);
-        }
-      });
-    });
-
-    lazyVideos.forEach(function (lazyVideo) {
-      lazyVideoObserver.observe(lazyVideo);
-    });
-  }
 };

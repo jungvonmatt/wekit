@@ -43,7 +43,7 @@ text:
   node_type: document
 media:
   id: default
-  content_type: c-media
+  content_type: c-responsive-media
 links:
   - id: button
     content_type: c-link

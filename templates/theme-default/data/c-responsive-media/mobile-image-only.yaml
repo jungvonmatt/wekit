@@ -1,0 +1,48 @@
+alt: Alt text
+caption: Caption
+mobile_media:
+  mime_type: image/jpeg
+  url: /image-1x1
+  title: Mobile media title
+  description: Mobile media description
+  width: 1920
+  height: 1920
+  derivatives:
+    original:
+      width: 1920
+      height: 1920
+      sizes: '(max-width: 1920px) 100vw, 1920px'
+      srcsets:
+        - type: image/webp
+          srcset: >-
+            /img/image-1x1.webp
+            1920w,
+            /img/image-1x1.webp
+            1080w,
+            /img/image-1x1.webp
+            640w,
+            /img/image-1x1.webp
+            320w
+        - type: image/avif
+          srcset: >-
+            /img/image-1x1.avif
+            1920w,
+            /img/image-1x1.avif
+            1080w,
+            /img/image-1x1.avif
+            640w,
+            /img/image-1x1.avif
+            320w
+        - type: image/jpeg
+          srcset: >-
+            /img/image-1x1.jpeg
+            1920w,
+            /img/image-1x1.jpeg
+            1080w,
+            /img/image-1x1.jpeg
+            640w,
+            /img/image-1x1.jpeg
+            320w
+      src: /img/image-1x1.jpeg
+mobile_ratio: square
+mobile_focus_area: center

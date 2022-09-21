@@ -1,0 +1,94 @@
+alt: Alt text
+caption: Caption
+mobile_media:
+  mime_type: image/jpeg
+  url: /img/image-9x16.jpeg
+  title: Mobile media title
+  description: Mobile media description
+  width: 1080
+  height: 1920
+  derivatives:
+    original:
+      width: 1080
+      height: 1920
+      sizes: '(max-width: 1920px) 100vw, 1920px'
+      srcsets:
+        - type: image/webp
+          srcset: >-
+            /img/image-9x16.webp
+            1920w,
+            /img/image-9x16.webp
+            1080w,
+            /img/image-9x16.webp
+            640w,
+            /img/image-9x16.webp
+            320w
+        - type: image/avif
+          srcset: >-
+            /img/image-9x16.avif
+            1920w,
+            /img/image-9x16.avif
+            1080w,
+            /img/image-9x16.avif
+            640w,
+            /img/image-9x16.avif
+            320w
+        - type: image/jpeg
+          srcset: >-
+            /img/image-9x16.jpeg
+            1920w,
+            /img/image-9x16.jpeg
+            1080w,
+            /img/image-9x16.jpeg
+            640w,
+            /img/image-9x16.jpeg
+            320w
+      src: /img/image-9x16.jpeg
+mobile_ratio: "9:16"
+mobile_focus_area: center
+desktop_media:
+  mime_type: image/jpeg
+  url: /img/image-16x9.jpeg
+  title: Mobile media title
+  description: Mobile media description
+  width: 1920
+  height: 1080
+  derivatives:
+    original:
+      width: 1920
+      height: 1080
+      sizes: '(max-width: 1920px) 100vw, 1920px'
+      srcsets:
+        - type: image/webp
+          srcset: >-
+            /img/image-16x9.webp
+            1920w,
+            /img/image-16x9.webp
+            1080w,
+            /img/image-16x9.webp
+            640w,
+            /img/image-16x9.webp
+            320w
+        - type: image/avif
+          srcset: >-
+            /img/image-16x9.avif
+            1920w,
+            /img/image-16x9.avif
+            1080w,
+            /img/image-16x9.avif
+            640w,
+            /img/image-16x9.avif
+            320w
+        - type: image/jpeg
+          srcset: >-
+            /img/image-16x9.jpeg
+            1920w,
+            /img/image-16x9.jpeg
+            1080w,
+            /img/image-16x9.jpeg
+            640w,
+            /img/image-16x9.jpeg
+            320w
+      src: /img/image-16x9.jpeg
+desktop_ratio: "16:9"
+desktop_focus_area: center
