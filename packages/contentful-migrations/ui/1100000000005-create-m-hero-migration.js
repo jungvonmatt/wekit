@@ -1,11 +1,15 @@
-module.exports = async function (migration) {
-  const cEditorial = migration
-    .createContentType('c-editorial')
-    .name('Component: Editorial')
-    .description('A flexible component that can combine headlines, text, media and links')
+const { withHelpers } = require('@jungvonmatt/contentful-migrations');
+
+module.exports = withHelpers(async (migration, _context, helpers) => {
+  const defaultLocale = await helpers.locale.getDefaultLocale();
+
+  const mHero = migration
+    .createContentType('m-hero')
+    .name('Module: Hero')
+    .description('A flexible module that can combine headlines, text, media and links')
     .displayField('internal_name');
 
-  cEditorial
+  mHero
     .createField('internal_name')
     .name('Internal name')
     .type('Symbol')
@@ -15,7 +19,38 @@ module.exports = async function (migration) {
     .disabled(false)
     .omitted(false);
 
-  cEditorial
+  mHero
+    .createField('theme')
+    .name('Theme')
+    .type('Symbol')
+    .localized(false)
+    .required(false)
+    .validations([
+      {
+        in: ['light', 'dark'],
+      },
+    ])
+    .disabled(true)
+    .omitted(true);
+
+  mHero
+    .createField('spacing')
+    .name('Spacing')
+    .type('Symbol')
+    .localized(false)
+    .required(false)
+    .validations([
+      {
+        in: ['none', 'sm', 'md', 'lg'],
+      },
+    ])
+    .defaultValue({
+      [defaultLocale.code]: 'md',
+    })
+    .disabled(false)
+    .omitted(false);
+
+  mHero
     .createField('overline')
     .name('Overline')
     .type('Symbol')
@@ -25,7 +60,7 @@ module.exports = async function (migration) {
     .disabled(false)
     .omitted(false);
 
-  cEditorial
+  mHero
     .createField('headline')
     .name('Headline')
     .type('Symbol')
@@ -35,7 +70,7 @@ module.exports = async function (migration) {
     .disabled(false)
     .omitted(false);
 
-  cEditorial
+  mHero
     .createField('subline')
     .name('Subline')
     .type('Symbol')
@@ -45,7 +80,7 @@ module.exports = async function (migration) {
     .disabled(false)
     .omitted(false);
 
-  cEditorial
+  mHero
     .createField('text')
     .name('Text')
     .type('RichText')
@@ -67,7 +102,7 @@ module.exports = async function (migration) {
     .disabled(false)
     .omitted(false);
 
-  cEditorial
+  mHero
     .createField('media')
     .name('Media')
     .type('Link')
@@ -75,14 +110,14 @@ module.exports = async function (migration) {
     .required(false)
     .validations([
       {
-        linkContentType: ['c-image', 'c-media'],
+        linkContentType: ['c-responsive-media'],
       },
     ])
     .disabled(false)
     .omitted(false)
     .linkType('Entry');
 
-  cEditorial
+  mHero
     .createField('links')
     .name('Links')
     .type('Array')
@@ -101,19 +136,23 @@ module.exports = async function (migration) {
       linkType: 'Entry',
     });
 
-  cEditorial.changeFieldControl('internal_name', 'builtin', 'singleLine', {
-    helpText: 'e.g. "Home page > Editorial > Editorial"',
+  mHero.changeFieldControl('internal_name', 'builtin', 'singleLine', {
+    helpText: 'e.g. "Home page > Hero"',
   });
 
-  cEditorial.changeFieldControl('overline', 'builtin', 'singleLine', {});
+  mHero.changeFieldControl('theme', 'builtin', 'dropdown', {});
 
-  cEditorial.changeFieldControl('headline', 'builtin', 'singleLine', {});
+  mHero.changeFieldControl('spacing', 'builtin', 'dropdown', {});
 
-  cEditorial.changeFieldControl('subline', 'builtin', 'singleLine', {});
+  mHero.changeFieldControl('overline', 'builtin', 'singleLine', {});
 
-  cEditorial.changeFieldControl('text', 'builtin', 'richTextEditor', {});
+  mHero.changeFieldControl('headline', 'builtin', 'singleLine', {});
 
-  cEditorial.changeFieldControl('media', 'builtin', 'entryLinkEditor', {});
+  mHero.changeFieldControl('subline', 'builtin', 'singleLine', {});
 
-  cEditorial.changeFieldControl('links', 'builtin', 'entryLinksEditor', {});
-};
+  mHero.changeFieldControl('text', 'builtin', 'richTextEditor', {});
+
+  mHero.changeFieldControl('media', 'builtin', 'entryLinkEditor', {});
+
+  mHero.changeFieldControl('links', 'builtin', 'entryLinksEditor', {});
+});

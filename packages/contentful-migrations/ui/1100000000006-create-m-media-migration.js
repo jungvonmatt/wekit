@@ -3,13 +3,13 @@ const { withHelpers } = require('@jungvonmatt/contentful-migrations');
 module.exports = withHelpers(async (migration, _context, helpers) => {
   const defaultLocale = await helpers.locale.getDefaultLocale();
 
-  const mList = migration
-    .createContentType('m-list')
-    .name('Module: List')
-    .description('Allows placing multiple components in a slider or grid')
+  const mMedia = migration
+    .createContentType('m-media')
+    .name('Module: Media')
+    .description('Module container for image, loop video or video player')
     .displayField('internal_name');
 
-  mList
+  mMedia
     .createField('internal_name')
     .name('Internal name')
     .type('Symbol')
@@ -19,7 +19,7 @@ module.exports = withHelpers(async (migration, _context, helpers) => {
     .disabled(false)
     .omitted(false);
 
-  mList
+  mMedia
     .createField('theme')
     .name('Theme')
     .type('Symbol')
@@ -33,7 +33,7 @@ module.exports = withHelpers(async (migration, _context, helpers) => {
     .disabled(true)
     .omitted(true);
 
-  mList
+  mMedia
     .createField('spacing')
     .name('Spacing')
     .type('Symbol')
@@ -50,7 +50,7 @@ module.exports = withHelpers(async (migration, _context, helpers) => {
     .disabled(false)
     .omitted(false);
 
-  mList
+  mMedia
     .createField('layout')
     .name('Layout')
     .type('Symbol')
@@ -58,43 +58,39 @@ module.exports = withHelpers(async (migration, _context, helpers) => {
     .required(false)
     .validations([
       {
-        in: ['grid', 'slider'],
+        in: ['default'],
       },
     ])
     .defaultValue({
-      [defaultLocale.code]: 'slider',
+      [defaultLocale.code]: 'default',
     })
-    .disabled(false)
-    .omitted(false);
+    .disabled(true)
+    .omitted(true);
 
-  mList
+  mMedia
     .createField('body')
-    .name('List items')
-    .type('Array')
+    .name('Media')
+    .type('Link')
     .localized(false)
-    .required(false)
-    .validations([])
+    .required(true)
+    .validations([
+      {
+        linkContentType: ['c-responsive-media'],
+      },
+    ])
     .disabled(false)
     .omitted(false)
-    .items({
-      type: 'Link',
-      validations: [
-        {
-          linkContentType: ['c-editorial', 'c-image', 'c-media', 'c-video'],
-        },
-      ],
-      linkType: 'Entry',
-    });
+    .linkType('Entry');
 
-  mList.changeFieldControl('internal_name', 'builtin', 'singleLine', {
-    helpText: 'e.g. "Home page > List"',
+  mMedia.changeFieldControl('internal_name', 'builtin', 'singleLine', {
+    helpText: 'e.g. "Home page > Media"',
   });
 
-  mList.changeFieldControl('layout', 'builtin', 'dropdown', {});
+  mMedia.changeFieldControl('theme', 'builtin', 'dropdown', {});
 
-  mList.changeFieldControl('theme', 'builtin', 'dropdown', {});
+  mMedia.changeFieldControl('spacing', 'builtin', 'dropdown', {});
 
-  mList.changeFieldControl('spacing', 'builtin', 'dropdown', {});
+  mMedia.changeFieldControl('layout', 'builtin', 'dropdown', {});
 
-  mList.changeFieldControl('body', 'builtin', 'entryLinksEditor', {});
+  mMedia.changeFieldControl('body', 'builtin', 'entryLinkEditor', {});
 });

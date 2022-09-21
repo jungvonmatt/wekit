@@ -91,7 +91,7 @@ module.exports = withHelpers(async (migration, _context, helpers) => {
       type: 'Link',
       validations: [
         {
-          linkContentType: ['c-editorial', 'c-image', 'c-media', 'c-video'],
+          linkContentType: ['c-editorial', 'c-responsive-media'],
         },
       ],
       linkType: 'Entry',
@@ -116,7 +116,7 @@ module.exports = withHelpers(async (migration, _context, helpers) => {
       type: 'Link',
       validations: [
         {
-          linkContentType: ['c-editorial', 'c-image', 'c-media', 'c-video'],
+          linkContentType: ['c-editorial', 'c-responsive-media'],
         },
       ],
       linkType: 'Entry',
