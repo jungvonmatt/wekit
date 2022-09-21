@@ -51,7 +51,7 @@
       {{- $width := .width -}}
       {{- $height := .height -}}
       {{/* Preload hint is added in sources.html */}}
-       <img src="{{- $src -}}" width="{{- $width -}}" height="{{- $height -}}" {{ $image_attributes }} alt="{{- $alt -}}"{{ with $params.preload }} fetchpriority="high"{{ end }}>
+       <img src="{{- $src -}}" {{ $image_attributes }} alt="{{- $alt -}}"{{ with $params.preload }} fetchpriority="high"{{ end }}>
     {{- end -}}
   {{- else -}}
     {{- with $url -}}

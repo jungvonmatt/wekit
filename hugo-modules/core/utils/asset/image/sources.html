@@ -53,7 +53,7 @@
       {{- range $srcsets -}}
         {{ $srcset := .srcset | default "" }}
         {{ $type := .type | default ""}}
-        <source sizes="{{- $local_sizes -}}" srcset="{{- $srcset -}}" type="{{- $type -}}"{{ with $media}}media="{{ . }}"{{ end }}>
+        <source sizes="{{- $local_sizes -}}" width="{{- $width -}}" height="{{- $height -}}" srcset="{{- $srcset -}}" type="{{- $type -}}"{{ with $media}}media="{{ . }}"{{ end }}>
         {{- $preload_attr := (dict
           "as" "image"
           "imagesizes" $local_sizes
