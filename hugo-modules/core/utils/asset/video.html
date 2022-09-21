@@ -3,12 +3,12 @@
   Render Contentful asset (video/...). Uses data from cssg-plugin-assets if available.
 
   @example - Go Template
-    {{- partial "utils/asset/svg" (dict
+    {{- partial "utils/asset/video" (dict
       "context" $video
       "options" (dict
-        "loop" "false"
-        "muted" "false"
-        "autoplay" "false"
+        "loop" false
+        "muted" false
+        "autoplay" false
         "class_name" "c-video"
       )
     ) -}}
