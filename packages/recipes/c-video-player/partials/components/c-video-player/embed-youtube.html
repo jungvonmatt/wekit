@@ -1,0 +1,103 @@
+
+{{/*
+  components/c-video/embed-youtube
+
+  Generates youtube embed code with custom poster & lazy loading
+
+  Paramers:
+
+  src (string): Vimeo video url
+  title (string): Video title (falls back to title stored in vimeo)
+  poster_asset (dict): Contentful asset object
+  loop (boolean): loop video
+  controls (boolean): hide/show controls
+  muted (boolean): muted/unmuted
+  autoplay (boolean): autoplay video
+  ratio (string): Ratio (16:9, 4:3, ...) See assets/scss/object/_o-ratio.scss for available ratios
+  playicon (dict): Custom playicon object (passed to utils/svg/icon)
+  nocookie (boolean): If you set this parameter to true, the player will not be able to track session data, including all cookies and statistics.
+
+*/}}
+{{- $globals := .globals -}}
+{{- $context := .context | default dict -}}
+{{- $options := .options | default dict -}}
+{{- $params := (merge $context $options) -}}
+
+{{- $src := $params.src -}}
+{{- $loop := $params.loop -}}
+{{- $poster_asset := $params.poster -}}
+{{- $controls := $params.controls -}}
+{{- $muted := $params.muted -}}
+{{- $autoplay := $params.autoplay -}}
+{{- $ratio := $params.ratio | default "16:9" -}}
+{{- $nocookie := $params.nocookie | default true -}}
+{{- $playicon := $params.playicon | default (dict "id" "play") -}}
+{{- $title := $params.title -}}
+
+{{- with $src -}}
+  {{/* Extract video id */}}
+  {{ $video_id := replaceRE ".*(?:youtube(?:-nocookie)?\\.com/(?:[^/]+/.+/|(?:v|e(?:mbed)?)/|.*[?&]v=)|youtu\\.be/)([^\"&?/\\s]{11}).*$" "$1" . 1 }}
+
+  {{/* Prepare url api params */}}
+  {{/* https://developers.google.com/youtube/player_parameters */}}
+  {{ $query := slice "showinfo=0" "modestbranding=0" "rel=0" }}
+  {{- with $controls -}}
+    {{ $query = $query | append "controls=2" }}
+  {{- else -}}
+    {{ $query = $query | append "controls=0" }}
+  {{- end -}}
+  {{- with $muted -}}
+    {{ $query = $query | append "mute=1" }}
+  {{- end -}}
+  {{- with $autoplay -}}
+    {{ $query = $query | append "autoplay=1" }}
+  {{- end -}}
+  {{- with $loop -}}
+    {{ $query = $query | append "loop=1" }}
+  {{- end -}}
+
+  {{/* Build player url */}}
+  {{- $url := print "https://www.youtube" (cond $nocookie "-nocookie" "") ".com/embed/" $video_id "?" (delimit $query "&") -}}
+
+  {{/* Try to fetch thumbnail & title from vimeo oembed json. fall back to default image */}}
+  {{- $poster_src := "" -}}
+  {{- with getJSON "https://www.youtube.com/oembed?url=https%3A%2F%2Fwww.youtube.com%2Fwatch%3Fv%3D"  $video_id}}
+    {{- with .thumbnail_url -}}
+      {{- $poster_src = . }}
+    {{- end -}}
+    {{- with .title -}}
+      {{- $title = $title | default . -}}
+    {{- end -}}
+  {{- else -}}
+    {{- $poster_src = printf "https://img.youtube.com/vi/%s/hqdefault.jpg" $video_id -}}
+  {{- end -}}
+
+  {{/* Generate srcdoc iframe placholder when autoplay is not enabled */}}
+  {{- $srcdoc := false -}}
+  {{- with $autoplay -}}
+  {{- else -}}
+    {{- $srcdoc = partial "components/c-video/embed-srcdoc" (dict
+      "globals" $globals
+      "context" (dict
+        "poster_asset" $poster_asset
+        "poster_src" $poster_src
+        "src" $url
+        "icon" $playicon
+      )
+    ) -}}
+  {{- end -}}
+
+  {{/* Generate iframe tag */}}
+  {{- with partial "utils/html/tag" (dict "name" "iframe" "attr" (dict
+    "srcdoc" $srcdoc
+    "class" "c-video__embed"
+    "loading" "lazy"
+    "src" $url
+    "title" $title
+    "frameborder" "0"
+    "allow" "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+    "allowfullscreen" true
+  )) -}}
+    {{- . | safeHTML -}}
+  {{- end -}}
+{{- end -}}
