@@ -33,7 +33,7 @@ module.exports = withHelpers(async (migration, _context, helpers) => {
     .createField('caption')
     .name('Caption')
     .type('Text')
-    .localized(false)
+    .localized(true)
     .required(false)
     .validations([])
     .disabled(false)
