@@ -52,7 +52,6 @@
 <figure class="c-responsive-media{{ range $modifier }} c-responsive-media--{{ . }}{{ end }}{{ with $class_name }} {{ . }}{{end}}">
   <div class="c-responsive-media__container">
     <picture class="c-responsive-media__image">
-      {{/*  TODO: media nur setzen, wenn es 2 unterschiedliche sources gibt  */}}
       {{- partial "utils/asset/image/sources" (dict
         "globals" $globals
         "context" $mobile_image
