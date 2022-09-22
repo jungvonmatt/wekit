@@ -30,6 +30,16 @@ module.exports = withHelpers(async (migration, _context, helpers) => {
     .omitted(false);
 
   cMedia
+    .createField('caption')
+    .name('Caption')
+    .type('Text')
+    .localized(false)
+    .required(false)
+    .validations([])
+    .disabled(false)
+    .omitted(false);
+
+  cMedia
     .createField('mobile_media')
     .name('Mobile > Media')
     .type('Link')
@@ -163,6 +173,8 @@ module.exports = withHelpers(async (migration, _context, helpers) => {
   });
 
   cMedia.changeFieldControl('alt', 'builtin', 'singleLine', {});
+
+  cMedia.changeFieldControl('caption', 'builtin', 'multipleLine', {});
 
   cMedia.changeFieldControl('mobile_media', 'builtin', 'assetLinkEditor', {});
 
