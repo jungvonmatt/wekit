@@ -94,6 +94,9 @@
 	1. Every pages: `Page title | Global site title`
 	2. Homepage: only `Global site title` */}}
 {{ $title := "" }}
+{{ with .Params.title }}
+	{{ $title = . }}
+{{ end }}
 {{ with $seo_params.title }}
 	{{ $title = . }}
 {{ end }}
