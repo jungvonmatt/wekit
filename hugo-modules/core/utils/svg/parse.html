@@ -88,21 +88,21 @@
   {{/* {{ $height_markup }}
   {{ $viewbox_markup }} */}}
   {{ with $width_markup }}
-    {{ $width = replaceRE "<\\s*\\/?\\s*svg\\s*[^>]*width=\"(\\d+)[^\"]*\".*$" "${1}" . }}
+    {{ $width = replaceRE "<\\s*\\/?\\s*svg\\s*[^>]*width=\"([\\d\\.]+)[^\"]*\".*$" "${1}" . }}
   {{ else }}
     {{ with $viewbox_markup }}
-      {{ $w1 := replaceRE "<\\s*\\/?\\s*svg\\s*[^>]*view[bB]ox=\"\\s*(\\d+)\\s+\\d+\\s+\\d+\\s+\\d+\\s*\".*" "${1}" . }}
-      {{ $w2 := replaceRE "<\\s*\\/?\\s*svg\\s*[^>]*view[bB]ox=\"\\s*\\d+\\s+\\d+\\s+(\\d+)\\s+\\d+\\s*\".*" "${1}" . }}
+      {{ $w1 := replaceRE "<\\s*\\/?\\s*svg\\s*[^>]*view[bB]ox=\"\\s*([\\d\\.]+)\\s+[\\d\\.]+\\s+[\\d\\.]+\\s+[\\d\\.]+\\s*\".*" "${1}" . }}
+      {{ $w2 := replaceRE "<\\s*\\/?\\s*svg\\s*[^>]*view[bB]ox=\"\\s*[\\d\\.]+\\s+[\\d\\.]+\\s+([\\d\\.]+)\\s+[\\d\\.]+\\s*\".*" "${1}" . }}
       {{ $width = sub (float $w2) (float $w1) }}
     {{ end }}
   {{ end }}
 
   {{ with $height_markup }}
-    {{ $height = replaceRE "<\\s*\\/?\\s*svg\\s*[^>]*height=\"(\\d+)[^\"]*\".*" "${1}" . }}
+    {{ $height = replaceRE "<\\s*\\/?\\s*svg\\s*[^>]*height=\"([\\d\\.]+)[^\"]*\".*" "${1}" . }}
   {{ else }}
     {{ with $viewbox_markup }}
-      {{ $h1 := replaceRE "<\\s*\\/?\\s*svg\\s*[^>]*view[bB]ox=\"\\s*\\d+\\s+(\\d+)\\s+\\d+\\s+\\d+\\s*\".*" "${1}" . }}
-      {{ $h2 := replaceRE "<\\s*\\/?\\s*svg\\s*[^>]*view[bB]ox=\"\\s*\\d+\\s+\\d+\\s+\\d+\\s+(\\d+)\\s*\".*" "${1}" . }}
+      {{ $h1 := replaceRE "<\\s*\\/?\\s*svg\\s*[^>]*view[bB]ox=\"\\s*[\\d\\.]+\\s+([\\d\\.]+)\\s+[\\d\\.]+\\s+[\\d\\.]+\\s*\".*" "${1}" . }}
+      {{ $h2 := replaceRE "<\\s*\\/?\\s*svg\\s*[^>]*view[bB]ox=\"\\s*[\\d\\.]+\\s+[\\d\\.]+\\s+[\\d\\.]+\\s+([\\d\\.]+)\\s*\".*" "${1}" . }}
       {{ $height = sub (float $h2) (float $h1) }}
     {{ end }}
   {{ end }}
