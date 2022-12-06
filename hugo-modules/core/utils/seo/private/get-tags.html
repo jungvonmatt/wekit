@@ -98,8 +98,9 @@
 {{ with $seo }}
   {{ $value := "noindex, nofollow" }}
   {{ $production := eq (getenv "HUGO_ENV") "production" }}
-  {{ $index := cond (eq .no_index true) "noindex" "index" }}
-  {{ $follow := cond (eq .no_follow true) "nofollow" "follow" }}
+  {{ $is_404 := eq $.Page.Kind "404" }}
+  {{ $index := cond (or (eq .no_index true) $is_404) "noindex" "index" }}
+  {{ $follow := cond (or (eq .no_follow true) $is_404) "nofollow" "follow" }}
 
   {{ if and $production }}
     {{ $value = (print $index ", " $follow) }}
