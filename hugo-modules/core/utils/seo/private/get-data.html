@@ -91,8 +91,10 @@
 {{/* Title
   ----------------------------
 	We use the following logic
-	1. Every pages: `Page title | Global site title`
-	2. Homepage: only `Global site title` */}}
+	1. Every page: `Page title | Global site title`
+	2. Homepage: only `Global site title`
+  3. If no title is set, the `Global site title` is used
+  4. On 404 Page: `404 | Global site title` */}}
 {{ $title := "" }}
 {{ with .Params.title }}
 	{{ $title = . }}
@@ -101,10 +103,20 @@
 	{{ $title = . }}
 {{ end }}
 {{ if not .IsHome }}
-	{{/* 1. `Page title | Global site title` */}}
-	{{ $s.SetInMap "seo" "title" (printf "%s | %s" $title $settings.title) }}
+  {{ with $title }}
+    {{/* 1. `Page title | Global site title` */}}
+    {{ $s.SetInMap "seo" "title" (printf "%s | %s" $title $settings.title) }}
+  {{ else }}
+    {{/* 2. `404 | Global site title` */}}
+    {{ if eq $.Page.Kind "404" }}
+      {{ $s.SetInMap "seo" "title" (printf "%s | %s" "404" $settings.title) }}
+    {{ else }}
+      {{/* 3. `Global site title` */}}
+      {{ $s.SetInMap "seo" "title" $settings.title }}
+    {{ end }}
+  {{ end }}
 {{ else }}
-	{{/* 2. `Global site title` */}}
+	{{/* 4. `Global site title` */}}
 	{{ $s.SetInMap "seo" "title" $settings.title }}
 {{ end }}
 
