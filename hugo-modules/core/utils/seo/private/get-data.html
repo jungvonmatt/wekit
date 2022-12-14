@@ -92,9 +92,9 @@
   ----------------------------
 	We use the following logic
 	1. Every page: `Page title | Global site title`
-	2. Homepage: only `Global site title`
+  2. On 404 Page: `404 | Global site title`
   3. If no title is set, the `Global site title` is used
-  4. On 404 Page: `404 | Global site title` */}}
+	4. Homepage: only `Global site title` */}}
 {{ $title := "" }}
 {{ with .Params.title }}
 	{{ $title = . }}
