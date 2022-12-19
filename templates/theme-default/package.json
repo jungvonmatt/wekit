@@ -42,7 +42,7 @@
     "@storybook/addon-essentials": "^6.4.4",
     "@storybook/addon-links": "^6.4.4",
     "@storybook/builder-webpack5": "^6.4.4",
-    "@storybook/html": "^6.4.4",
+    "@storybook/html": "^6.1.21",
     "@storybook/manager-webpack5": "^6.4.4",
     "@typescript-eslint/eslint-plugin": "^5.5.0",
     "@typescript-eslint/parser": "^5.5.0",
