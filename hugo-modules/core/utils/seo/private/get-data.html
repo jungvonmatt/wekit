@@ -241,7 +241,9 @@
   {{ $s.SetInMap "jsonld" "url"  $.Permalink }}
   {{ $s.SetInMap "jsonld" "datePublished" .published_time }}
   {{ $s.SetInMap "jsonld" "dateModified" .updated_time }}
-  {{ $s.SetInMap "jsonld" "description" .description }}
+  {{ with .description }}
+    {{ $s.SetInMap "jsonld" "description" . }}
+  {{ end }}
   {{ with $seo.jsonld }}
     {{ $s.Set "jsonld" (merge ($s.Get "jsonld") . ) }}
   {{ end }}
