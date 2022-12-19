@@ -1,0 +1,46 @@
+{{- $globals := .globals -}}
+{{- $context := .context | default dict -}}
+{{- $options := .options | default dict -}}
+{{- $params := (merge $context $options) -}}
+{{- $modifier := cond (reflect.IsSlice $params.modifier) $params.modifier (cond (ne $params.modifier nil) (slice $params.modifier) dict ) -}}
+{{- $class_name := $params.class_name -}}
+{{- $image_mobile := $params.image_mobile -}}
+{{- $image_desktop := $params.image_desktop -}}
+{{- $caption := $params.caption -}}
+
+{{- $has_mobile := false -}}
+{{- $has_desktop := false -}}
+{{- with $image_mobile -}}
+  {{- with .url -}}
+    {{- $has_mobile = true -}}
+  {{- end -}}
+{{- end -}}
+{{- with $image_desktop -}}
+  {{- with .url -}}
+    {{- $has_desktop = true -}}
+  {{- end -}}
+{{- end -}}
+
+<figure class="c-image{{ range $modifier }} c-image--{{ . }}{{ end }}{{ with $class_name }} {{ . }}{{end}}">
+  {{- with $image_mobile -}}
+    {{- partial "utils/asset" (dict
+      "globals" $globals
+      "context" .
+      "options" (merge $params (dict
+        "class_name" (print "c-image__asset" (cond $has_desktop " md:u-hidden" "") )
+      ))
+    ) -}}
+  {{- end -}}
+  {{- with $image_desktop -}}
+    {{- partial "utils/asset" (dict
+      "globals" $globals
+      "context" .
+      "options" (merge $params (dict
+        "class_name" (print "c-image__asset" (cond $has_mobile " -md:u-hidden" "") )
+      ))
+    ) -}}
+  {{- end -}}
+  {{- with $caption -}}
+    <figcaption>{{ . }}</figcaption>
+  {{- end -}}
+</figure>

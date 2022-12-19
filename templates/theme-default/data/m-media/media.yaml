@@ -2,4 +2,4 @@ name: media module
 layout: default
 body:
   id: default
-  content_type: c-media
+  content_type: c-responsive-media

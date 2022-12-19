@@ -3,12 +3,12 @@
   Render Contentful asset (video/...). Uses data from cssg-plugin-assets if available.
 
   @example - Go Template
-    {{- partial "utils/asset/svg" (dict
+    {{- partial "utils/asset/video" (dict
       "context" $video
       "options" (dict
-        "loop" "false"
-        "muted" "false"
-        "autoplay" "false"
+        "loop" false
+        "muted" false
+        "autoplay" false
         "class_name" "c-video"
       )
     ) -}}
@@ -26,9 +26,10 @@
 {{- $autoplay := $params.autoplay | default true -}}
 {{- $playsinline := $params.playsinline | default true -}}
 {{- $controls := $params.controls | default false -}}
-{{- $poster := $params.poster | default false -}}
+{{/* Use transparent base64, the real poster should be loaded as <picture> element */}}
+{{- $poster := "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" -}}
 {{- $muted := (or $autoplay $params.muted) -}}
-{{- $loading := cond (eq $params.lazy true) "lazy" ($params.loading | default false) -}}
+{{- $loading := cond (eq ($params.lazy | default true) true) "lazy" ($params.loading | default false) -}}
 {{- $preload := $params.preload | default false -}}
 {{- $media := $params.media -}}
 
@@ -39,18 +40,11 @@
   "controls" $controls
   "class" $class_name
   "poster" $poster
+  "loading" $loading
 ) $params -}}
 
 {{- if in $mime_type "video" -}}
-  {{- $preload_attr := (dict
-    "as" "image"
-    "href" $poster
-    "media" $media
-  ) -}}
-  {{- if and $preload $poster (not (in ($globals.Scratch.Get "preload") $preload)) -}}
-    {{- $globals.Scratch.Add "preload" (slice $preload) -}}
-  {{- end -}}
-  <video {{$attributes}}>
+  <video {{$attributes}}{{- if eq $loading "lazy" -}} data-video{{- end -}}>
     {{- if eq $loading "lazy" -}}
       <source data-src="{{- $url -}}" type="{{- $mime_type -}}" />
     {{- else -}}

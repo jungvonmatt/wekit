@@ -1,0 +1,54 @@
+alt: Alt text
+caption: Caption
+mobile_media:
+  mime_type: video/mp4
+  url: /videos/video-1x1-not-available.mp4
+  title: Video 16x9
+  description: Video 16x9
+  src: /videos/video-1x1-not-available.mp4
+  poster:
+    mime_type: image/jpeg
+    url: /img/video-1x1-poster.jpeg
+    title: Desktop media title
+    description: Desktop media description
+    width: 1920
+    height: 1920
+    derivatives:
+      original:
+        width: 1920
+        height: 1920
+        sizes: '(max-width: 1920px) 100vw, 1920px'
+        srcsets:
+          - type: image/webp
+            srcset: >-
+              /img/video-16x9-poster.webp
+              1920w,
+              /img/video-16x9-poster.webp
+              1080w,
+              /img/video-16x9-poster.webp
+              640w,
+              /img/video-16x9-poster.webp
+              320w
+          - type: image/avif
+            srcset: >-
+              /img/video-16x9-poster.avif
+              1920w,
+              /img/video-16x9-poster.avif
+              1080w,
+              /img/video-16x9-poster.avif
+              640w,
+              /img/video-16x9-poster.avif
+              320w
+          - type: image/jpeg
+            srcset: >-
+              /img/video-1x1-poster.jpeg
+              1920w,
+              /img/video-1x1-poster.jpeg
+              1080w,
+              /img/video-1x1-poster.jpeg
+              640w,
+              /img/video-1x1-poster.jpeg
+              320w
+        src: /img/video-1x1-poster.jpeg
+mobile_ratio: landscape
+mobile_focus_area: center

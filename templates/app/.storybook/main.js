@@ -34,10 +34,12 @@ module.exports = {
       '@public': path.resolve(__dirname, '../public'),
       '@docs': path.resolve(__dirname, '../docs/contentful'),
       '/fonts': path.resolve(__dirname, '../public/fonts'),
+      '/img': path.resolve(__dirname, '../public/img'),
+      '/videos': path.resolve(__dirname, '../public/videos'),
     };
     config.plugins.push(
       new CopyWebpackPlugin({
-        patterns: ['css', 'js', 'fonts']
+        patterns: ['css', 'js', 'fonts', 'img', 'videos']
           .map((dir) => ({
             from: path.resolve(__dirname, `../public/${dir}`),
             to: dir,

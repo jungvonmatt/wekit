@@ -1,0 +1,105 @@
+{{- $globals := .globals -}}
+{{- $context := .context | default dict -}}
+{{- $options := .options | default dict -}}
+{{- $params := (merge $context $options) -}}
+{{- $modifier := cond (reflect.IsSlice $params.modifier) $params.modifier (cond (ne $params.modifier nil) (slice $params.modifier) dict ) -}}
+{{- $class_name := $params.class_name -}}
+
+{{- $loading := $params.loading | default "lazy" -}}
+
+{{- $caption := $params.caption -}}
+
+{{- $mobile_media := $params.mobile_media -}}
+{{- $mobile_ratio := $params.mobile_ratio -}}
+{{- $mobile_focus_area := $params.mobile_focus_area -}}
+
+{{- $desktop_media := $params.desktop_media -}}
+{{- $desktop_ratio := $params.desktop_ratio -}}
+{{- $desktop_focus_area := $params.desktop_focus_area -}}
+
+{{- $mobile_image := dict -}}
+{{- $mobile_video := dict -}}
+{{- $desktop_image := dict -}}
+{{- $desktop_video := dict -}}
+
+{{- with $mobile_media -}}
+  {{- if hasPrefix (.mime_type | default "") "video" -}}
+    {{- $mobile_video = . -}}
+    {{- if reflect.IsMap .poster -}}
+      {{- $mobile_image = .poster -}}
+    {{- end -}}
+  {{- else -}}
+    {{- $mobile_image = . -}}
+  {{- end -}}
+{{- end -}}
+
+{{- with $desktop_media -}}
+  {{- if hasPrefix (.mime_type | default "") "video" -}}
+    {{- $desktop_video = . -}}
+    {{- if reflect.IsMap .poster -}}
+      {{- $desktop_image = .poster -}}
+    {{- end -}}
+  {{- else -}}
+    {{- $desktop_image = . -}}
+  {{- end -}}
+{{- end -}}
+
+{{ $different_medias := false }}
+{{ if (and $mobile_image $desktop_image)}}
+  {{ $different_medias = true }}
+{{ end }}
+
+<figure class="c-responsive-media{{ range $modifier }} c-responsive-media--{{ . }}{{ end }}{{ with $class_name }} {{ . }}{{end}}">
+  <div class="c-responsive-media__container">
+    <picture class="c-responsive-media__image">
+      {{- partial "utils/asset/image/sources" (dict
+        "globals" $globals
+        "context" $mobile_image
+        "options" (merge $params (dict
+          "ratio" $mobile_ratio
+          "media" (cond $different_medias "(max-width: 767px)" "")
+        ))
+      ) -}}
+      {{- partial "utils/asset/image/sources" (dict
+        "globals" $globals
+        "context" $desktop_image
+        "options" (merge $params (dict
+          "ratio" $desktop_ratio
+          "media" (cond $different_medias "(min-width: 768px)" "")
+        ))
+      ) -}}
+      {{- partial "utils/asset/image/img" (dict
+        "globals" $globals
+        "context" $mobile_image
+        "options" (merge $params (dict
+          "lazy" $loading
+        ))
+      ) -}}
+    </picture>
+    {{- with $mobile_video -}}
+      <div class="c-responsive-media__video{{ if $desktop_video }} md:u-hidden{{ end }}">
+        {{- partial "utils/asset" (dict
+          "globals" $globals
+          "context" .
+          "options" (merge $params (dict
+            "ratio" $desktop_ratio
+          ))
+        ) -}}
+      </div>
+    {{- end -}}
+    {{- with $desktop_video -}}
+      <div class="c-responsive-media__video{{ if $mobile_video }} -md:u-hidden{{ end }}">
+        {{- partial "utils/asset" (dict
+          "globals" $globals
+          "context" .
+          "options" (merge $params (dict
+            "ratio" $desktop_ratio
+          ))
+        ) -}}
+      </div>
+    {{- end -}}
+  </div>
+  {{- with $caption -}}
+    <figcaption>{{ . }}</figcaption>
+  {{- end -}}
+</figure>

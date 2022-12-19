@@ -1,8 +1,0 @@
-image_mobile:
-  mime_type: image/jpeg
-  url: https://placeimg.com/480/640/any
-  title: Image (mobile and desktop) title lorem ipsum dolor
-  description: Image (mobile and desktop) description lorem ipsum dolor
-  width: 480
-  height: 640
-alt_text: Alt text lorem ipsum dolor
