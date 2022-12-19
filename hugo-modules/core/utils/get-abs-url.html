@@ -1,0 +1,18 @@
+{{/*
+  utils/get-abs-url
+  Returns an absolute URL with forced https prototol.
+
+  @returns Sring
+
+  @example - Go Template
+    {{ partial "utils/get-abs-url" .url }}
+*/}}
+{{ $url := . }}
+
+{{/* Creates an absolute URL based on the configured baseURL. */}}
+{{ $url = . | absURL }}
+
+{{/* Adds https prototcol if the url starts with // and is not localhost */}}
+{{ $url = cond (and (hasPrefix $url "//") (not (hasPrefix $url "//localhost"))) (print "https:" $url) $url }}
+
+{{ return $url }}
