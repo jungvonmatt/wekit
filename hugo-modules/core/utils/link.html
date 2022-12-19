@@ -9,7 +9,7 @@
 
 {{/* context is url */}}
 {{ if partialCached "utils/reflect/is-string" . . }}
-  {{ $href := cond (and (hasPrefix . "//") (not (hasPrefix . "//localhost")) ) (print "https:" . ) . }}
+  {{ $href := partial "utils/get-abs-url" . }}
   {{ $return = (dict "href" $href) }}
   {{/* Add target="_blank" and rel="noreferrer" for external links */}}
   {{ if (and (in . "//") (not (in . site.BaseURL))) }}

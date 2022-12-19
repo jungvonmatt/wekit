@@ -54,7 +54,7 @@
   {{ end }}
 {{ end }}
 {{ with .url }}
-  {{ $src = cond (hasPrefix . "//") (print "https:" .) . }}
+  {{ $src := partial "utils/get-abs-url" . }}
   {{ with resources.GetRemote $src }}
     {{ $src = .RelPermalink }}
     {{ $source = .Content }}
