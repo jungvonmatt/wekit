@@ -2,7 +2,7 @@
 
 [Hugo](https://gohugo.io/) templates and utilities that support [Contentful](https://www.contentful.com/) and/or [Storybook](https://storybook.js.org/) projects.
 
-- [wekit-core](#wekit-core)
+- [WEKit core](#wekit-core)
   - [Utils](#utils)
     - [asset](#asset)
     - [svg/icon](#svgicon)
@@ -11,6 +11,7 @@
     - [console/error](#consoleerror)
     - [console/warn](#consolewarn)
     - [dump](#dump)
+    - [get-abs-url](#get-abs-url)
     - [get-category-name](#get-category-name)
     - [get-data](#get-data)
     - [get-page](#get-page)
@@ -28,6 +29,7 @@
   - [Layouts](#layouts)
     - [storybook](#storybook)
     - [robots.txt](#robotstxt)
+  - [Contributors](#contributors)
   - [Credits](#credits)
 
 ## Utils
@@ -35,7 +37,7 @@
 ### asset
 
 Render Contentful asset. Uses data from [cssg-plugin-assets](https://github.com/jungvonmatt/contentful-ssg/tree/main/packages/cssg-plugin-assets) if available.
-Uses `svg/icon` when the inline options is set and we got an svg, 
+Uses `svg/icon` when the inline options is set and we got an svg,
 *Template*
 
 ```
@@ -117,6 +119,16 @@ Dump variable as highlighted yaml.
 
 ```
 {{ partial "utils/dump" .context }}
+```
+
+### get-abs-url
+
+Returns an absolute URL with forced https prototol.
+
+*Template*
+
+```
+{{ partial "utils/get-abs-url" .url }}
 ```
 
 ### get-category-name
