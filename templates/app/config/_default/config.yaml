@@ -7,6 +7,8 @@ disableHugoGeneratorInject: true
 enableRobotsTXT: true
 buildDrafts: true
 languageCode: en
+ignoreErrors:
+  - error-remote-getjson
 defaultContentLanguage: en
 defaultContentLanguageInSubdir: true
 sitemap:

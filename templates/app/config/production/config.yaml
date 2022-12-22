@@ -1,1 +1,3 @@
 buildDrafts: false
+ignoreErrors:
+  - error-remote-getjson
