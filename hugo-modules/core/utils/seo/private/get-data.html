@@ -133,11 +133,11 @@
 {{ $img := false }}
 
 {{ with $settings.default_share_image }}
-	{{ $img = .url }}
+	{{ $img = partial "utils/get-abs-url.html" .url }}
 {{ end }}
 
 {{ with $seo_params.share_image }}
-	{{ $img = .url }}
+	{{ $img = partial "utils/get-abs-url.html" .url }}
 {{ else }}
 	{{/* If no SEO IMAGE is set, we look for the .Params.images slice
 		and use the first one if it has an `image` key */}}
@@ -145,10 +145,10 @@
 		{{ with index . 0 }}
 			{{ if reflect.IsMap . }}
 				{{ with .image }}
-					{{ $img = .url }}
+					{{ $img = partial "utils/get-abs-url.html" .url }}
 				{{ end }}
 			{{ else }}
-				{{ $img = .url }}
+				{{ $img = partial "utils/get-abs-url.html" .url }}
 			{{ end }}
 		{{ end }}
 	{{ end }}
