@@ -63,10 +63,11 @@
   {{/* Build player url */}}
   {{- $url := print "https://player.vimeo.com/video/" $video_id "?" (delimit $query "&") -}}
 
-  {{/* Try to fetch thumbnail & title from vimeo oembed json */}}
+  {{/* Try getting thumbnail & title from Vimeo oEmbed endpoint */}}
   {{- $poster_src := "" -}}
+
   {{- with getJSON "https://vimeo.com/api/oembed.json?url=https://vimeo.com/"  $video_id }}
-    {{/* Try get with & height from oembed to scale the thumbnail */}}
+    {{/* Access width & height from Vimeo embedcode to scale the thumbnail */}}
     {{- $width := 0 -}}
     {{- $height := 0 -}}
     {{- $factor := 0 -}}
@@ -87,7 +88,11 @@
     {{- with .title -}}
       {{- $title = $title | default . -}}
     {{- end -}}
-  {{- end -}}
+  {{ else }}
+      {{/* Generate Embedcode failed, possibly due to invalid Vimeo source URL */}}
+      {{ warnf "Generating Vimeo embedcode failed" }}
+      <div>Generating Vimdeo embedcode failed. Please make sure to use a valid source URL.</div>
+  {{ end }}
 
   {{/* Generate srcdoc iframe placholder when autoplay is not enabled */}}
   {{- $srcdoc := false -}}
