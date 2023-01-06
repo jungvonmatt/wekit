@@ -86,7 +86,9 @@
 {{ end }}
 
 {{ with $seo.canonical }}
-  {{ $tags = $tags | append (partial "utils/seo/tag/default" (dict "key" "canonical" "value" .)) }}
+  {{ $attr := dict "rel" "canonical" "href" $.Permalink }}
+  {{ $c2 := dict "name" "link" "attr" $attr }}
+  {{ $tags = $tags | append $c2 }}
 {{ end }}
 
 {{ with $seo.twitter_handle }}
