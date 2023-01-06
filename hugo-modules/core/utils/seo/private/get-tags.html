@@ -15,8 +15,6 @@
 
 {{ $seo := partial "utils/seo/private/get-data" $ }}
 
-
-
 {{ $tags := slice }}
 {{ with $seo.title }}
   {{ if not $config.disable_title_tag }}
@@ -40,18 +38,22 @@
 {{ end }}
 
 {{ with $seo.locale }}
-  {{ $c := dict "key" "locale" "value" .}}
+  {{ $c := dict "key" "locale" "value" . }}
   {{ $tags = $tags | append (partialCached "utils/seo/tag/og" $c $c) }}
+
+  {{ $attr := dict "rel" "alternate" "href" $.Permalink "hreflang" . }}
+  {{ $c2 := dict "name" "link" "attr" $attr }}
+  {{ $tags = $tags | append $c2 }}
 {{ end }}
 
 {{ with $seo.translations }}
   {{ range . }}
-  {{ $attr := dict "rel" "alternate" "href" .permalink "hreflang" .code }}
-  {{ $c := dict "name" "link" "attr" $attr }}
-  {{ $tags = $tags | append $c }}
+    {{ $attr := dict "rel" "alternate" "href" .permalink "hreflang" .code }}
+    {{ $c := dict "name" "link" "attr" $attr }}
+    {{ $tags = $tags | append $c }}
 
-  {{ $c2 := dict "key" "locale:alternate" "value" .code}}
-  {{ $tags = $tags | append (partialCached "utils/seo/tag/og" $c2 $c2) }}
+    {{ $c2 := dict "key" "locale:alternate" "value" .code }}
+    {{ $tags = $tags | append (partialCached "utils/seo/tag/og" $c2 $c2) }}
   {{ end }}
 {{ end }}
 
