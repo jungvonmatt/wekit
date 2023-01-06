@@ -46,8 +46,6 @@
   {{ $tags = $tags | append $c2 }}
 {{ end }}
 
-{{ warnf $.Permalink }}
-
 {{ with $seo.translations }}
   {{ range . }}
     {{ $attr := dict "rel" "alternate" "href" .permalink "hreflang" .code }}
