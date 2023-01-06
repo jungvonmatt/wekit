@@ -55,7 +55,8 @@
     {{- end -}}
   {{- else -}}
     {{- with $url -}}
-      {{- $src := $params.src | default (cond (hasPrefix . "//") (print "https:" .) .) -}}
+      {{- $absUrl := partial "utils/get-abs-url" . -}}
+      {{- $src := $params.src | default $absUrl -}}
       <img src="{{- $src -}}" width="{{- $width -}}" height="{{- $height -}}" {{ $image_attributes }} alt="{{- $alt -}}"{{ with $params.preload }} fetchpriority="high"{{ end }}>
       {{/* Add preload hint here as we have no srcset available */}}
       {{- $preload_attr := (dict
