@@ -9,13 +9,7 @@
       {{ $no_index = $seo.no_index }}
     {{ end }}
 
-    {{/* Get page templates that are on the blocklist and should generally not be indexed */}}
-    {{ $blocked := false }}
-    {{ with .Params.sys.content_type }}
-      {{ $blocked = in site.Params.seo_blocklist . }}
-    {{ end }}
-
-    {{ if and .Permalink (not $no_index) (not $blocked) }}
+    {{ if and .Permalink (not $no_index) }}
       <url>
         <loc>{{ .Permalink }}</loc>
         {{ if not .Lastmod.IsZero }}
