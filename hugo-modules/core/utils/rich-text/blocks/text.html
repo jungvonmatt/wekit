@@ -4,11 +4,11 @@
   {{- end -}}
 {{- end -}}
 
-{{/*
-  Replace multiple line breaks like \n\n\n followed by whitespace characters to one
-  single <br> tag. We need \p{Z} for matching NBSP and NNBSP instead of simple \s.
-*/}}
-{{- replaceRE "(\\n(\\p{Z}+)?)+" "<br>" .context.value | safeHTML -}}
+{{/* escape content so we can safely pipe safeHTML after nl2br replacement */}}
+{{- $text := htmlEscape .context.value -}}
+{{/* Replace multiple line breaks like \n\n\n followed by whitespace characters to one
+     single <br> tag. We need \p{Z} for matching NBSP and NNBSP instead of simple \s. */}}
+{{- replaceRE "(\\n(\\p{Z}+)?)+" "<br>" $text | safeHTML -}}
 
 {{- if .context.marks -}}
   {{- range .context.marks -}}
