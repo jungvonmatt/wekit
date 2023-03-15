@@ -1,10 +1,10 @@
-import { FieldExtensionSDK } from "@contentful/app-sdk"
-import { Stack } from "@contentful/f36-components"
-import { useFieldValue, useSDK } from "@contentful/react-apps-toolkit"
-import { useEffect, useState } from "react"
-import { Form, Redirect, Table } from "../components"
-import { DEFAULT_FORM, DEFAULT_FORM_ERRORS } from "../Data"
-import { arrayMove } from "../Utils"
+import { FieldExtensionSDK } from '@contentful/app-sdk'
+import { Stack } from '@contentful/f36-components'
+import { useFieldValue, useSDK } from '@contentful/react-apps-toolkit'
+import { useEffect, useState } from 'react'
+import { Form, FormType, Redirect, Table } from '../components'
+import { DEFAULT_FORM, DEFAULT_FORM_ERRORS } from '../Data'
+import { arrayMove } from '../Utils'
 
 const Field = () => {
   const sdk = useSDK<FieldExtensionSDK>()
@@ -32,7 +32,8 @@ const Field = () => {
     setRedirects([redirect, ...redirects!] as Redirect[])
   }
 
-  const submitForm = ({ from, to, status }: Redirect): void => {
+  const submitForm = (data: FormType): void => {
+    const { from, to, status } = data.fields
     const index = getRedirectIndex(from)
     const redirect = { from, to, status: +status, date: new Date().getTime() }
 
@@ -65,7 +66,7 @@ const Field = () => {
     <Stack
       flexDirection="column"
       spacing="spacingL"
-      style={{ margin: "2rem 4px 3rem" }}
+      style={{ margin: '2rem 4px 3rem' }}
     >
       <Form
         onSubmit={submitForm}

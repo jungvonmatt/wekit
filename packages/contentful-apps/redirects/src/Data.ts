@@ -1,17 +1,17 @@
-import { FormErrors, FormType, Redirect, Status } from "./components"
+import { FormErrors, FormType, Redirect, Status } from './components'
 
 export const DEFAULT_STATUS: Status = {
-  "200": "200 - OK",
-  "301": "301 - Moved Permanently",
-  "302": "302 - Found",
-  "404": "404 - Not Found",
-  "410": "410 - Gone",
+  '200': '200 - OK',
+  '301': '301 - Moved Permanently',
+  '302': '302 - Found',
+  '404': '404 - Not Found',
+  '410': '410 - Gone',
 }
 
 export const DEFAULT_FORM_VALUES: Redirect = {
-  from: "",
-  to: "",
-  status: "200",
+  from: '',
+  to: '',
+  status: '200',
 }
 
 export const DEFAULT_FORM_ERRORS: FormErrors = {

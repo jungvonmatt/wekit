@@ -1,17 +1,18 @@
-import { render } from '@testing-library/react';
-import { describe, expect, it, vi } from 'vitest';
-import { mockCma, mockSdk } from '../../test/mocks';
-import Field from './Field';
+import { render } from '@testing-library/react'
+import { mockFieldValue, mockSdk } from '../../test/mocks'
+import Field from './Field'
 
-vi.mock('@contentful/react-apps-toolkit', () => ({
+jest.mock('@contentful/react-apps-toolkit', () => ({
   useSDK: () => mockSdk,
-  useCMA: () => mockCma,
-}));
+  useFieldValue: () => mockFieldValue,
+}))
 
 describe('Field component', () => {
   it('Component text exists', () => {
-    const { getByText } = render(<Field />);
+    const { getByText } = render(<Field />)
 
-    expect(getByText('Hello Entry Field Component (AppId: test-app)')).toBeTruthy();
-  });
-});
+    expect(getByText('From URL:')).toBeInTheDocument()
+    expect(getByText('To URL:')).toBeInTheDocument()
+    expect(getByText('Status Code:')).toBeInTheDocument()
+  })
+})

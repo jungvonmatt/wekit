@@ -1,5 +1,5 @@
-import { FormControl, Radio } from "@contentful/f36-components"
-import { DEFAULT_STATUS } from "../Data"
+import { FormControl, Radio } from '@contentful/f36-components'
+import { DEFAULT_STATUS } from '../Data'
 
 type StatusFormControlProps = {
   value: string

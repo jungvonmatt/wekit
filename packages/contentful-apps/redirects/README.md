@@ -36,8 +36,8 @@ Additionally, existing entries can be edited by clicking the corresponding row i
 ```json
 [
   {
-    "from": "/de/unternehmen/salesforce-by-salesfive/",
-    "to": "/de/leistungen/",
+    "from": "/de/entwickler/",
+    "to": "/en/developer/",
     "status": 301,
     "date": 1678299089769
   }
@@ -52,14 +52,13 @@ Additionally, existing entries can be edited by clicking the corresponding row i
 - Bulk upload (add many redirects at once)
 
 - Form as a Modal (just show table at first)
-- Status code could be a separete contentful field and be handled by the editor
+- Status code could be a separate contentful field and be handled by the editor
+- Bulk delete - Checkboxes on each row to allow the user selecting multiple entries and delete them at once.
 
 ### Resources
 
 - https://codesandbox.io/examples/package/react-json-table
 - https://codesandbox.io/s/test-react-json-to-table-p4u74i
-
-
 
 ### Missing
 

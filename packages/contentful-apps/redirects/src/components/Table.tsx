@@ -10,11 +10,11 @@ import {
   TableHead,
   TableRow,
   Tooltip,
-} from "@contentful/f36-components"
-import { DeleteTrimmedIcon, EditTrimmedIcon } from "@contentful/f36-icons"
-import tokens from "@contentful/f36-tokens"
-import { css } from "emotion"
-import { Redirect } from "./primitives/Redirect"
+} from '@contentful/f36-components'
+import { DeleteTrimmedIcon, EditTrimmedIcon } from '@contentful/f36-icons'
+import tokens from '@contentful/f36-tokens'
+import { css } from 'emotion'
+import { Redirect } from './primitives/Redirect'
 
 type TableProps = {
   data: Redirect[]
@@ -28,26 +28,26 @@ const containerStyle = css`
   overflow-y: auto;
   width: 100%;
 `
+
 const tableStyle = css`
   table-layout: fixed;
 `
 
-const rowHover = css`
-  &:hover td {
+const bodyStyle = css`
+  tr:nth-child(even) td {
+    background-color: ${tokens.gray200};
+  }
+
+  tr:hover td {
     background-color: ${tokens.blue100};
     cursor: default;
-  }
-`
-
-const bodyStyle = css`
-  tr:nth-child(even) {
-    background-color: ${tokens.gray200};
   }
 `
 
 const cellStyle = css`
   overflow: auto;
   white-space: nowrap;
+
   &::-webkit-scrollbar {
     display: none;
   }
@@ -74,10 +74,10 @@ const Table = ({ data, onEdit, onDelete }: TableProps) => {
           {data.map((redirect, index) => {
             const { from, to, status, date } = redirect
             return (
-              <TableRow key={`key-${index}`} className={rowHover}>
+              <TableRow key={`key-${index}`}>
                 <StyledCell>{from}</StyledCell>
                 <StyledCell>{to}</StyledCell>
-                <TableCell style={{ textAlign: "center" }}>{status}</TableCell>
+                <TableCell style={{ textAlign: 'center' }}>{status}</TableCell>
                 <StyledCell>{formatDateAndTime(date as number)}</StyledCell>
                 <TableCell>
                   <Stack justifyContent="center">

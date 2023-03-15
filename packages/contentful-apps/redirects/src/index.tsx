@@ -1,13 +1,14 @@
-import { GlobalStyles } from "@contentful/f36-components"
-import { SDKProvider } from "@contentful/react-apps-toolkit"
-import { render } from "react-dom"
-import App from "./App"
+import { render } from 'react-dom'
 
-import LocalhostWarning from "./components/LocalhostWarning"
+import { GlobalStyles } from '@contentful/f36-components'
+import { SDKProvider } from '@contentful/react-apps-toolkit'
 
-const root = document.getElementById("root")
+import App from './App'
+import LocalhostWarning from './components/LocalhostWarning'
 
-if (import.meta.env.DEV && window.self === window.top) {
+const root = document.getElementById('root')
+
+if (process.env.NODE_ENV === 'development' && window.self === window.top) {
   // You can remove this if block before deploying your app
   render(<LocalhostWarning />, root)
 } else {
