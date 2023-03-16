@@ -1,10 +1,18 @@
 import { FormControl, Radio } from '@contentful/f36-components'
+import { css } from 'emotion'
+import { ChangeEvent } from 'react'
 import { DEFAULT_STATUS } from '../Data'
 
 type StatusFormControlProps = {
   value: string
-  onChange: (event: any) => void
+  onChange: (event: ChangeEvent<HTMLInputElement>) => void
 }
+
+const radioStyle = css`
+  &:hover label {
+    cursor: pointer;
+  }
+`
 
 const StatusFormControl = ({ value, onChange }: StatusFormControlProps) => {
   return (
@@ -12,7 +20,7 @@ const StatusFormControl = ({ value, onChange }: StatusFormControlProps) => {
       <FormControl.Label>Status Code:</FormControl.Label>
       <Radio.Group name="status" value={value} onChange={onChange}>
         {Object.entries(DEFAULT_STATUS).map(([value, text]) => (
-          <Radio key={value} value={value}>
+          <Radio key={value} value={value} className={radioStyle}>
             {text}
           </Radio>
         ))}

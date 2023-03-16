@@ -1,6 +1,5 @@
 import { Button, Form as CForm } from '@contentful/f36-components'
 import { ChangeEvent, useState } from 'react'
-import { DEFAULT_FORM } from '../Data'
 import { FormType } from './primitives'
 import StatusFormControl from './StatusFormControl'
 import UrlFormControl from './UrlFormControl'
@@ -13,7 +12,7 @@ type FormProps = {
 }
 
 const Form = ({ onSubmit, setFormData, formData, editMode }: FormProps) => {
-  const [formValid, isFormValid] = useState(false)
+  const [formValid, isFormValid] = useState(true)
 
   const handleChange = (
     event: ChangeEvent<HTMLInputElement>,
@@ -28,21 +27,11 @@ const Form = ({ onSubmit, setFormData, formData, editMode }: FormProps) => {
       errors: { ...errors, [field]: error },
     })
 
-    isFormValid(!errors.from && !errors.to)
-  }
-
-  const resetForm = (): void => {
-    setFormData(DEFAULT_FORM)
-    isFormValid(false)
-  }
-
-  const submitForm = (): void => {
-    onSubmit(formData)
-    resetForm()
+    // isFormValid(!errors.from && !errors.to)
   }
 
   return (
-    <CForm onSubmit={submitForm} style={{ width: '100%' }}>
+    <CForm onSubmit={() => onSubmit(formData)} style={{ width: '100%' }}>
       <UrlFormControl
         label="From URL:"
         name="from"

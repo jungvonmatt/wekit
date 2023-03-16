@@ -60,13 +60,6 @@ Additionally, existing entries can be edited by clicking the corresponding row i
 - https://codesandbox.io/examples/package/react-json-table
 - https://codesandbox.io/s/test-react-json-to-table-p4u74i
 
-### Missing
-
-- field validations
-- Dialogs
-- unit test
-- add loading
-
 ### Holger Feature Request
 
 - Netlify lexical Wildcard *
