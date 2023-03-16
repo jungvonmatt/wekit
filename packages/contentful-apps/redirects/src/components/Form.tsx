@@ -15,17 +15,12 @@ type FormProps = {
 const Form = ({ onSubmit, setFormData, formData, editMode }: FormProps) => {
   const [formValid, isFormValid] = useState(false)
 
-  const hasError = (value: string): boolean => {
-    if (value === '') {
-      return true
-    }
-    return false
-  }
-
-  const handleChange = (event: ChangeEvent<HTMLInputElement>): void => {
+  const handleChange = (
+    event: ChangeEvent<HTMLInputElement>,
+    error?: boolean
+  ): void => {
     const field = event.target.name
     const value = event.target.value
-    const error = hasError(value)
 
     const { fields, errors } = formData
     setFormData({
@@ -33,9 +28,7 @@ const Form = ({ onSubmit, setFormData, formData, editMode }: FormProps) => {
       errors: { ...errors, [field]: error },
     })
 
-    if (!errors.from && !errors.to) {
-      isFormValid(true)
-    }
+    isFormValid(!errors.from && !errors.to)
   }
 
   const resetForm = (): void => {
@@ -55,7 +48,6 @@ const Form = ({ onSubmit, setFormData, formData, editMode }: FormProps) => {
         name="from"
         placeholder="e.g. '/de/entwickler/'"
         value={formData.fields.from}
-        error={formData.errors.from}
         onChange={handleChange}
       />
       <UrlFormControl
@@ -63,7 +55,6 @@ const Form = ({ onSubmit, setFormData, formData, editMode }: FormProps) => {
         name="to"
         placeholder="e.g. '/en/developer/'"
         value={formData.fields.to}
-        error={formData.errors.to}
         onChange={handleChange}
       />
       <StatusFormControl

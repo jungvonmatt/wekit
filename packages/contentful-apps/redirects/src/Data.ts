@@ -8,15 +8,15 @@ export const DEFAULT_STATUS: Status = {
   '410': '410 - Gone',
 }
 
-export const DEFAULT_FORM_VALUES: Redirect = {
+const DEFAULT_FORM_VALUES: Redirect = {
   from: '',
   to: '',
   status: '200',
 }
 
 export const DEFAULT_FORM_ERRORS: FormErrors = {
-  from: false,
-  to: false,
+  from: true,
+  to: true,
 }
 
 export const DEFAULT_FORM: FormType = {
@@ -24,4 +24,4 @@ export const DEFAULT_FORM: FormType = {
   errors: DEFAULT_FORM_ERRORS,
 }
 
-export default { DEFAULT_STATUS, DEFAULT_FORM_VALUES }
+export const URL_REGEX = /(^\/)\S+/
