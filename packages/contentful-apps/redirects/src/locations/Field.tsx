@@ -1,27 +1,22 @@
 import { FieldExtensionSDK } from '@contentful/app-sdk'
 import { ModalLauncher, Stack, Text } from '@contentful/f36-components'
 import { useFieldValue, useSDK } from '@contentful/react-apps-toolkit'
-import { useEffect, useState } from 'react'
-import { Form, FormType, Modal, Redirect, Table } from '../components'
-import { DEFAULT_FORM, DEFAULT_FORM_ERRORS } from '../Data'
+import { useEffect, useRef, useState } from 'react'
+import { Form, Modal, Redirect, Table } from '../components'
 import { arrayMove } from '../Utils'
 
 const Field = () => {
   const sdk = useSDK<FieldExtensionSDK>()
 
   const [redirects, setRedirects] = useFieldValue<Redirect[]>()
-  const [formData, setFormData] = useState(DEFAULT_FORM)
   const [editMode, setEditMode] = useState(false)
+
+  const formRef = useRef<any>()
 
   useEffect(() => {
     sdk.window.startAutoResizer()
     return () => sdk.window.stopAutoResizer()
   }, [sdk.window])
-
-  const resetForm = (): void => {
-    setFormData(DEFAULT_FORM)
-    setEditMode(false)
-  }
 
   const getRedirectIndex = (from: string): number => {
     return redirects!.findIndex((redirect: Redirect) => redirect.from === from)
@@ -37,8 +32,8 @@ const Field = () => {
     setRedirects([redirect, ...redirects!] as Redirect[])
   }
 
-  const submitForm = (data: FormType): void => {
-    const { from, to, status } = data.fields
+  const submitForm = (data: Redirect): void => {
+    const { from, to, status } = data
     const index = getRedirectIndex(from)
     const redirect = { from, to, status: +status, date: new Date().getTime() }
 
@@ -51,17 +46,14 @@ const Field = () => {
       showEditModal(redirect, oldRedirect, index)
     } else {
       addRedirect(redirect)
-      resetForm()
+      // resetForm()
+      formRef.current.resetForm()
     }
   }
 
   const onEdit = (redirect: Redirect): void => {
     setEditMode(true)
-    const { from, to, status } = redirect
-    setFormData({
-      fields: { from, to, status: String(status) },
-      errors: DEFAULT_FORM_ERRORS,
-    })
+    formRef.current.edit(redirect)
   }
 
   const showEditModal = (
@@ -126,7 +118,7 @@ const Field = () => {
         tempArr[index] = redirect
         arrayMove(tempArr, index)
         setRedirects(tempArr)
-        resetForm()
+        formRef.current.resetForm()
       }
     })
   }
@@ -167,12 +159,7 @@ const Field = () => {
       spacing="spacingL"
       style={{ margin: '2rem 4px 3rem' }}
     >
-      <Form
-        onSubmit={submitForm}
-        formData={formData}
-        setFormData={setFormData}
-        editMode={editMode}
-      />
+      <Form formRef={formRef} onSubmit={submitForm} editMode={editMode} />
       {redirects && (
         <Table data={redirects} onEdit={onEdit} onDelete={onDelete} />
       )}

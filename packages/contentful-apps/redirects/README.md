@@ -63,3 +63,8 @@ Additionally, existing entries can be edited by clicking the corresponding row i
 ### Holger Feature Request
 
 - Netlify lexical Wildcard *
+
+
+### Edge cases
+
+- You can't have same `from` and `to` urls

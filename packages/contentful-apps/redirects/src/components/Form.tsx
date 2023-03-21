@@ -1,18 +1,37 @@
 import { Button, Form as CForm } from '@contentful/f36-components'
-import { ChangeEvent, useState } from 'react'
-import { FormType } from './primitives'
+import debounce from 'lodash.debounce'
+import { ChangeEvent, Ref, useImperativeHandle, useRef, useState } from 'react'
+import { DEFAULT_FORM_ERRORS, DEFAULT_FORM_VALUES } from '../Data'
+import { Redirect } from './primitives'
 import StatusFormControl from './StatusFormControl'
 import UrlFormControl from './UrlFormControl'
 
 type FormProps = {
-  onSubmit: (data: FormType) => void
-  setFormData: (form: FormType) => void
-  formData: FormType
+  onSubmit: (data: Redirect) => void
   editMode: boolean
+  formRef: Ref<any>
 }
 
-const Form = ({ onSubmit, setFormData, formData, editMode }: FormProps) => {
-  const [formValid, isFormValid] = useState(true)
+const Form = ({ onSubmit, editMode, formRef }: FormProps) => {
+  const [formData, setFormData] = useState(DEFAULT_FORM_VALUES)
+  const [errors, setErrors] = useState(DEFAULT_FORM_ERRORS)
+
+  const fromRef = useRef<HTMLInputElement>(null)
+  const toRef = useRef<HTMLInputElement>(null)
+
+  useImperativeHandle(formRef, () => ({
+    resetForm() {
+      setFormData(DEFAULT_FORM_VALUES)
+      fromRef.current!.value = DEFAULT_FORM_VALUES.from
+      toRef.current!.value = DEFAULT_FORM_VALUES.to
+    },
+    edit({ from, to, status }: Redirect) {
+      setFormData({ from, to, status: String(status) })
+      fromRef.current!.value = from
+      toRef.current!.value = to
+      setErrors(DEFAULT_FORM_ERRORS)
+    },
+  }))
 
   const handleChange = (
     event: ChangeEvent<HTMLInputElement>,
@@ -20,37 +39,44 @@ const Form = ({ onSubmit, setFormData, formData, editMode }: FormProps) => {
   ): void => {
     const field = event.target.name
     const value = event.target.value
-
-    const { fields, errors } = formData
-    setFormData({
-      fields: { ...fields, [field]: value },
-      errors: { ...errors, [field]: error },
-    })
-
-    // isFormValid(!errors.from && !errors.to)
+    setFormData({ ...formData, [field]: value })
+    setErrors({ ...errors, [field]: error })
   }
 
+  const debouncedChangeHandler = debounce(handleChange, 500)
+
+  const isFormInvalid =
+    errors.from || errors.to || formData.from === '' || formData.to === ''
+
   return (
-    <CForm onSubmit={() => onSubmit(formData)} style={{ width: '100%' }}>
+    <CForm
+      onSubmit={() => onSubmit(formData)}
+      style={{ width: '100%' }}
+      ref={formRef}
+    >
+      errors.from {JSON.stringify(errors.from)} <br />
+      errors.to {JSON.stringify(errors.to)} <br />
+      formData.from {JSON.stringify(formData.from === '')} <br />
+      formData.to {JSON.stringify(formData.to === '')} <br />
       <UrlFormControl
         label="From URL:"
         name="from"
         placeholder="e.g. '/de/entwickler/'"
-        value={formData.fields.from}
-        onChange={handleChange}
+        onChange={debouncedChangeHandler}
+        inputRef={fromRef}
       />
       <UrlFormControl
         label="To URL:"
         name="to"
         placeholder="e.g. '/en/developer/'"
-        value={formData.fields.to}
-        onChange={handleChange}
+        onChange={debouncedChangeHandler}
+        inputRef={toRef}
       />
       <StatusFormControl
-        value={formData.fields.status as string}
+        value={formData.status as string}
         onChange={handleChange}
       />
-      <Button variant="primary" type="submit" isDisabled={!formValid}>
+      <Button variant="primary" type="submit" isDisabled={isFormInvalid}>
         {editMode ? 'Save changes' : 'Submit'}
       </Button>
     </CForm>

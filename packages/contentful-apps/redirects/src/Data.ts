@@ -1,4 +1,4 @@
-import { FormErrors, FormType, Redirect, Status } from './components'
+import { FormErrors, Redirect, Status } from './components'
 
 export const DEFAULT_STATUS: Status = {
   '200': '200 - OK',
@@ -8,20 +8,15 @@ export const DEFAULT_STATUS: Status = {
   '410': '410 - Gone',
 }
 
-const DEFAULT_FORM_VALUES: Redirect = {
+export const DEFAULT_FORM_VALUES: Redirect = {
   from: '',
   to: '',
   status: '200',
 }
 
 export const DEFAULT_FORM_ERRORS: FormErrors = {
-  from: true,
-  to: true,
-}
-
-export const DEFAULT_FORM: FormType = {
-  fields: DEFAULT_FORM_VALUES,
-  errors: DEFAULT_FORM_ERRORS,
+  from: false,
+  to: false,
 }
 
 export const URL_REGEX = /(^\/)\S+/
