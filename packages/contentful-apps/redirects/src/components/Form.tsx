@@ -54,10 +54,6 @@ const Form = ({ onSubmit, editMode, formRef }: FormProps) => {
       style={{ width: '100%' }}
       ref={formRef}
     >
-      errors.from {JSON.stringify(errors.from)} <br />
-      errors.to {JSON.stringify(errors.to)} <br />
-      formData.from {JSON.stringify(formData.from === '')} <br />
-      formData.to {JSON.stringify(formData.to === '')} <br />
       <UrlFormControl
         label="From URL:"
         name="from"
