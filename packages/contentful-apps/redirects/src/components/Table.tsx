@@ -14,7 +14,7 @@ import {
 import { DeleteTrimmedIcon, EditTrimmedIcon } from '@contentful/f36-icons'
 import tokens from '@contentful/f36-tokens'
 import { css } from 'emotion'
-import { Redirect } from './primitives/Redirect'
+import { Redirect } from '../types'
 
 type TableProps = {
   data: Redirect[]

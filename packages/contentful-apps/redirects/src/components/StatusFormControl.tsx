@@ -4,7 +4,7 @@ import { ChangeEvent } from 'react'
 import { DEFAULT_STATUS } from '../Data'
 
 type StatusFormControlProps = {
-  value: string
+  value: number
   onChange: (event: ChangeEvent<HTMLInputElement>) => void
 }
 
@@ -18,7 +18,7 @@ const StatusFormControl = ({ value, onChange }: StatusFormControlProps) => {
   return (
     <FormControl>
       <FormControl.Label>Status Code:</FormControl.Label>
-      <Radio.Group name="status" value={value} onChange={onChange}>
+      <Radio.Group name="status" value={value.toString()} onChange={onChange}>
         {Object.entries(DEFAULT_STATUS).map(([value, text]) => (
           <Radio key={value} value={value} className={radioStyle}>
             {text}

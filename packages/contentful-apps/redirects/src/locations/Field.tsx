@@ -2,7 +2,8 @@ import { FieldExtensionSDK } from '@contentful/app-sdk'
 import { ModalLauncher, Stack, Text } from '@contentful/f36-components'
 import { useFieldValue, useSDK } from '@contentful/react-apps-toolkit'
 import { useEffect, useRef, useState } from 'react'
-import { Form, Modal, Redirect, Table } from '../components'
+import { Form, Modal, Table } from '../components'
+import { Redirect } from '../types'
 import { arrayMove } from '../Utils'
 
 const Field = () => {

@@ -2,7 +2,7 @@ import { Button, Form as CForm } from '@contentful/f36-components'
 import debounce from 'lodash.debounce'
 import { ChangeEvent, Ref, useImperativeHandle, useRef, useState } from 'react'
 import { DEFAULT_FORM_ERRORS, DEFAULT_FORM_VALUES } from '../Data'
-import { Redirect } from './primitives'
+import { Redirect } from '../types'
 import StatusFormControl from './StatusFormControl'
 import UrlFormControl from './UrlFormControl'
 
@@ -26,7 +26,7 @@ const Form = ({ onSubmit, editMode, formRef }: FormProps) => {
       toRef.current!.value = DEFAULT_FORM_VALUES.to
     },
     edit({ from, to, status }: Redirect) {
-      setFormData({ from, to, status: String(status) })
+      setFormData({ from, to, status })
       fromRef.current!.value = from
       toRef.current!.value = to
       setErrors(DEFAULT_FORM_ERRORS)
@@ -37,10 +37,10 @@ const Form = ({ onSubmit, editMode, formRef }: FormProps) => {
     event: ChangeEvent<HTMLInputElement>,
     error?: boolean
   ): void => {
-    const field = event.target.name
-    const value = event.target.value
-    setFormData({ ...formData, [field]: value })
-    setErrors({ ...errors, [field]: error })
+    const { name, value } = event.target
+
+    setFormData({ ...formData, [name]: value })
+    setErrors({ ...errors, [name]: error })
   }
 
   const debouncedChangeHandler = debounce(handleChange, 500)
@@ -68,10 +68,7 @@ const Form = ({ onSubmit, editMode, formRef }: FormProps) => {
         onChange={debouncedChangeHandler}
         inputRef={toRef}
       />
-      <StatusFormControl
-        value={formData.status as string}
-        onChange={handleChange}
-      />
+      <StatusFormControl value={formData.status} onChange={handleChange} />
       <Button variant="primary" type="submit" isDisabled={isFormInvalid}>
         {editMode ? 'Save changes' : 'Submit'}
       </Button>
