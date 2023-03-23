@@ -23,9 +23,7 @@ type TableProps = {
 }
 
 const containerStyle = css`
-  height: 500px;
   padding: 1px;
-  overflow-y: auto;
   width: 100%;
 `
 
@@ -35,7 +33,7 @@ const tableStyle = css`
 
 const bodyStyle = css`
   tr:nth-child(even) td {
-    background-color: ${tokens.gray200};
+    background-color: ${tokens.gray100};
   }
 
   tr:hover td {
@@ -78,7 +76,9 @@ const Table = ({ data, onEdit, onDelete }: TableProps) => {
                 <StyledCell>{from}</StyledCell>
                 <StyledCell>{to}</StyledCell>
                 <TableCell style={{ textAlign: 'center' }}>{status}</TableCell>
-                <StyledCell>{formatDateAndTime(date as number)}</StyledCell>
+                <StyledCell>
+                  {formatDateAndTime(date as number, 'day')}
+                </StyledCell>
                 <TableCell>
                   <Stack justifyContent="center">
                     <Tooltip content="Edit redirect">

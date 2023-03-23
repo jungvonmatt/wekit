@@ -1,23 +1,16 @@
-import { FieldExtensionSDK } from '@contentful/app-sdk'
 import { ModalLauncher, Stack, Text } from '@contentful/f36-components'
-import { useFieldValue, useSDK } from '@contentful/react-apps-toolkit'
-import { useEffect, useRef, useState } from 'react'
+import { WorkbenchContent } from '@contentful/f36-workbench'
+
+import { useFieldValue } from '@contentful/react-apps-toolkit'
+import { useRef, useState } from 'react'
 import { Form, Modal, Table } from '../components'
 import { Redirect } from '../types'
 import { arrayMove } from '../Utils'
 
 const Field = () => {
-  const sdk = useSDK<FieldExtensionSDK>()
-
-  const [redirects, setRedirects] = useFieldValue<Redirect[]>()
+  const [redirects, setRedirects] = useFieldValue<Redirect[]>('redirects')
   const [editMode, setEditMode] = useState(false)
-
   const formRef = useRef<any>()
-
-  useEffect(() => {
-    sdk.window.startAutoResizer()
-    return () => sdk.window.stopAutoResizer()
-  }, [sdk.window])
 
   const getRedirectIndex = (from: string): number => {
     return redirects!.findIndex((redirect: Redirect) => redirect.from === from)
@@ -47,7 +40,6 @@ const Field = () => {
       showEditModal(redirect, oldRedirect, index)
     } else {
       addRedirect(redirect)
-      // resetForm()
       formRef.current.resetForm()
     }
   }
@@ -155,16 +147,18 @@ const Field = () => {
   }
 
   return (
-    <Stack
-      flexDirection="column"
-      spacing="spacingL"
-      style={{ margin: '2rem 4px 3rem' }}
-    >
-      <Form formRef={formRef} onSubmit={submitForm} editMode={editMode} />
-      {redirects && (
-        <Table data={redirects} onEdit={onEdit} onDelete={onDelete} />
-      )}
-    </Stack>
+    <WorkbenchContent type="default">
+      <Stack
+        flexDirection="column"
+        spacing="spacingL"
+        style={{ margin: '2rem 4px 3rem' }}
+      >
+        <Form formRef={formRef} onSubmit={submitForm} editMode={editMode} />
+        {redirects && (
+          <Table data={redirects} onEdit={onEdit} onDelete={onDelete} />
+        )}
+      </Stack>
+    </WorkbenchContent>
   )
 }
 

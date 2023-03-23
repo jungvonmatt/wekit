@@ -1,10 +1,10 @@
 import { locations } from '@contentful/app-sdk'
 import { useSDK } from '@contentful/react-apps-toolkit'
 import { useMemo } from 'react'
-import Field from './locations/Field'
+import { default as EntryEditor } from './locations/EntryEditor'
 
 const ComponentLocationSettings = {
-  [locations.LOCATION_ENTRY_FIELD]: Field,
+  [locations.LOCATION_ENTRY_EDITOR]: EntryEditor,
 }
 
 const App = () => {
