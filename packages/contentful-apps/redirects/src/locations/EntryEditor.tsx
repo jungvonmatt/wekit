@@ -1,9 +1,8 @@
-import { ModalLauncher, Stack, Text } from '@contentful/f36-components'
+import { ModalLauncher, Stack } from '@contentful/f36-components'
 import { WorkbenchContent } from '@contentful/f36-workbench'
-
 import { useFieldValue } from '@contentful/react-apps-toolkit'
 import { useRef, useState } from 'react'
-import { Form, Modal, Table } from '../components'
+import { Form, ModalDelete, ModalEdit, Table } from '../components'
 import { Redirect } from '../types'
 import { arrayMove } from '../Utils'
 
@@ -56,54 +55,12 @@ const Field = () => {
   ): void => {
     ModalLauncher.open(({ isShown, onClose }) => {
       return (
-        <Modal
+        <ModalEdit
+          redirect={redirect}
+          oldRedirect={oldRedirect}
           isShown={isShown}
           onClose={onClose}
-          title="Do you want to edit this redirect?"
-        >
-          <Stack flexDirection="column" alignItems="start" spacing="spacingL">
-            <Stack
-              flexDirection="column"
-              alignItems="start"
-              spacing="spacing2Xs"
-            >
-              <Text>This redirect already exists:</Text>
-              <Text fontWeight="fontWeightDemiBold">
-                from: <Text>{oldRedirect.from}</Text>
-              </Text>
-            </Stack>
-            <Stack
-              flexDirection="column"
-              alignItems="start"
-              spacing="spacing2Xs"
-            >
-              <Text fontSize="fontSizeL" fontWeight="fontWeightDemiBold">
-                Old values:
-              </Text>
-              <Text fontWeight="fontWeightDemiBold">
-                to: <Text>{oldRedirect.to}</Text>
-              </Text>
-              <Text fontWeight="fontWeightDemiBold">
-                status: <Text>{oldRedirect.status}</Text>
-              </Text>
-            </Stack>
-            <Stack
-              flexDirection="column"
-              alignItems="start"
-              spacing="spacing2Xs"
-            >
-              <Text fontSize="fontSizeL" fontWeight="fontWeightDemiBold">
-                New values:
-              </Text>
-              <Text fontWeight="fontWeightDemiBold">
-                to: <Text>{redirect.to}</Text>
-              </Text>
-              <Text fontWeight="fontWeightDemiBold">
-                status: <Text>{redirect.status}</Text>
-              </Text>
-            </Stack>
-          </Stack>
-        </Modal>
+        />
       )
     }).then((result) => {
       if (result) {
@@ -119,25 +76,7 @@ const Field = () => {
   const onDelete = (redirect: Redirect, index: number): void => {
     ModalLauncher.open(({ isShown, onClose }) => {
       return (
-        <Modal isShown={isShown} onClose={onClose} title="Delete this entry?">
-          <Stack flexDirection="column" alignItems="start">
-            <Stack
-              flexDirection="column"
-              alignItems="start"
-              spacing="spacing2Xs"
-            >
-              <Text fontWeight="fontWeightDemiBold">
-                from: <Text>{redirect.from}</Text>
-              </Text>
-              <Text fontWeight="fontWeightDemiBold">
-                to: <Text>{redirect.to}</Text>
-              </Text>
-              <Text fontWeight="fontWeightDemiBold">
-                status: <Text>{redirect.status}</Text>
-              </Text>
-            </Stack>
-          </Stack>
-        </Modal>
+        <ModalDelete redirect={redirect} isShown={isShown} onClose={onClose} />
       )
     }).then((result) => {
       if (result) {
