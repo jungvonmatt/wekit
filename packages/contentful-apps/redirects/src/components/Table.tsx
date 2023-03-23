@@ -29,6 +29,18 @@ const containerStyle = css`
 
 const tableStyle = css`
   table-layout: fixed;
+
+  th:nth-child(3) {
+    width: 5%;
+  }
+
+  th:nth-child(4) {
+    width: 10%;
+  }
+
+  th:nth-child(5) {
+    width: 10%;
+  }
 `
 
 const bodyStyle = css`
@@ -64,7 +76,7 @@ const Table = ({ data, onEdit, onDelete }: TableProps) => {
             <TableCell>From</TableCell>
             <TableCell>To</TableCell>
             <TableCell align="center">Status</TableCell>
-            <TableCell>Date</TableCell>
+            <TableCell align="center">Date</TableCell>
             <TableCell align="center">Actions</TableCell>
           </TableRow>
         </TableHead>
@@ -76,9 +88,9 @@ const Table = ({ data, onEdit, onDelete }: TableProps) => {
                 <StyledCell>{from}</StyledCell>
                 <StyledCell>{to}</StyledCell>
                 <TableCell style={{ textAlign: 'center' }}>{status}</TableCell>
-                <StyledCell>
+                <TableCell style={{ textAlign: 'center' }}>
                   {formatDateAndTime(date as number, 'day')}
-                </StyledCell>
+                </TableCell>
                 <TableCell>
                   <Stack justifyContent="center">
                     <Tooltip content="Edit redirect">
