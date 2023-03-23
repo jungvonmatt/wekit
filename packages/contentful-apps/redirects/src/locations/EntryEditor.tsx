@@ -7,22 +7,22 @@ import { Redirect } from '../types'
 import { arrayMove } from '../Utils'
 
 const Field = () => {
-  const [redirects, setRedirects] = useFieldValue<Redirect[]>('redirects')
+  const [redirects = [], setRedirects] = useFieldValue<Redirect[]>('redirects')
   const [editMode, setEditMode] = useState(false)
   const formRef = useRef<any>()
 
   const getRedirectIndex = (from: string): number => {
-    return redirects!.findIndex((redirect: Redirect) => redirect.from === from)
+    return redirects.findIndex((redirect: Redirect) => redirect.from === from)
   }
 
   const removeRedirect = (index: number): void => {
-    const tempArr = [...redirects!]
+    const tempArr = [...redirects]
     tempArr.splice(index, 1)
     setRedirects(tempArr)
   }
 
   const addRedirect = (redirect: Redirect): void => {
-    setRedirects([redirect, ...redirects!] as Redirect[])
+    setRedirects([redirect, ...redirects])
   }
 
   const submitForm = (data: Redirect): void => {
@@ -30,7 +30,7 @@ const Field = () => {
     const index = getRedirectIndex(from)
     const redirect = { from, to, status: +status, date: new Date().getTime() }
 
-    const oldRedirect = redirects![index]
+    const oldRedirect = redirects[index]
     // In case the 'from' url already exists, replace it with the new one
     if (
       index !== -1 &&
@@ -64,7 +64,7 @@ const Field = () => {
       )
     }).then((result) => {
       if (result) {
-        const tempArr = [...redirects!]
+        const tempArr = [...redirects]
         tempArr[index] = redirect
         arrayMove(tempArr, index)
         setRedirects(tempArr)
@@ -93,7 +93,7 @@ const Field = () => {
         style={{ margin: '2rem 4px 3rem' }}
       >
         <Form formRef={formRef} onSubmit={submitForm} editMode={editMode} />
-        {redirects && (
+        {redirects.length > 0 && (
           <Table data={redirects} onEdit={onEdit} onDelete={onDelete} />
         )}
       </Stack>
