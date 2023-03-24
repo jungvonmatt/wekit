@@ -1,7 +1,7 @@
 import { ModalLauncher, Stack } from '@contentful/f36-components'
 import { WorkbenchContent } from '@contentful/f36-workbench'
 import { useFieldValue } from '@contentful/react-apps-toolkit'
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Form, ModalDelete, ModalEdit, Table } from '../components'
 import { Redirect } from '../types'
 import { arrayMove } from '../Utils'
@@ -10,6 +10,11 @@ const Field = () => {
   const [redirects = [], setRedirects] = useFieldValue<Redirect[]>('redirects')
   const [editMode, setEditMode] = useState(false)
   const formRef = useRef<any>()
+
+  useEffect(() => {
+    // In case redirects is anything other than array resets it
+    if (!Array.isArray(redirects)) setRedirects([])
+  }, [redirects])
 
   const getRedirectIndex = (from: string): number => {
     return redirects.findIndex((redirect: Redirect) => redirect.from === from)
