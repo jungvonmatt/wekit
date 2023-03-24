@@ -1,4 +1,4 @@
-import { URL_REGEX } from './Data'
+import { SLASH_REGEX, URL_REGEX } from './Data'
 
 // Move an array element
 export const arrayMove = (
@@ -12,5 +12,8 @@ export const arrayMove = (
 }
 
 export const urlHasError = (value: string): boolean => !URL_REGEX.test(value)
+
+export const countSlashes = (value: string): number =>
+  (value.match(SLASH_REGEX) || []).length
 
 export default { arrayMove, urlHasError }

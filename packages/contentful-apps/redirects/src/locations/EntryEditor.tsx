@@ -4,7 +4,7 @@ import { useFieldValue } from '@contentful/react-apps-toolkit'
 import { useEffect, useRef, useState } from 'react'
 import { Form, ModalDelete, ModalEdit, Table } from '../components'
 import { Redirect } from '../types'
-import { arrayMove } from '../Utils'
+import { arrayMove, countSlashes } from '../Utils'
 
 const Field = () => {
   const [redirects = [], setRedirects] = useFieldValue<Redirect[]>('redirects')
@@ -26,14 +26,34 @@ const Field = () => {
     setRedirects(tempArr)
   }
 
+  // Find the position to add the new redirect using the '/' count
+  const findArrayPosition = (currentCount: number): number => {
+    for (let index = redirects.length - 1; index > 0; index--) {
+      const count = countSlashes(redirects[index].from)
+      if (currentCount <= count) {
+        return index + 1
+      }
+    }
+    return 0
+  }
+
   const addRedirect = (redirect: Redirect): void => {
-    setRedirects([redirect, ...redirects])
+    // In case it uses Netlify wildcard adds the redirect in order at bottom
+    if (redirect.from.endsWith('*')) {
+      const slashCount = countSlashes(redirect.from)
+      const index = findArrayPosition(slashCount)
+      const tempArr = [...redirects]
+      tempArr.splice(index, 0, redirect)
+      setRedirects(tempArr)
+    } else {
+      setRedirects([redirect, ...redirects])
+    }
   }
 
   const submitForm = (data: Redirect): void => {
     const { from, to, status } = data
     const index = getRedirectIndex(from)
-    const redirect = { from, to, status: +status, date: new Date().getTime() }
+    const redirect = { from, to, status, date: new Date().getTime() }
 
     const oldRedirect = redirects[index]
     // In case the 'from' url already exists, replace it with the new one
@@ -53,6 +73,7 @@ const Field = () => {
     formRef.current.edit(redirect)
   }
 
+  // TODO add wildcard
   const showEditModal = (
     redirect: Redirect,
     oldRedirect: Redirect,

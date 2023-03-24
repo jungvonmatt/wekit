@@ -20,3 +20,5 @@ export const DEFAULT_FORM_ERRORS: FormErrors = {
 }
 
 export const URL_REGEX = /(^\/)\S+/
+
+export const SLASH_REGEX = /\//g
