@@ -39,7 +39,7 @@ const Field = () => {
 
   const addRedirect = (redirect: Redirect): void => {
     // In case it uses Netlify wildcard adds the redirect in order at bottom
-    if (redirect.from.endsWith('*')) {
+    if (redirect.from.endsWith('/*')) {
       const slashCount = countSlashes(redirect.from)
       const index = findArrayPosition(slashCount)
       const tempArr = [...redirects]
