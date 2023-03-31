@@ -20,6 +20,6 @@ export const DEFAULT_FORM_ERRORS: FormErrors = {
 }
 
 export const URL_REGEX =
-  /^\/[-a-zA-Z0-9@:%._\+~#=\/]+(\s\w+=:\w+){0,10}(.*(\/\*)){0,1}$/
+  /^\/[-a-zA-Z0-9@:%._\+~#=\/]+(\/\*){0,1}(\s\w+=:\w+){0,}$/
 
 export const SLASH_REGEX = /\//g
