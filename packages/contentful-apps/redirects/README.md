@@ -8,12 +8,24 @@ To create an app definition:
 2. Click Create app. The "App details" page is displayed.
 3. In the Name field, enter a custom name for your app. For our example app, we use Blog Post Metrics as a name.
 4. In the Frontend field you can choose to either run the App locally or Hosted by Contentful
-    1. To run it locally add the URL for the local running application. The default one is `http://localhost:3000`.
+    1. To run it locally add the URL for the local running application (`npm start`). The default one is `http://localhost:3000`.
     2. To host it you can either upload the build folder or run the `npm run upload` to automatically upload the app. (See more below)
 5. On `Locations` section select only the `Entry Editor` option
 6. Click Save. Your app definition is saved.
 
 [Read more here](https://www.contentful.com/developers/docs/extensibility/app-framework/tutorial/) 
+
+## Setup Redirects app
+
+On a given content type (e.g. `d-settings`) add a new field with these parameters:
+- name `redirects`
+- type `JSON Object`
+
+On the `d-settings` content model settings > Entry editors > Add the `Redirects App`
+
+Additionally is recommended to keep the field `redirects` disabled in response to prevent input errors dirrectly to the JSON. You can change that by going into `d-settings` > Fields tab > `more options` icon on `redirects` > `Disable in response`
+
+You can see the app running on Content > `d-settings` > Redirects tab
 
 ## Available Scripts
 
@@ -22,6 +34,8 @@ In the project directory, you can run:
 #### `npm start`
 
 Creates or updates your app definition in Contentful, and runs the app in development mode.
+
+The default URL is `http://localhost:3000`
 
 #### `npm run build`
 
@@ -57,13 +71,3 @@ For this command to work, the following environment variables must be set:
 [Read more](https://www.contentful.com/developers/docs/extensibility/app-framework/create-contentful-app/) and check out the video on how to use the CLI.
 
 Create Contentful App uses [Create React App](https://create-react-app.dev/). You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started) and how to further customize your app.
-
-## Setup Redirects app
-
-On a given content type (e.g. `d-settings`) add a new field with these parameters:
-- name `redirects`
-- type `JSON Object`
-
-On the `d-settings` content model settings > Entry editors > Add the `Redirects App`
-
-You can see the app running on Content > `d-settings` > Redirects tab

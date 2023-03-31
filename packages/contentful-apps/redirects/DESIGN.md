@@ -48,10 +48,8 @@ Additionally, existing entries can be edited by clicking the corresponding row i
 - Pagination
 - Show entries per page
 - Bulk upload (add many redirects at once)
-
-- Form as a Modal (just show table at first)
-- Status code could be a separate contentful field and be handled by the editor
 - Bulk delete - Checkboxes on each row to allow the user selecting multiple entries and delete them at once.
+- Form as a Modal (just show table at first)
 
 ### Resources
 
@@ -60,11 +58,11 @@ Additionally, existing entries can be edited by clicking the corresponding row i
 
 ### Holger Feature Request
 
-- Netlify lexical Wildcard *
+- Netlify lexical Wildcard * (Done)
 - Wekit setup with the option to add Netlify Redirects
 
 
 ### Edge cases
 
 - You can't have same `from` and `to` urls
-- Wildcard * is only allowed on `from` field
+- Should accept URL `/` (need to improve regex)
