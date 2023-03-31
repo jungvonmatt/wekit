@@ -2,12 +2,13 @@ import { Form as CForm } from '@contentful/f36-components'
 import {
   ChangeEvent,
   MutableRefObject,
+  ReactElement,
   Ref,
   useImperativeHandle,
   useRef,
   useState,
 } from 'react'
-import { DEFAULT_FORM_ERRORS, DEFAULT_FORM_VALUES } from '../Data'
+import { DEFAULT_FORM_ERRORS, DEFAULT_FORM_VALUES } from '../constants'
 import { Redirect } from '../types'
 import StatusFormControl from './StatusFormControl'
 import UrlFormControl from './UrlFormControl'
@@ -17,7 +18,7 @@ type FormProps = {
   redirect?: Redirect
 }
 
-const Form = ({ formRef, redirect }: FormProps) => {
+const Form = ({ formRef, redirect }: FormProps): ReactElement => {
   const [formData, setFormData] = useState(redirect || DEFAULT_FORM_VALUES)
   const [errors, setErrors] = useState(DEFAULT_FORM_ERRORS)
 

@@ -14,6 +14,7 @@ import {
 import { DeleteTrimmedIcon, EditTrimmedIcon } from '@contentful/f36-icons'
 import tokens from '@contentful/f36-tokens'
 import { css } from 'emotion'
+import { ReactElement } from 'react'
 import { Redirect } from '../types'
 
 type TableProps = {
@@ -67,7 +68,7 @@ const StyledCell = (props: TableCellProps) => (
   <TableCell className={cellStyle}>{props.children}</TableCell>
 )
 
-const Table = ({ data, onEdit, onDelete }: TableProps) => {
+const Table = ({ data, onEdit, onDelete }: TableProps): ReactElement => {
   return (
     <Box className={containerStyle}>
       <CTable className={tableStyle}>

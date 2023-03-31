@@ -1,6 +1,7 @@
 import { Stack, Text } from '@contentful/f36-components'
+import { ReactElement } from 'react'
 import { Redirect } from '../../types'
-import Modal from './Modal'
+import ConfirmationModal from './ConfirmationModal'
 
 type ModalDeleteProps = {
   isShown: boolean
@@ -8,8 +9,12 @@ type ModalDeleteProps = {
   redirect: Redirect
 }
 
-const ModalDelete = ({ isShown, onClose, redirect }: ModalDeleteProps) => (
-  <Modal
+const ModalDelete = ({
+  isShown,
+  onClose,
+  redirect,
+}: ModalDeleteProps): ReactElement => (
+  <ConfirmationModal
     isShown={isShown}
     onClose={onClose}
     title="Delete this entry?"
@@ -28,7 +33,7 @@ const ModalDelete = ({ isShown, onClose, redirect }: ModalDeleteProps) => (
         </Text>
       </Stack>
     </Stack>
-  </Modal>
+  </ConfirmationModal>
 )
 
 export default ModalDelete

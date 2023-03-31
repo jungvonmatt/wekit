@@ -1,7 +1,7 @@
 import { FormControl, Radio } from '@contentful/f36-components'
 import { css } from 'emotion'
-import { ChangeEvent } from 'react'
-import { DEFAULT_STATUS } from '../Data'
+import { ChangeEvent, ReactElement } from 'react'
+import { DEFAULT_STATUS } from '../constants'
 
 type StatusFormControlProps = {
   value: number
@@ -14,7 +14,10 @@ const radioStyle = css`
   }
 `
 
-const StatusFormControl = ({ value, onChange }: StatusFormControlProps) => {
+const StatusFormControl = ({
+  value,
+  onChange,
+}: StatusFormControlProps): ReactElement => {
   return (
     <FormControl>
       <FormControl.Label>Status Code:</FormControl.Label>

@@ -1,7 +1,7 @@
 import { FormControl, TextInput } from '@contentful/f36-components'
 import { css } from 'emotion'
-import { ChangeEvent, Ref, useState } from 'react'
-import { urlHasError } from '../Utils'
+import { ChangeEvent, ReactElement, Ref, useState } from 'react'
+import { urlHasError } from '../utils'
 
 type UrlFormControlProps = {
   onChange: (event: ChangeEvent<HTMLInputElement>, error: boolean) => void
@@ -12,7 +12,7 @@ type UrlFormControlProps = {
   value: string
 }
 
-const UrlFormControl = (prop: UrlFormControlProps) => {
+const UrlFormControl = (prop: UrlFormControlProps): ReactElement => {
   const { onChange, label, name, placeholder, inputRef, value } = prop
   const [error, setError] = useState(false)
 

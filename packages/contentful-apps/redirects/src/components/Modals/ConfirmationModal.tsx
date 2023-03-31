@@ -1,7 +1,7 @@
 import { ModalConfirm } from '@contentful/f36-components'
-import { ReactNode } from 'react'
+import { ReactElement, ReactNode } from 'react'
 
-export type ModalProps = {
+export type ConfirmationModalProps = {
   onClose: (confirm: boolean) => void
   isShown: boolean
   title?: string
@@ -12,7 +12,7 @@ export type ModalProps = {
   size?: 'small' | 'medium' | 'large' | 'fullWidth' | 'zen'
 }
 
-const Modal = ({
+const ConfirmationModal = ({
   isShown,
   onClose,
   title,
@@ -21,7 +21,7 @@ const Modal = ({
   cancelLabel = 'Cancel',
   intent = 'negative',
   size = 'large',
-}: ModalProps) => (
+}: ConfirmationModalProps): ReactElement => (
   <ModalConfirm
     title={title}
     intent={intent}
@@ -36,4 +36,4 @@ const Modal = ({
   </ModalConfirm>
 )
 
-export default Modal
+export default ConfirmationModal

@@ -65,4 +65,12 @@ Additionally, existing entries can be edited by clicking the corresponding row i
 ### Edge cases
 
 - You can't have same `from` and `to` urls
-- Should accept URL `/` (need to improve regex)
+
+### Code Review
+
+-  fix README accordingly to https://github.com/jungvonmatt/contentful-apps/tree/main/packages/enhanced-preview also https://github.com/jungvonmatt/wekit/pull/66#discussion_r1154348630
+- More tests
+- Checkboxes per row and single action buttons
+- fix prettier
+- https://github.com/jungvonmatt/wekit/pull/66#discussion_r1154209845
+- https://github.com/jungvonmatt/wekit/pull/66#discussion_r1154342735

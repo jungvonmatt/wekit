@@ -1,12 +1,17 @@
 import { Button, ModalLauncher, Stack } from '@contentful/f36-components'
 import { WorkbenchContent } from '@contentful/f36-workbench'
 import { useFieldValue } from '@contentful/react-apps-toolkit'
-import { useEffect } from 'react'
-import { ModalAdd, ModalConfirmChange, ModalDelete, Table } from '../components'
+import { ReactElement, useEffect } from 'react'
+import {
+  ConfirmAddModal,
+  ConfirmDeleteModal,
+  ConfirmOverwriteModal,
+  Table,
+} from '../components'
 import { Redirect } from '../types'
-import { arrayMove, countSlashes } from '../Utils'
+import { arrayMove, countSlashes } from '../utils'
 
-const Field = () => {
+const Field = (): ReactElement => {
   const [redirects = [], setRedirects] = useFieldValue<Redirect[]>('redirects')
 
   useEffect(() => {
@@ -24,8 +29,12 @@ const Field = () => {
     setRedirects(tempArr)
   }
 
-  // Find the position to add the new redirect using the '/' count
-  const findArrayPosition = (currentCount: number): number => {
+  /**
+   * Find the position to add the new redirect using the '/' count
+   * @param currentCount
+   * @returns position
+   */
+  const findRedirectInsertIndex = (currentCount: number): number => {
     for (let index = redirects.length - 1; index > 0; index--) {
       const count = countSlashes(redirects[index].from)
       if (currentCount <= count) {
@@ -39,7 +48,7 @@ const Field = () => {
     // In case it uses Netlify wildcard adds the redirect in order at bottom
     if (redirect.from.endsWith('/*')) {
       const slashCount = countSlashes(redirect.from)
-      const index = findArrayPosition(slashCount)
+      const index = findRedirectInsertIndex(slashCount)
       const tempArr = [...redirects]
       tempArr.splice(index, 0, redirect)
       setRedirects(tempArr)
@@ -51,13 +60,17 @@ const Field = () => {
   const showAddModal = (redirect?: Redirect): void => {
     ModalLauncher.open(({ isShown, onClose }) => {
       return (
-        <ModalAdd isShown={isShown} onClose={onClose} redirect={redirect} />
+        <ConfirmAddModal
+          isShown={isShown}
+          onClose={onClose}
+          redirect={redirect}
+        />
       )
     }).then((result: Redirect) => {
       if (result) {
         const { from, to, status } = result
         const index = getRedirectIndex(from)
-        const redirect = { from, to, status, date: new Date().getTime() }
+        const redirect = { from, to, status, date: Date.now() }
 
         const oldRedirect = redirects[index]
         // In case the 'from' url already exists, replace it with the new one
@@ -81,7 +94,7 @@ const Field = () => {
   ): void => {
     ModalLauncher.open(({ isShown, onClose }) => {
       return (
-        <ModalConfirmChange
+        <ConfirmOverwriteModal
           redirect={redirect}
           oldRedirect={oldRedirect}
           isShown={isShown}
@@ -101,7 +114,11 @@ const Field = () => {
   const showDeleteModal = (redirect: Redirect, index: number): void => {
     ModalLauncher.open(({ isShown, onClose }) => {
       return (
-        <ModalDelete redirect={redirect} isShown={isShown} onClose={onClose} />
+        <ConfirmDeleteModal
+          redirect={redirect}
+          isShown={isShown}
+          onClose={onClose}
+        />
       )
     }).then((result) => {
       if (result) {

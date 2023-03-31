@@ -1,21 +1,22 @@
 import { Stack, Text } from '@contentful/f36-components'
+import { ReactElement } from 'react'
 import { Redirect } from '../../types'
-import Modal from './Modal'
+import ConfirmationModal from './ConfirmationModal'
 
-type ModalConfirmChangeProps = {
+type ConfirmOverwriteModalProps = {
   isShown: boolean
   onClose: (confirm: boolean) => void
   redirect: Redirect
   oldRedirect: Redirect
 }
 
-const ModalConfirmChange = ({
+const ConfirmOverwriteModal = ({
   isShown,
   onClose,
   redirect,
   oldRedirect,
-}: ModalConfirmChangeProps) => (
-  <Modal
+}: ConfirmOverwriteModalProps): ReactElement => (
+  <ConfirmationModal
     isShown={isShown}
     onClose={onClose}
     title="Do you want to edit this redirect?"
@@ -50,7 +51,7 @@ const ModalConfirmChange = ({
         </Text>
       </Stack>
     </Stack>
-  </Modal>
+  </ConfirmationModal>
 )
 
-export default ModalConfirmChange
+export default ConfirmOverwriteModal

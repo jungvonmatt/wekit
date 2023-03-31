@@ -1,6 +1,11 @@
-import { SLASH_REGEX, URL_REGEX } from './Data'
+import { SLASH_REGEX, URL_REGEX } from './constants'
 
-// Move an array element
+/**
+ * Move an array element
+ * @param arr
+ * @param fromIndex
+ * @param toIndex
+ */
 export const arrayMove = (
   arr: any[],
   fromIndex: number,

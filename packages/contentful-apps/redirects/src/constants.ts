@@ -1,9 +1,9 @@
 import { FormErrors, Redirect, Status } from './types'
 
 export const DEFAULT_STATUS: Status = {
-  200: '200 - OK',
+  200: '200 - Ok (Forward Request)',
   301: '301 - Moved Permanently',
-  302: '302 - Found',
+  302: '302 - Found (Moved Temporarily)',
   404: '404 - Not Found',
   410: '410 - Gone',
 }
@@ -20,6 +20,6 @@ export const DEFAULT_FORM_ERRORS: FormErrors = {
 }
 
 export const URL_REGEX =
-  /^\/[-a-zA-Z0-9@:%._\+~#=\/\*]*(\s\w+=:\w+){0,}(.*(\/\*)){0,1}$/
+  /^\/[-a-zA-Z0-9@:%._\+~#=\/\*]*(\s\w+=:\w+)*(.*(\/\*))?$/
 
 export const SLASH_REGEX = /\//g
