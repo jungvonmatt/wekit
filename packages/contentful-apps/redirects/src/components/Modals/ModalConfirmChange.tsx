@@ -2,19 +2,19 @@ import { Stack, Text } from '@contentful/f36-components'
 import { Redirect } from '../../types'
 import Modal from './Modal'
 
-type ModalEditProps = {
-  onClose: (confirm: boolean) => void
+type ModalConfirmChangeProps = {
   isShown: boolean
+  onClose: (confirm: boolean) => void
   redirect: Redirect
   oldRedirect: Redirect
 }
 
-const ModalEdit = ({
+const ModalConfirmChange = ({
   isShown,
   onClose,
   redirect,
   oldRedirect,
-}: ModalEditProps) => (
+}: ModalConfirmChangeProps) => (
   <Modal
     isShown={isShown}
     onClose={onClose}
@@ -53,4 +53,4 @@ const ModalEdit = ({
   </Modal>
 )
 
-export default ModalEdit
+export default ModalConfirmChange

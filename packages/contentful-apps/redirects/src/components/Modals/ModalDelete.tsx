@@ -3,13 +3,18 @@ import { Redirect } from '../../types'
 import Modal from './Modal'
 
 type ModalDeleteProps = {
-  onClose: (confirm: boolean) => void
   isShown: boolean
+  onClose: (confirm: boolean) => void
   redirect: Redirect
 }
 
 const ModalDelete = ({ isShown, onClose, redirect }: ModalDeleteProps) => (
-  <Modal isShown={isShown} onClose={onClose} title="Delete this entry?">
+  <Modal
+    isShown={isShown}
+    onClose={onClose}
+    title="Delete this entry?"
+    size="medium"
+  >
     <Stack flexDirection="column" alignItems="start">
       <Stack flexDirection="column" alignItems="start" spacing="spacing2Xs">
         <Text fontWeight="fontWeightDemiBold">

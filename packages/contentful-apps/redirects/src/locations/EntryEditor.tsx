@@ -1,15 +1,13 @@
-import { ModalLauncher, Stack } from '@contentful/f36-components'
+import { Button, ModalLauncher, Stack } from '@contentful/f36-components'
 import { WorkbenchContent } from '@contentful/f36-workbench'
 import { useFieldValue } from '@contentful/react-apps-toolkit'
-import { useEffect, useRef, useState } from 'react'
-import { Form, ModalDelete, ModalEdit, Table } from '../components'
+import { useEffect } from 'react'
+import { ModalAdd, ModalConfirmChange, ModalDelete, Table } from '../components'
 import { Redirect } from '../types'
 import { arrayMove, countSlashes } from '../Utils'
 
 const Field = () => {
   const [redirects = [], setRedirects] = useFieldValue<Redirect[]>('redirects')
-  const [editMode, setEditMode] = useState(false)
-  const formRef = useRef<any>()
 
   useEffect(() => {
     // In case redirects is anything other than array resets it
@@ -50,38 +48,40 @@ const Field = () => {
     }
   }
 
-  const submitForm = (data: Redirect): void => {
-    const { from, to, status } = data
-    const index = getRedirectIndex(from)
-    const redirect = { from, to, status, date: new Date().getTime() }
+  const showAddModal = (redirect?: Redirect): void => {
+    ModalLauncher.open(({ isShown, onClose }) => {
+      return (
+        <ModalAdd isShown={isShown} onClose={onClose} redirect={redirect} />
+      )
+    }).then((result: Redirect) => {
+      if (result) {
+        const { from, to, status } = result
+        const index = getRedirectIndex(from)
+        const redirect = { from, to, status, date: new Date().getTime() }
 
-    const oldRedirect = redirects[index]
-    // In case the 'from' url already exists, replace it with the new one
-    if (
-      index !== -1 &&
-      (oldRedirect.to !== redirect.to || oldRedirect.status !== redirect.status)
-    ) {
-      showEditModal(redirect, oldRedirect, index)
-    } else {
-      addRedirect(redirect)
-      formRef.current.resetForm()
-    }
+        const oldRedirect = redirects[index]
+        // In case the 'from' url already exists, replace it with the new one
+        if (
+          index !== -1 &&
+          (oldRedirect.to !== redirect.to ||
+            oldRedirect.status !== redirect.status)
+        ) {
+          showConfirmChangeModal(redirect, oldRedirect, index)
+        } else {
+          addRedirect(redirect)
+        }
+      }
+    })
   }
 
-  const onEdit = (redirect: Redirect): void => {
-    setEditMode(true)
-    formRef.current.edit(redirect)
-  }
-
-  // TODO add wildcard
-  const showEditModal = (
+  const showConfirmChangeModal = (
     redirect: Redirect,
     oldRedirect: Redirect,
     index: number
   ): void => {
     ModalLauncher.open(({ isShown, onClose }) => {
       return (
-        <ModalEdit
+        <ModalConfirmChange
           redirect={redirect}
           oldRedirect={oldRedirect}
           isShown={isShown}
@@ -94,12 +94,11 @@ const Field = () => {
         tempArr[index] = redirect
         arrayMove(tempArr, index)
         setRedirects(tempArr)
-        formRef.current.resetForm()
       }
     })
   }
 
-  const onDelete = (redirect: Redirect, index: number): void => {
+  const showDeleteModal = (redirect: Redirect, index: number): void => {
     ModalLauncher.open(({ isShown, onClose }) => {
       return (
         <ModalDelete redirect={redirect} isShown={isShown} onClose={onClose} />
@@ -118,9 +117,20 @@ const Field = () => {
         spacing="spacingL"
         style={{ margin: '2rem 4px 3rem' }}
       >
-        <Form formRef={formRef} onSubmit={submitForm} editMode={editMode} />
+        <Button
+          variant="primary"
+          type="button"
+          onClick={() => showAddModal()}
+          style={{ marginRight: 'auto' }}
+        >
+          Add
+        </Button>
         {redirects.length > 0 && (
-          <Table data={redirects} onEdit={onEdit} onDelete={onDelete} />
+          <Table
+            data={redirects}
+            onEdit={showAddModal}
+            onDelete={showDeleteModal}
+          />
         )}
       </Stack>
     </WorkbenchContent>

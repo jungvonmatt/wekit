@@ -1,4 +1,5 @@
 export { default as Form } from './Form'
+export { default as ModalAdd } from './Modals/ModalAdd'
+export { default as ModalConfirmChange } from './Modals/ModalConfirmChange'
 export { default as ModalDelete } from './Modals/ModalDelete'
-export { default as ModalEdit } from './Modals/ModalEdit'
 export { default as Table } from './Table'

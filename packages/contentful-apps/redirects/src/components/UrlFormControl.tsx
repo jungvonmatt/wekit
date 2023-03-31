@@ -9,10 +9,11 @@ type UrlFormControlProps = {
   label: string
   name: string
   placeholder: string
+  value: string
 }
 
 const UrlFormControl = (prop: UrlFormControlProps) => {
-  const { onChange, label, name, placeholder, inputRef } = prop
+  const { onChange, label, name, placeholder, inputRef, value } = prop
   const [error, setError] = useState(false)
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>): void => {
@@ -27,7 +28,7 @@ const UrlFormControl = (prop: UrlFormControlProps) => {
   `
 
   return (
-    <FormControl style={{ width: '70%' }} isRequired>
+    <FormControl isRequired>
       <FormControl.Label>{label}</FormControl.Label>
       <TextInput
         ref={inputRef}
@@ -35,6 +36,7 @@ const UrlFormControl = (prop: UrlFormControlProps) => {
         placeholder={placeholder}
         onChange={handleChange}
         className={inputStyle}
+        value={value}
       />
       {error && (
         <FormControl.ValidationMessage>

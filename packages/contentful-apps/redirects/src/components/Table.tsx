@@ -39,7 +39,7 @@ const tableStyle = css`
   }
 
   th:nth-child(5) {
-    width: 10%;
+    width: 120px;
   }
 `
 
