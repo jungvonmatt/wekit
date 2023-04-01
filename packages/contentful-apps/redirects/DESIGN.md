@@ -97,7 +97,7 @@ Some ideas for further development of the app:
 - Mass upload - Add multiple redirects at once
 - Configurable fields - e.g. the Status Codes radio group can be customized to your needs
 - Presets - Predefined configurations for providers other than Netlify can be used
-- More tests
+- More tests (Form)
 - Checkboxes per row and single action buttons
 - Add comments feature to table
 
@@ -111,16 +111,6 @@ So only the open tasks or possible improvements would be listed.
 The objective can be moved to the readme.
 Parts from the document could also be transferred to a document that describes how the app should be used and what it produces.
 We should talk about that.
-
-- @tharders
-From is normally a path and not a full URL.
-The regex "URL" Pattern actually tests for a path.
-So it should be named accordingly.
-The "to" on the other hand should normally allow full URLs, in order to allow a redirect to another domain.
-That should be checked with another regular expression.
-You can still use one FormControl Field for both cases when you provide the validation function.
-The result of the function can be the error message or undefined. This way you can also have different error messages. (IN PROGRESS)
-
 
 - @tharders
 We should discuss this logic, maybe together with Holger.

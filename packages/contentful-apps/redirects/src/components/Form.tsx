@@ -8,7 +8,12 @@ import {
   useRef,
   useState,
 } from 'react'
-import { DEFAULT_FORM_ERRORS, DEFAULT_FORM_VALUES } from '../constants'
+import {
+  DEFAULT_FORM_ERRORS,
+  DEFAULT_FORM_VALUES,
+  FROM_REGEX,
+  TO_REGEX,
+} from '../constants'
 import { Redirect } from '../types'
 import StatusFormControl from './StatusFormControl'
 import UrlFormControl from './UrlFormControl'
@@ -29,6 +34,18 @@ const Form = ({ formRef, redirect }: FormProps): ReactElement => {
     getFormData: (): Redirect => formData,
   }))
 
+  /**
+   * Tests FROM/TO inputs for errors
+   * @param field
+   * @param value
+   * @returns error message or empty
+   */
+  const getError = (field: 'FROM' | 'TO', value: string): string => {
+    const regex = field === 'FROM' ? FROM_REGEX : TO_REGEX
+    const hasError = !regex.test(value)
+    return hasError ? 'URL provided is not valid' : ''
+  }
+
   const handleChange = (
     event: ChangeEvent<HTMLInputElement>,
     error?: boolean
@@ -42,20 +59,22 @@ const Form = ({ formRef, redirect }: FormProps): ReactElement => {
   return (
     <CForm style={{ width: '100%' }} ref={formRef}>
       <UrlFormControl
-        label="From URL:"
+        label="From:"
         name="from"
         placeholder="e.g. '/de/entwickler/'"
         onChange={handleChange}
         inputRef={fromRef}
         value={formData.from}
+        getError={(value: string) => getError('FROM', value)}
       />
       <UrlFormControl
-        label="To URL:"
+        label="To:"
         name="to"
         placeholder="e.g. '/en/developer/'"
         onChange={handleChange}
         inputRef={toRef}
         value={formData.to}
+        getError={(value: string) => getError('TO', value)}
       />
       <StatusFormControl value={formData.status} onChange={handleChange} />
     </CForm>

@@ -1,10 +1,10 @@
 import { FormControl, TextInput } from '@contentful/f36-components'
 import { css } from 'emotion'
 import { ChangeEvent, ReactElement, Ref, useState } from 'react'
-import { urlHasError } from '../utils'
 
 type UrlFormControlProps = {
   onChange: (event: ChangeEvent<HTMLInputElement>, error: boolean) => void
+  getError: (value: string) => string
   inputRef: Ref<HTMLInputElement>
   label: string
   name: string
@@ -13,14 +13,14 @@ type UrlFormControlProps = {
 }
 
 const UrlFormControl = (prop: UrlFormControlProps): ReactElement => {
-  const { onChange, label, name, placeholder, inputRef, value } = prop
-  const [error, setError] = useState(false)
+  const { onChange, label, name, placeholder, inputRef, value, getError } = prop
+  const [error, setError] = useState('')
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>): void => {
     const value = event.target.value
-    const hasError = urlHasError(value)
-    setError(hasError)
-    onChange(event, hasError)
+    const errorMsg = getError(value)
+    setError(errorMsg)
+    onChange(event, !!errorMsg)
   }
 
   const inputStyle = css`
@@ -38,10 +38,8 @@ const UrlFormControl = (prop: UrlFormControlProps): ReactElement => {
         className={inputStyle}
         value={value}
       />
-      {error && (
-        <FormControl.ValidationMessage>
-          URL provided is not valid
-        </FormControl.ValidationMessage>
+      {!!error && (
+        <FormControl.ValidationMessage>{error}</FormControl.ValidationMessage>
       )}
     </FormControl>
   )
