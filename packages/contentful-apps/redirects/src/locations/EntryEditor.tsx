@@ -107,6 +107,8 @@ const Field = (): ReactElement => {
         tempArr[index] = redirect
         arrayMove(tempArr, index)
         setRedirects(tempArr)
+      } else {
+        showConfirmAddEditModal(redirect)
       }
     })
   }
