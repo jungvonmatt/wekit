@@ -3,17 +3,17 @@ import { Redirect } from '../../types'
 import Form from '../Form'
 import ConfirmationModal from './ConfirmationModal'
 
-type ConfirmAddModalProps = {
+type ConfirmAddEditModalProps = {
   isShown: boolean
   onClose: (data: Redirect) => void
   redirect?: Redirect
 }
 
-const ConfirmAddModal = ({
+const ConfirmAddEditModal = ({
   isShown,
   onClose,
   redirect,
-}: ConfirmAddModalProps): ReactElement => {
+}: ConfirmAddEditModalProps): ReactElement => {
   const formRef = useRef<any>()
 
   const onCloseIntercept = (confirm: boolean): void => {
@@ -33,4 +33,4 @@ const ConfirmAddModal = ({
   )
 }
 
-export default ConfirmAddModal
+export default ConfirmAddEditModal

@@ -94,7 +94,7 @@ const Table = ({ data, onEdit, onDelete }: TableProps): ReactElement => {
                 </TableCell>
                 <TableCell>
                   <Stack justifyContent="center">
-                    <Tooltip content="Edit redirect">
+                    <Tooltip content="Edit redirect" placement="top">
                       <IconButton
                         variant="primary"
                         aria-label="Edit redirect"
@@ -103,7 +103,7 @@ const Table = ({ data, onEdit, onDelete }: TableProps): ReactElement => {
                         onClick={() => onEdit(redirect)}
                       />
                     </Tooltip>
-                    <Tooltip content="Delete redirect">
+                    <Tooltip content="Delete redirect" placement="top">
                       <IconButton
                         variant="negative"
                         aria-label="Delete redirect"

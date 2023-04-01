@@ -3,7 +3,7 @@ import { WorkbenchContent } from '@contentful/f36-workbench'
 import { useFieldValue } from '@contentful/react-apps-toolkit'
 import { ReactElement, useEffect } from 'react'
 import {
-  ConfirmAddModal,
+  ConfirmAddEditModal,
   ConfirmDeleteModal,
   ConfirmOverwriteModal,
   Table,
@@ -57,10 +57,10 @@ const Field = (): ReactElement => {
     }
   }
 
-  const showAddModal = (redirect?: Redirect): void => {
+  const showConfirmAddEditModal = (redirect?: Redirect): void => {
     ModalLauncher.open(({ isShown, onClose }) => {
       return (
-        <ConfirmAddModal
+        <ConfirmAddEditModal
           isShown={isShown}
           onClose={onClose}
           redirect={redirect}
@@ -79,7 +79,7 @@ const Field = (): ReactElement => {
           (oldRedirect.to !== redirect.to ||
             oldRedirect.status !== redirect.status)
         ) {
-          showConfirmChangeModal(redirect, oldRedirect, index)
+          showConfirmOverwriteModal(redirect, oldRedirect, index)
         } else {
           addRedirect(redirect)
         }
@@ -87,7 +87,7 @@ const Field = (): ReactElement => {
     })
   }
 
-  const showConfirmChangeModal = (
+  const showConfirmOverwriteModal = (
     redirect: Redirect,
     oldRedirect: Redirect,
     index: number
@@ -111,7 +111,7 @@ const Field = (): ReactElement => {
     })
   }
 
-  const showDeleteModal = (redirect: Redirect, index: number): void => {
+  const showConfirmDeleteModal = (redirect: Redirect, index: number): void => {
     ModalLauncher.open(({ isShown, onClose }) => {
       return (
         <ConfirmDeleteModal
@@ -137,7 +137,7 @@ const Field = (): ReactElement => {
         <Button
           variant="primary"
           type="button"
-          onClick={() => showAddModal()}
+          onClick={() => showConfirmAddEditModal()}
           style={{ marginRight: 'auto' }}
         >
           Add
@@ -145,8 +145,8 @@ const Field = (): ReactElement => {
         {redirects.length > 0 && (
           <Table
             data={redirects}
-            onEdit={showAddModal}
-            onDelete={showDeleteModal}
+            onEdit={showConfirmAddEditModal}
+            onDelete={showConfirmDeleteModal}
           />
         )}
       </Stack>
