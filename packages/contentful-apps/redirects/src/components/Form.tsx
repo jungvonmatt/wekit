@@ -35,15 +35,25 @@ const Form = ({ formRef, redirect }: FormProps): ReactElement => {
   }))
 
   /**
-   * Tests FROM/TO inputs for errors
-   * @param field
+   * Tests FROM input for errors
    * @param value
    * @returns error message or empty
    */
-  const getError = (field: 'FROM' | 'TO', value: string): string => {
-    const regex = field === 'FROM' ? FROM_REGEX : TO_REGEX
+  const validateFrom = (value: string): string => {
+    const regex = FROM_REGEX
     const hasError = !regex.test(value)
-    return hasError ? 'URL provided is not valid' : ''
+    return hasError ? 'Path provided is not valid' : ''
+  }
+
+  /**
+   * Tests TO input for errors
+   * @param value
+   * @returns error message or empty
+   */
+  const validateTo = (value: string): string => {
+    const regex = TO_REGEX
+    const hasError = !regex.test(value)
+    return hasError ? 'URL or Path provided is not valid' : ''
   }
 
   const handleChange = (
@@ -65,16 +75,16 @@ const Form = ({ formRef, redirect }: FormProps): ReactElement => {
         onChange={handleChange}
         inputRef={fromRef}
         value={formData.from}
-        getError={(value: string) => getError('FROM', value)}
+        getError={(value: string) => validateFrom(value)}
       />
       <UrlFormControl
         label="To:"
         name="to"
-        placeholder="e.g. '/en/developer/'"
+        placeholder="e.g. '/en/developer/' or 'https://foo.bar'"
         onChange={handleChange}
         inputRef={toRef}
         value={formData.to}
-        getError={(value: string) => getError('TO', value)}
+        getError={(value: string) => validateTo(value)}
       />
       <StatusFormControl value={formData.status} onChange={handleChange} />
     </CForm>

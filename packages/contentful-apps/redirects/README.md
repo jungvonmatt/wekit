@@ -1,22 +1,18 @@
 # WEKit Redirects App
 
 ## Context and scope
-
 We decided to build a Contentful app that enabled editors to directly edit redirects in the Contentful UI and transform the results to the format required by Netlify during build-time. The scope of this app is to connect to Netlify. However, adapting this to Vercel is planned as well. Other possible features are listed at the end of this document. Our main goal is to create a simple and intuitive way for editors to maintain redirects. Since the app will be integrated with Contentful, it should also have the same look and feel. To accomplish this, we are using the design system from Contentful itself called "Forma 36". We don't want to give too much flexibility to the editors to keep the error-proneness as low as possible.
 
 ## Basic concept
-
 All redirect data is stored in a JSON field in Contentful. By installing and enabling the redirects app, this JSON field is transformed into a well-organized table with several buttons and functionalities. The editor will now have the ability to edit the JSON content by interacting with a user interface. This means that every action the editor takes will transform the original JSON under the hood. With this mechanism, we can provide a smooth user experience even for non-technical people who may not be familiar with the syntax of the JSON format. At the same time, we can perform important technical tasks like validating, filtering, and sorting the data.
 
 ### View of the table
-
 * Initially, the editor sees a table of all existing redirects (if there are any), along with a single button labeled "Add entry" at the top.
 * The table shows five columns: `from`, `to`, `status`, `date` and `action` (edit/delete).
 * The `date` column shows the date on which the specific redirect entry was submitted. It is useful for sorting. By default, the entire table is sorted by the most recent date.
 * The `action` column contains two buttons, `edit` and `delete`.
 
 ### User flow
-
 * Clicking the `add` button opens a modal window showing a small form with three fields:
   1. `from` - a text input field
   2. `to` - a text input field
@@ -30,13 +26,11 @@ All redirect data is stored in a JSON field in Contentful. By installing and ena
 ## Technical guidelines
 
 ### Input validations
-
 * The input for the `from` and `to` fields must be a valid URL.
 * The input for the `from` field must also be a unique value.
 * The input for the `status` field is a predefined select field with valid HTTP status codes.
 
 ### Sorting algorithm
-
 To work properly, redirects must be sorted in a special way. The first rule that matches will be executed. So it's important that the most specific rules are listed before the less specific rules. The least specific rules are lexical wildcards. To achieve this, after each change to the list, a custom sorting algorithm will bring the entries into the correct order.
 
 Example:
@@ -51,11 +45,9 @@ Example:
 ```
 
 ### Elements model
-
 Element types and output format example:
 
 #### Fields
-
 - Input: `from`: string*
 - Input: `to`: string*
 - Input: `status`: select*: number:
@@ -108,7 +100,8 @@ npm run upload-ci # Upload, but plus all required arguments are read from the en
 [Read more here](https://www.contentful.com/developers/docs/extensibility/app-framework/tutorial/) 
 
 ## Todos
--[ ] Add basic unit tests
+-[ ] Enabled linting with JVMT standard config
+-[ ] Add basic unit tests to Form component
 -[ ] Reword README accordingly to https://github.com/jungvonmatt/contentful-apps/tree/main/packages/enhanced-preview
 -[ ] Discuss inclusion of Netlify placeholders, splats and wildcards 
 -[ ] Discuss automatic or manual sorting of redirects. Generally ordered by path or a possibility for the user to change the order?
