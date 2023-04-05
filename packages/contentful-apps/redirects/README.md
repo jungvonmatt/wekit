@@ -108,6 +108,7 @@ npm run upload-ci # Upload, but plus all required arguments are read from the en
 [Read more here](https://www.contentful.com/developers/docs/extensibility/app-framework/tutorial/) 
 
 ## Todos
+-[ ] Add basic unit tests
 -[ ] Reword README accordingly to https://github.com/jungvonmatt/contentful-apps/tree/main/packages/enhanced-preview
 -[ ] Discuss inclusion of Netlify placeholders, splats and wildcards 
 -[ ] Discuss automatic or manual sorting of redirects. Generally ordered by path or a possibility for the user to change the order?
