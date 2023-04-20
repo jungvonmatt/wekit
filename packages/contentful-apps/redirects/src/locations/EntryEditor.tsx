@@ -9,7 +9,7 @@ import {
   Table,
 } from '../components'
 import { Redirect } from '../types'
-import { arrayMove, countSlashes } from '../utils'
+import { arrayMove, countSlashes } from '../Utils'
 
 const Field = (): ReactElement => {
   const [redirects = [], setRedirects] = useFieldValue<Redirect[]>('redirects')
