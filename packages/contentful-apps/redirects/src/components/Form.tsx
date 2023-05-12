@@ -26,6 +26,7 @@ type FormProps = {
 const Form = ({ formRef, redirect }: FormProps): ReactElement => {
   const [formData, setFormData] = useState(redirect || DEFAULT_FORM_VALUES)
   const [errors, setErrors] = useState(DEFAULT_FORM_ERRORS)
+  const [warning, setWarning] = useState(false)
 
   const fromRef = useRef() as MutableRefObject<HTMLInputElement>
   const toRef = useRef() as MutableRefObject<HTMLInputElement>
@@ -62,6 +63,10 @@ const Form = ({ formRef, redirect }: FormProps): ReactElement => {
   ): void => {
     const { name, value } = event.target
 
+    if (name === 'status' && value === '301') {
+      setWarning(true);
+    }
+
     setFormData({ ...formData, [name]: value })
     setErrors({ ...errors, [name]: error })
   }
@@ -87,6 +92,11 @@ const Form = ({ formRef, redirect }: FormProps): ReactElement => {
         getError={(value: string) => validateTo(value)}
       />
       <StatusFormControl value={formData.status} onChange={handleChange} />
+      {warning && (
+        <p style={{ color: '#bf2600' }}>
+          Warning! You're about to create a permanent redirect.
+        </p>
+      )}
     </CForm>
   )
 }
