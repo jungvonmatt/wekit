@@ -63,8 +63,12 @@ const Form = ({ formRef, redirect }: FormProps): ReactElement => {
   ): void => {
     const { name, value } = event.target
 
-    if (name === 'status' && value === '301') {
-      setWarning(true);
+    if (name === 'status') {
+      if (value === '301') {
+        setWarning(true)
+      } else {
+        setWarning(false)
+      }
     }
 
     setFormData({ ...formData, [name]: value })
