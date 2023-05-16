@@ -20,9 +20,9 @@ export const DEFAULT_FORM_ERRORS: FormErrors = {
 }
 
 export const FROM_REGEX =
-  /^\/(?!$)(([-a-zA-Z0-9@:%?&._\+~#=]\/?)*?(\/\*)?|\*?)(\s\w+=:\w+)*?$/
+  /^\/(?!$)(([-a-zA-Z0-9@:%._\+~#=]\/?)*?(\/\*)?|\*?)(\s\w+=:\w+)*?$/
 
 export const TO_REGEX =
-  /^(https?:\/\/[.\w]+(:\d+)?|\/)[-a-zA-Z0-9@:%&?._\+~#=\/]*?$/
+  /^(https?:\/\/[.\w]+(:\d+)?|\/)[-a-zA-Z0-9@:%._\+~#=\/]*?(\?([\w.~-]+=[^\s?&]*)(&[\w.~-]+=[^\s?&]*)*)?$/
 
 export const SLASH_REGEX = /\//g
